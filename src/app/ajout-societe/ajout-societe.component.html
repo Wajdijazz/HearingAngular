@@ -1,0 +1,49 @@
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<div class="form-horizontal pad-10">
+  <br>
+  <form #ajoutSocieteForm="ngForm">
+    <div class="col-md-6 form-group">
+      <label class=" control-label">Nom Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
+          <div [hidden]="!nom.errors.required">
+            Nom est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class=" control-label">Type Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="type_abonnement" id="type_abonnement" #type_abonnement="ngModel" [(ngModel)]="societe.type_abonnement" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="type_abonnement.errors && (type_abonnement.dirty || type_abonnement.touched)" class="alert alert-danger">
+          <div [hidden]="!type_abonnement.errors.required">
+            type_abonnement est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class=" control-label">Date_Abonnement Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="date_facturation" id="date_facturation" #date_facturation="ngModel" [(ngModel)]="societe.date_facturation" class="form-control" placeholder="" type="date" required />
+        <div *ngIf="date_facturation.errors && (date_facturation.dirty || date_facturation.touched)" class="alert alert-danger">
+          <div [hidden]="!date_facturation.errors.required">
+            Date_Abonnement est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pad-10">
+      <button mwlConfirmationPopover
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes-vous sûr?'"
+              placement="top"
+              (confirm)="creerSociete(societe)"
+              type="submit" class="btn btn-save btn-primary" [disabled]="!ajoutSocieteForm.valid">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
+      </button>
+    </div>
+  </form>
+</div>

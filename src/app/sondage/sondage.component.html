@@ -1,0 +1,19 @@
+<div *ngIf="formReady" class="pad-10">
+	<div style="height:100vh;"class="presentation">
+	  <img class="logo" src="{{ pointvente?.logo}}"/>
+	  <h3>{{ pointvente?.nom }}</h3>
+	  <p> La société <b>{{ pointvente?.nom }} de {{pointvente?.adresse}}</b> nous a mandaté pour réaliser un sondage auprès de
+	  ses clients avec pour objectif d’améliorer la qualité de ses services. </p>
+
+	  <button style="margin-left: 25%;width:50%;"mat-raised-button color="primary" (click)="scrollToForm()">Commencer</button>
+	</div>
+
+  <div class="form-group"> 
+    <app-dynamic-form [questions]="questions"></app-dynamic-form>
+  </div>
+
+</div>
+
+<div *ngIf="!formReady" class="chargement">
+  <h2> Chargement du questionnaire...</h2>
+</div>

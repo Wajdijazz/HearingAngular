@@ -1,0 +1,19 @@
+<!-- Vue qui affiche le form -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1"><div>
+  <form  [formGroup]="form">
+ 
+    <div *ngFor="let question of questions" class="col-md-8 form-row">
+      <app-question style="height: 100vh!important;margin-bottom: 5%;" [question]="question" [form]="form"></app-question>
+    </div>
+ 
+    <div  id="fin" class="form-row">
+
+      <p>Nous vous remercions pour la qualité de vos réponses et le temps que vous avez accordé à notre étude.</p>  
+      <button (click)="onSubmit()"style="margin-bottom:50%;margin-left: 25%;width:50%;"mat-raised-button color="primary" type="submit" >Envoyer</button>
+    </div>
+
+  </form>
+
+
+</div>

@@ -1,0 +1,39 @@
+<mat-grid-list style="margin-top:25px;" cols="2" rowHeight="10:1">
+  <mat-grid-tile>
+  	<mat-form-field>
+	  <mat-select [(ngModel)]="magasinselected" placeholder="Magasin de l'enseigne">
+	    <mat-option *ngFor="let magasin of magasins" [value]="magasin.Idmagasin">
+	      {{magasin.viewValue}}
+	    </mat-option>
+	  </mat-select>
+	</mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile>
+  	<mat-form-field>
+	  <mat-select [(ngModel)]="concurrentselected" placeholder="Magasin concurrent">
+	    <mat-option *ngFor="let concurrent of concurrents" [value]="concurrent.value">
+	      {{concurrent.viewValue}}
+	    </mat-option>
+	  </mat-select>
+	</mat-form-field>
+  </mat-grid-tile>
+  
+</mat-grid-list>
+
+<!-- graphiques -->
+<mat-grid-list class="graphiques" cols="2" rowHeight="5:2">
+  <mat-grid-tile [class.zoomed]="expandedtile==1" (click)="zoom(1)">
+  	<div id="chartupperleft" style="height: 90%; width: 90%;"></div>
+  </mat-grid-tile>
+  <mat-grid-tile [class.zoomed]="expandedtile==2" (click)="zoom(2)">
+  	<div id="chartupperright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
+  <mat-grid-tile [class.zoomed]="expandedtile==3" (click)="zoom(3)">
+  	<div id="chartbottomleft" style="height: 90%; width: 90%;"></div></mat-grid-tile>
+  <mat-grid-tile [class.zoomed]="expandedtile==4" (click)="zoom(4)">
+  	<div id="chartbottomright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
+</mat-grid-list>
+
+<div id="modal">
+	<span class="close cursor" (click)="closeModal()"></span>
+	testetstetetst
+</div>

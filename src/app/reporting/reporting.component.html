@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async)">
+    <div class="titre">
+    <p>Etudes Quantitatives d'image perçue "EQIP"</p>
+    </div>
+    <mat-nav-list>
+      <a mat-list-item href=""></a>
+      <a mat-list-item href="reporting/nps">Net Promoter Score</a>
+      <a mat-list-item href="reporting/noteimageprix">Image Prix</a>
+      <a mat-list-item href="reporting/promotions">Promotion</a>
+      <a mat-list-item href="">Qualité des produits</a>
+      <a mat-list-item href="">Amabilité</a>
+      <a mat-list-item href="">Rapport qualité prix</a>
+      <a mat-list-item href=""></a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Reporting</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

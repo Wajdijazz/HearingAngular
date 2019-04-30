@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-12 pad-10">
+    <button type="submit" class="btn btn-primary" (click)="goToAddSociete()">
+      <span class="glyphicon glyphicon-floppy-disk"></span> Ajout Societe
+    </button>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Type Abonnement</th>
+    <th>Date_facturation</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let societe of societes">
+    <td>{{ societe.id }}</td>
+    <td>{{ societe.nom }}</td>
+    <td>{{ societe.type_abonnement }}</td>
+    <td>{{ societe.date_facturation }}</td>
+  </tr>
+  </tbody>
+</table>

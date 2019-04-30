@@ -1,0 +1,20 @@
+<div class="form-horizontal pad-10">
+		<h2> Choisissez votre questionnaire</h2>
+		<select style="height:20px;" name="questionnaire" id="questionnaire" #questionnaire="ngModel" [(ngModel)]="questionnaire.id" (ngModelChange)= 'onQestionnaireSelected($event)' class="form-group col-md-8">
+			<option *ngFor="let questionnaire of questionnaires" value="{{questionnaire.id}}">
+				{{questionnaire.sujet}}
+      </option>
+
+    </select>
+
+</div>    
+
+
+<button mwlConfirmationPopover style="margin-left:40%"
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes vous sûr ?'"
+			  placement="top"
+              (click)="onClickgetQuestion()"
+              type="submit" class="btn btn-save btn-primary">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Questions
+      </button>

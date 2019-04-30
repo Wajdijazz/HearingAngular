@@ -1,0 +1,40 @@
+
+<div class="form-horizontal pad-10">
+	<form #ajoutQuestionnaireForm="ngForm">
+		<h2> Choisissez votre point de vente:</h2>
+		<select style="height:20px;" name="pointvente" id="pointvente" #pointvente="ngModel" [(ngModel)]="questionnaire.id_pointvente" class="form-group col-md-8">
+			<option *ngFor="let pointvente of pointsVente" value="{{pointvente.id}}">
+				{{pointvente.nom}}
+			</option>
+		</select>
+		
+		<h2> Titre Questionnaire</h2>
+		
+		<div class="">
+			<input name="sujet" id="sujet" #sujet="ngModel" [(ngModel)]="questionnaire.sujet" class="form-control" placeholder="" type="text" required />
+			<div *ngIf="sujet.errors && (sujet.dirty || sujet.touched)" class="alert alert-danger">
+			  <div [hidden]="!sujet.errors.required">
+				Nom est requis!
+			  </div>
+			</div>
+	    </div>
+
+
+
+		<h2> Choix des thèmes </h2>
+
+		<div *ngFor="let theme of theme;  index as i"   class="col-md-8 form-group">
+			<label class="col-md-8">{{theme.theme}}</label>
+        	<input   style="height:20px;" name="{{theme.theme}}"  id="{{theme}}" #{{theme.id}}="ngModel" [(ngModel)]="selection[i]"   class="col-md-4" type="checkbox"/>
+    	</div>
+    	<button mwlConfirmationPopover
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes vous sûr ?'"
+			  placement="top"
+			  (confirm)="createSelectedTheme(detailquestionnaire)"
+              (click)="creerQuestionnaire(questionnaire)"
+              type="submit" class="btn btn-save btn-primary" [disabled]="!ajoutQuestionnaireForm.valid">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
+      </button>
+	</form>
+</div>

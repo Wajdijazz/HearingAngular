@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-12 pad-10">
+    <button type="submit" class="btn btn-primary" (click)="goToAddPointVente()">
+      <span class="glyphicon glyphicon-floppy-disk"></span> Ajout Point de Vente
+    </button>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>ID Societe</th>
+    <th>Nom</th>
+    <th>Adresse</th>
+    <th>Concurrents</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let pointvente of pointsvente">
+    <td>{{ pointvente.id }}</td>
+    <td>{{ pointvente.id_societe }}</td>
+    <td>{{ pointvente.nom }}</td>
+    <td>{{ pointvente.adresse }}</td>
+    <td>{{ pointvente.concurrents }}</td>
+  </tr>
+  </tbody>
+</table>

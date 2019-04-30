@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12 pad-10">
+    <button type="submit" class="btn btn-primary" (click)="goToAddQuestionnaire()">
+      <span class="glyphicon glyphicon-floppy-disk"></span> Ajout Questionnaire
+    </button>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>ID Societe</th>
+    <th>ID PointVente</th>
+    <th>Sujet</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let questionnaire of questionnaires">
+    <td>{{ questionnaire.id }}</td>
+    <td>{{ questionnaire.id_societe }}</td>
+    <td> {{ questionnaire.id_pointvente }}</td>
+    <td>{{ questionnaire.sujet }}</td>
+    
+  </tr>
+  </tbody>
+</table>

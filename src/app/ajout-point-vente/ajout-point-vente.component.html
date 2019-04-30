@@ -1,0 +1,60 @@
+<div class="form-horizontal pad-10">
+  <br>
+  <form #ajoutPointVenteForm="ngForm">
+    <div class="col-md-6 form-group">
+      <label class=" control-label">Nom Point Vente</label>
+      <div class="col-md-12 no-padding">
+        <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="pointvente.nom" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
+          <div [hidden]="!nom.errors.required">
+            Nom est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class=" control-label">Société</label>
+      <div class="col-md-12 no-padding">
+
+          <select  class="form-control"  style="width:50%;" name="societe" id="societe" #societe="ngModel" [(ngModel)]="pointvente.id_societe">
+              <option *ngFor="let societe of societes" value="{{societe.id}}">
+                {{societe.nom}}
+              </option>
+            </select>
+			
+      </div>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class=" control-label">adresse Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="adresse" id="adresse" #adresse="ngModel" [(ngModel)]="pointvente.adresse" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="adresse.errors && (adresse.dirty || adresse.touched)" class="alert alert-danger">
+          <div [hidden]="!adresse.errors.required">
+            adresse est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class=" control-label">concurrents Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="concurrents" id="concurrents" #concurrents="ngModel" [(ngModel)]="pointvente.concurrents" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="concurrents.errors && (concurrents.dirty || concurrents.touched)" class="alert alert-danger">
+          <div [hidden]="!concurrents.errors.required">
+            concurrents est requis!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pad-10">
+      <button mwlConfirmationPopover
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes-vous sûr?'"
+              placement="top"
+              (confirm)="creerPointVente(pointvente)"
+              type="submit" class="btn btn-save btn-primary" [disabled]="!ajoutPointVenteForm.valid">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
+      </button>
+    </div>
+  </form>
+</div>

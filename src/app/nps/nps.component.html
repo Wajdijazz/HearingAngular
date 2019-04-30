@@ -1,0 +1,46 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<br/><!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
+<div class="container">
+<div class="row">
+<div id="chartContainer2"  style="height: 300px; width: 100%;"></div>
+</div>
+</div>
+
+<div class="container">
+	<div class="row" class="col-sm-3">
+			<div class="Choisir">Choisir Magasin</div>
+	  <select [(ngModel)]="magasinselected" placeholder="Magasin de l'enseigne" (ngModelChange)= 'onSelected($event)'>
+	    <option *ngFor="let magasin of magasins" [value]="magasin.Idmagasin">
+	      {{magasin.viewValue}}
+			</option>
+		</select>
+	</div>
+</div>
+
+
+  
+  
+  
+
+
+<!-- graphiques -->
+
+
+
+<br/><!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
+<div class="container">
+
+<div class="row">
+<div id="chartContainer1"  style="height: 300px; width: 100%;"></div>
+</div>
+</div>
+
+
+
+
+
+
+

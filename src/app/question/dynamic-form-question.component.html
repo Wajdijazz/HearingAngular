@@ -1,0 +1,52 @@
+<!-- Vue qui affiche la question***** -->
+<!-- Si l'utilisateur ne fréquente pas l'enseigne on affiche uniquement la question de non participation-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div *ngIf="(form.value.frequentation1 !='non' || question.key === 'frequentation1') && question.key !='nonfrequentation'" [formGroup]="form">
+  <!-- Condition d'affichage des questions -->
+  <!-- Affiche la question si :
+    - La question n'a aucune dépendance.
+    - La valeur de la question dépendance n'est pas négative ET la valeur de la question dépendance n'est pas vide
+  margin-bottom: 5%;
+  -->
+  <div  *ngIf="
+    question.dependance.key===''||
+    (form.value[question.dependance.key]!=question.dependance.value && form.value[question.dependance.key]!='')">
+<div>
+    <label id="ref"  [attr.id]="question.order"   [attr.for]="question.key"><h5>{{question.label}}</h5></label>
+    <br/>
+  </div>
+   
+    <div [ngSwitch]="question.controlType">
+   
+      <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+              [id]="question.key" [type]="question.type" value="évaluation"><br>
+     <button  style="margin-top: 2%;" type="submit" class="btn btn-save btn-primary" *ngSwitchCase="'textbox'" (click)="scrolltextbox()">
+       Valide</button>
+
+   
+       <select *ngSwitchCase="'dropdown'" [id]="question.key" (ngModelChange)= 'onPointventeselected($event)'[formControlName]="question.key">
+          <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+        </select>
+      <mat-radio-group  color="primary" *ngSwitchCase="'radio'"  (change)="click($event)" class="example-radio-group" [id]="question.key" [formControlName]="question.key">
+        <div  *ngFor="let opt of question.options" >
+      	  <mat-radio-button  color="primary" [checked]="false"    [value]="opt.key" style="padding: 10px;" checked>
+      	    {{opt.value}}
+      	  </mat-radio-button>
+          <br/>
+        </div>
+    	</mat-radio-group>
+      <!-- Affichage pour débug -->
+    </div> 
+  </div>
+  <!--<div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>-->
+</div>
+<!-- Si le client ne fréquente pas le magasin on affiche la question de non participation -->
+<div *ngIf="form.value.frequentation1 ==='non' && question.key==='nonfrequentation'" [formGroup]="form">
+  <label  id="reponse_non" [attr.for]="question.key">{{question.label}}</label>
+
+  <mat-radio-group color="primary" class="example-radio-group" [id]="question.key" [formControlName]="question.key">
+      <mat-radio-button color="primary" *ngFor="let opt of question.options" [value]="opt.key" style="padding: 20px;">
+        {{opt.value}}
+      </mat-radio-button>
+    </mat-radio-group>
+</div>
