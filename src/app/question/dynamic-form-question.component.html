@@ -41,12 +41,4 @@
   <!--<div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>-->
 </div>
 <!-- Si le client ne fréquente pas le magasin on affiche la question de non participation -->
-<div *ngIf="form.value.frequentation1 ==='non' && question.key==='nonfrequentation'" [formGroup]="form">
-  <label  id="reponse_non" [attr.for]="question.key">{{question.label}}</label>
 
-  <mat-radio-group color="primary" class="example-radio-group" [id]="question.key" [formControlName]="question.key">
-      <mat-radio-button color="primary" *ngFor="let opt of question.options" [value]="opt.key" style="padding: 20px;">
-        {{opt.value}}
-      </mat-radio-button>
-    </mat-radio-group>
-</div>

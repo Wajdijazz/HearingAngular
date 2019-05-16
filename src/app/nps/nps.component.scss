@@ -1,6 +1,15 @@
-.Choisir{
-  margin-top: 15%;
+.choisir{
+  font-style: gras;
+ 
 
-  font-weight:bold;
+}
+.Select{
+  margin-left: 40%;
 
+}
+
+md-grid-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

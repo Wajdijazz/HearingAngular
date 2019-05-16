@@ -25,6 +25,26 @@ aux:any
   constructor(private pointventeService : PointVenteService,private http: HttpClient, private toastr: ToastrService, private router: Router) { }
 
   url = 'http://localhost:3000';
+   
+
+
+   // Save reponses of Concurrent
+
+   createreponseconcurrent(data) {
+    this.http.post(`${this.url}/concurrent`, data)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.toastr.success('Votre concurrent a été créer avec succès.', 'Success');
+        },
+        err => {
+          console.log('Error occured:' , err);
+          this.toastr.error(err.message, 'Error occured');
+        }
+      );
+  }
+
+
 
 
   //Fonction qui récupère les questions du questionnaire passé en paramètre
@@ -42,11 +62,19 @@ aux:any
       .subscribe((data:PointVente[])=>{
         this.pointeventes=data;
         this.pointeventes.forEach((pointvente)=>{
-          this.concurrents.push({key:pointvente.concurrents,value:pointvente.concurrents})
-
     
+           
+          var index = this.concurrents.findIndex(x => x.value==pointvente.concurrents)
+          if (index === -1){
+            this.concurrents.push({key:pointvente.concurrents,value:pointvente.concurrents})
+          }
+        else console.log("object already exists")
+           
+           
 
-        })
+          })
+
+        
       })
 
       let questionsretour: QuestionBase<any>[]=[];
@@ -59,6 +87,7 @@ aux:any
         
        
         questions.forEach((question)=>{
+          console.log(question.label)
 
                   
             
@@ -129,7 +158,6 @@ aux:any
                   dependance : qdependance
             }));
          
-            
             break;
 
             case "textbox":
@@ -152,6 +180,7 @@ aux:any
      
      });
     
+     this.concurrents=[]
 
       return Promise.resolve(questionsretour);
     

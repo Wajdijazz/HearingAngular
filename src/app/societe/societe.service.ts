@@ -14,6 +14,15 @@ export class SocieteService {
       .get(`${this.url}/societe`);
       }
 
+getSocieteById(id :Number) {
+    console.log("getSociete by id");
+    return this
+      .http
+      .get(`${this.url}/societe/${id}`);
+      }
+
+
+
   createSociete(data) {
     this.http.post(`${this.url}/societe`, data)
       .subscribe(

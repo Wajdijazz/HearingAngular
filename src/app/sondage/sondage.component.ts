@@ -72,7 +72,8 @@ export class SondageComponent implements OnInit {
         data.forEach((pointvente)=>{
           if(pointvente.id==this.sondage.id_pointvente){
             this.sharedService.setSelectedpointevente(pointvente.nom);
-
+            this.sharedService.setSelectedIdpointevente(pointvente.id)
+            
             return this.pointvente=pointvente;
           }
         })

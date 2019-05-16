@@ -173,7 +173,28 @@ return Selectedpointvente
 
 
 
-click($event: MatRadioChange){
+click($event){
+	console.log($event)
+	if(this.form.value.frequentation1=="non"){
+
+		let	element = document.getElementById(("fin"));
+
+		if(element!=null)
+		{
+			element.scrollIntoView({ inline: "nearest"});
+
+		}else{
+			//TODO: scroll vers le bouton Valider
+			var objDiv = document.getElementById(String(38));
+			objDiv.scrollIntoView({inline: "nearest"})
+
+		}	
+
+}
+
+
+
+	
 
 	
 	

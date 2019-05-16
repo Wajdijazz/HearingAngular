@@ -28,4 +28,13 @@ export class PointVenteService {
         }
       );
   }
+
+
+
+  getpointventbyid(id:number) {
+    console.log("getpointvent");
+    
+      return this.http.get(`${this.url}/point-vente/${id}`);
+  }
+  
 }

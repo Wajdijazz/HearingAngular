@@ -45,6 +45,19 @@ import { ChoixQuestionnaireComponent } from './choix-questionnaire/choix-questio
 import { AjoutQuestionsComponent } from './ajout-questions/ajout-questions.component';
 import { SondageComponent } from './sondage/sondage.component';
 import { ReponsesComponent } from './reponses/reponses.component';
+import { NoteQualiteProduitsComponent } from './note-qualite-produits/note-qualite-produits.component';
+import { AmChartsComponent } from './am-charts/am-charts.component';
+import { NoteAmabilitePersonnelComponent } from './note-amabilite-personnel/note-amabilite-personnel.component';
+import { NoteRapportQualitePrixComponent } from './note-rapport-qualite-prix/note-rapport-qualite-prix.component';
+import { NoteRapiditePayerComponent } from './note-rapidite-payer/note-rapidite-payer.component';
+import { NoteQualiteMaterielComponent } from './note-qualite-materiel/note-qualite-materiel.component';
+import { NoteChoixProduitComponent } from './note-choix-produit/note-choix-produit.component';
+import { NoteFaciliterTrouverProduitComponent } from './note-faciliter-trouver-produit/note-faciliter-trouver-produit.component';
+import { NotePrixProduitsBioComponent } from './note-prix-produits-bio/note-prix-produits-bio.component';
+import { NoteQualiteProduitsBioComponent } from './note-qualite-produits-bio/note-qualite-produits-bio.component';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { NuageMotsComponent } from './nuage-mots/nuage-mots.component';
+
 
 
 const routes: Routes = [
@@ -62,9 +75,30 @@ const routes: Routes = [
 
 
 { path: 'reporting', component: ReportingComponent, children: [
+  { path : 'Nuage-Mots', component : NuageMotsComponent},
     { path: 'nps', component: NpsComponent},
-    { path: 'noteimageprix', component: NoteImagePrixComponent},
+    { path: 'Note-Image-Prix', component: NoteImagePrixComponent},
     { path : 'promotions', component : PromotionsComponent},
+    { path : 'Note-Qualite-Produit', component : NoteQualiteProduitsComponent},
+    { path : 'Note-Amabilite-Personnel', component : NoteAmabilitePersonnelComponent},
+    { path : 'Note-Rapport-Qualite-Prix', component : NoteRapportQualitePrixComponent},
+    { path : 'Note-Rapidite-Paiement', component : NoteRapiditePayerComponent},
+    { path : 'Note-Qualite-Materiel', component : NoteQualiteMaterielComponent},
+    { path : 'Note-Choix-Produits', component : NoteChoixProduitComponent},
+    { path : 'Note-Facilite-Trouver-Produits', component : NoteFaciliterTrouverProduitComponent},
+    { path : 'Note-Prix-Produits-Bio', component : NotePrixProduitsBioComponent},
+    { path : 'Note-Qualite-Produits-Bio', component : NoteQualiteProduitsBioComponent}
+
+
+   
+
+
+
+
+
+
+
+
     ]
 },
 ];
@@ -94,7 +128,18 @@ const routes: Routes = [
     ChoixQuestionnaireComponent,
     AjoutQuestionsComponent,
     SondageComponent,
-    ReponsesComponent
+    ReponsesComponent,
+    NoteQualiteProduitsComponent,
+    AmChartsComponent,
+    NoteAmabilitePersonnelComponent,
+    NoteRapportQualitePrixComponent,
+    NoteRapiditePayerComponent,
+    NoteQualiteMaterielComponent,
+    NoteChoixProduitComponent,
+    NoteFaciliterTrouverProduitComponent,
+    NotePrixProduitsBioComponent,
+    NoteQualiteProduitsBioComponent,
+    NuageMotsComponent
     
   ],
   imports: [
@@ -118,6 +163,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     ToastrModule.forRoot(),
     FormsModule,
+    TagCloudModule,
 
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here

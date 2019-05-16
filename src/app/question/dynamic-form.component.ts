@@ -14,6 +14,7 @@ import { Key } from 'protractor';
 import { zip } from 'rxjs/internal/observable/zip';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DatePipe } from '@angular/common';
+import { Concurrent } from './concurrent.interface';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -25,7 +26,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
   //@Input() form: FormGroup;
   
-
+  id_societe=2 // pull from session
   form: FormGroup;
   payLoad = '';
   sondageId=null;
@@ -39,12 +40,33 @@ export class DynamicFormComponent implements OnInit {
     reponse : ''
   }
 
+  concurrent : Concurrent={
+   id : null,
+   id_pointevente : null,
+   id_societe : null, 
+   date_reponse_concurrent : null,
+   concurrent : "",
+   prix_concurrent : "",
+   promotions_concurrent :"",
+   Qualite_Produit_concurrent :"" ,
+   Amabilite_personnel_concurrent :"",
+   Rapport_qualite_prix_concurrent:"",
+   Rapidite_facilite_payer_concurrent:"",
+   Qualite_materiel_concurrent:"",
+   Choix_produits_concurrent:"",
+   Facilite_trouver_produits_concurrent:"",
+   Prix_produits_bio_concurrent:"",
+   Qualite_produits_bio_concurrent:""
+
+  }
+  iden :any 
+
 ids : any=null;
   constructor(private sharedService : SharedServiceService,   private questionsService : QuestionsService, private route: ActivatedRoute,private  questionService : QuestionService,  private qcs: QuestionControlService) {  }
 
   ngOnInit() {
     this.sondageId = Number(this.route.snapshot.paramMap.get('sondageid'));
-
+   this.iden=0
    
 
   
@@ -54,6 +76,7 @@ ids : any=null;
   }
 
   onSubmit() {
+
 
 this.questionsService.getQuestions(this.sondageId).subscribe((data:Questions[])=>{
   this.question=data;
@@ -69,10 +92,9 @@ this.questionsService.getQuestions(this.sondageId).subscribe((data:Questions[])=
  this.payLoad = JSON.stringify(this.form.value);
    let rep=JSON.parse(this.payLoad)
 
-
    Object.entries(rep).forEach(
   ([key, value])=> {
-       
+        
         var date_confirmation = new Date();
         console.log(date_confirmation)
         this.reponses.id_questionnaire=this.sondageId;
@@ -80,10 +102,131 @@ this.questionsService.getQuestions(this.sondageId).subscribe((data:Questions[])=
         this.reponses.theme_key=key
         this.reponses.reponse=value    
         this.sharedService.saverponses(this.reponses)
-        console.log(this.reponses)
+
+
+
+        
 
       
   }); 
+       var date_confirmation = new Date();
+       var idpointevente= this.sharedService.getIdSelectedpointevente()
+       this.concurrent.id_societe=this.id_societe
+       this.concurrent.id_pointevente=idpointevente;
+      this.concurrent.date_reponse_concurrent=date_confirmation;
+
+
+      if(this.form.value.frequentation3==null)
+      {
+        this.form.value.frequentation3=""
+      }
+      else{
+        this.concurrent.concurrent=this.form.value.frequentation3
+      }
+
+
+      if(this.form.value.prix_concurrent==null)
+      {
+        this.form.value.prix_concurrent=""
+      }
+      else{
+        this.concurrent.prix_concurrent=this.form.value.prix_concurrent
+      }
+
+
+      if(this.form.value.promotions_concurrent==null)
+      {
+        this.form.value.promotions_concurrent=""
+      }
+      else{
+        this.concurrent.promotions_concurrent=this.form.value.promotions_concurrent
+      }
+
+
+
+      if(this.form.value.Qualite_Produit_concurrent==null)
+      {
+        this.concurrent.Qualite_Produit_concurrent=""
+      }
+      else{
+        this.concurrent.Qualite_Produit_concurrent=this.form.value.Qualite_Produit_concurrent
+      }
+
+
+      if(this.form.value.Amabilite_personnel_concurrent==null)
+      {
+        this.form.value.Amabilite_personnel_concurrent=""
+      }
+      else{
+        this.concurrent.Amabilite_personnel_concurrent=this.form.value.Amabilite_personnel_concurrent
+      }
+
+
+      if(this.form.value.Rapport_qualite_prix_concurrent==null)
+      {
+        this.form.value.Rapport_qualite_prix_concurrent=""
+      }
+      else{
+        this.concurrent.Rapport_qualite_prix_concurrent=this.form.value.Rapport_qualite_prix_concurrent
+      }
+
+
+      if(this.form.value.Rapidite_facilite_payer_concurrent==null)
+      {
+        this.form.value.Rapidite_facilite_payer_concurrent=""
+      }
+      else{
+        this.concurrent.Rapidite_facilite_payer_concurrent=this.form.value.Rapidite_facilite_payer_concurrent
+      }
+
+
+      if(this.form.value.Qualite_materiel_concurrent==null)
+      {
+        this.form.value.Qualite_materiel_concurrent=""
+      }
+      else{
+        this.concurrent.Qualite_materiel_concurrent=this.form.value.Qualite_materiel_concurrent
+      }
+
+      if(this.form.value.Choix_produits_concurrent==null)
+      {
+        this.form.value.Choix_produits_concurrent=""
+      }
+      else{
+        this.concurrent.Choix_produits_concurrent=this.form.value.Choix_produits_concurrent
+      }
+
+      if(this.form.value.Facilite_trouver_produits_concurrent==null)
+      {
+        this.form.value.Facilite_trouver_produits_concurrent=""
+      }
+      else{
+        this.concurrent.Facilite_trouver_produits_concurrent=this.form.value.Facilite_trouver_produits_concurrent
+      }
+
+      if(this.form.value.Prix_produits_bio_concurrent==null)
+      {
+        this.form.value.Prix_produits_bio_concurrent=""
+      }
+      else{
+        this.concurrent.Prix_produits_bio_concurrent=this.form.value.Prix_produits_bio_concurrent
+      }
+
+      if(this.form.value.Qualite_produits_bio_concurrent==null)
+      {
+        this.form.value.Qualite_produits_bio_concurrent=""
+      }
+      else{
+        this.concurrent.Qualite_produits_bio_concurrent=this.form.value.Qualite_produits_bio_concurrent
+      }
+
+
+
+
+
+       this.questionService.createreponseconcurrent(this.concurrent)  
+       console.log(this.concurrent)
+
 
 })
 

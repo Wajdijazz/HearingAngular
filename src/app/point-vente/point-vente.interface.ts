@@ -3,5 +3,5 @@ export interface PointVente{
 	id_societe : Number;
 	nom : string,
 	adresse : string,
-	concurrents : string
+	concurrents: string
 }

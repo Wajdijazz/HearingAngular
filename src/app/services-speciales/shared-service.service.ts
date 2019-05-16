@@ -9,9 +9,12 @@ import {Router} from "@angular/router";
 })
 export class SharedServiceService {
   private pointvente : any;
+  private idp : any
+  private Sujet  :any
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { 
     this.pointvente=null;
+    
   }
   url = 'http://localhost:3000';
 
@@ -26,9 +29,33 @@ export class SharedServiceService {
 
 
   }
+  public setSelectedIdpointevente(val:any):void{
+    this.idp=val;
 
+ }
+
+
+ public getIdSelectedpointevente():any{
+
+  return this.idp;
+
+
+}
 
   
+
+
+public setSujet(val:any):void{
+  this.Sujet=val;
+
+}
+
+public getSujet():any{
+
+ return this.Sujet;
+
+
+}
 
   saverponses(data) {
     this.http.post(`${this.url}/reponses`, data)

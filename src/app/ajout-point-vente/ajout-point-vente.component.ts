@@ -23,6 +23,7 @@ export class AjoutPointVenteComponent implements OnInit {
 	};
 
 	
+	
   constructor(private pointventeService: PointVenteService,private societeService : SocieteService) { }
 
   ngOnInit() {
@@ -43,7 +44,8 @@ export class AjoutPointVenteComponent implements OnInit {
 
   creerPointVente(data:PointVente){
 		data.id_societe=Number(data.id_societe);
-  	this.pointventeService.createPointVente(data);
+	  this.pointventeService.createPointVente(data);
+	  
   }
 
 }

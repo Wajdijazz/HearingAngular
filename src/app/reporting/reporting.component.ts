@@ -10,10 +10,6 @@ import { map } from 'rxjs/operators';
 })
 export class ReportingComponent {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 

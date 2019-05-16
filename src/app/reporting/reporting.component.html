@@ -1,34 +1,42 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+<mat-sidenav-container class="sidenav-container" >
+  <mat-sidenav   #drawer class="sidenav" 
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
-    <div class="titre">
-    <p>Etudes Quantitatives d'image perçue "EQIP"</p>
-    </div>
-    <mat-nav-list>
-      <a mat-list-item href=""></a>
-      <a mat-list-item href="reporting/nps">Net Promoter Score</a>
-      <a mat-list-item href="reporting/noteimageprix">Image Prix</a>
-      <a mat-list-item href="reporting/promotions">Promotion</a>
-      <a mat-list-item href="">Qualité des produits</a>
-      <a mat-list-item href="">Amabilité</a>
-      <a mat-list-item href="">Rapport qualité prix</a>
-      <a mat-list-item href=""></a>
-    </mat-nav-list>
+    
+      <div class="lien">
+
+        <div class="titre">
+            <p>Etudes Quantitatives d'image perçue "EQIP"</p>
+            </div>
+              
+           
+      <a  style="color: #ffff"  mat-list-item href="reporting/Nuage-Mots" routerLinkActive="active-list-item">Nuage de mots</a><br><br>
+
+      <a  style="color: #ffff"  mat-list-item routerLink="/reporting/nps" routerLinkActive="active-list-item">Net Promoter Score</a><br><br>
+
+      <a style="text-align:center;color: #ffff" mat-list-item routerLink="/reporting/Note-Image-Prix" routerLinkActive="active-list-item">Image prix</a><br><br>
+      <a  style="color: #ffff" mat-list-item routerLink="/reporting/promotions"routerLinkActive="active-list-item"> Promotion</a><br><br>
+
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Qualite-Produit"routerLinkActive="active-list-item">Qualité des produits</a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Amabilite-Personnel"routerLinkActive="active-list-item">Amabilité du personnel</a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Rapport-Qualite-Prix"routerLinkActive="active-list-item">Rapport qualité prix des produits à notre marque </a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Rapidite-Paiement"routerLinkActive="active-list-item">Rapidité et facilité de paiement de vos achats</a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Qualite-Materiel" routerLinkActive="active-list-item">Qualité du matériel mis à votre disposition</a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Choix-Produits"routerLinkActive="active-list-item">Choix dans notre assortiment        </a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Facilite-Trouver-Produits"routerLinkActive="active-list-item">Facilité à trouver les produits</a><br><br>
+      <a style="color: #ffff" mat-list-item routerLink="/reporting/Note-Prix-Produits-Bio"routerLinkActive="active-list-item">Prix de nos produits bio</a><br><br>
+      <a style=" color: #ffff" mat-list-item routerLink="/reporting/Note-Qualite-Produits-Bio"routerLinkActive="active-list-item">Qualité de nos produits bio</a><br><br>
+
+
+     
+
+
+  </div>
+
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>Reporting</span>
-    </mat-toolbar>
+    
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

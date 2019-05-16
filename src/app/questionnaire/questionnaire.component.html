@@ -13,6 +13,8 @@
     <th>ID Societe</th>
     <th>ID PointVente</th>
     <th>Sujet</th>
+    <th>Questions</th>
+
   </tr>
   </thead>
   <tbody>
@@ -21,6 +23,9 @@
     <td>{{ questionnaire.id_societe }}</td>
     <td> {{ questionnaire.id_pointvente }}</td>
     <td>{{ questionnaire.sujet }}</td>
+    <button type="submit" class="btn btn-primary" (click)="getQuestionnaire(questionnaire.id)" >
+      <span class="glyphicon glyphicon-floppy-disk"></span> Question
+    </button>
     
   </tr>
   </tbody>
