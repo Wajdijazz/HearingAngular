@@ -13,6 +13,7 @@ import { PointVente } from '../point-vente/point-vente.interface';
 import { FaciliterTrouverProduitConcurrent } from './faciliter-trouver-produit-concurrent.interface';
 import { FaciliterTrouverProduitReponse } from './faciliter-trouver-produit-reponse.interface';
 import { FaciliterTrouverProduitService } from './faciliter-trouver-produit.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-note-faciliter-trouver-produit',
@@ -42,10 +43,27 @@ export class NoteFaciliterTrouverProduitComponent implements OnInit {
   FaciliteTrouverProduitMagasin: FaciliterTrouverProduitReponse[];
   NoteFaciliteTrouverProduitMagasin=[]
   NoteFaciliteTrouverProduitMagasinConcurrent=[]
-  constructor(private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private faciliteTrouverProduitService:FaciliterTrouverProduitService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  userInfo: any;
+  board: any;
+  errorMessage: string;
+  constructor(  private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private faciliteTrouverProduitService:FaciliterTrouverProduitService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
-    this.id_societe=2//  Todo Load from session Societe
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+		
+
+
+
     this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
       this.societe=data
       this.societe.forEach(element=>{
@@ -65,7 +83,8 @@ export class NoteFaciliterTrouverProduitComponent implements OnInit {
     })
     /***************** Concurrent   from dataBase ******************/
 this.concurrentService.getConcurrent().subscribe((data:FaciliterTrouverProduitConcurrent[])=>{
-  var res=data.filter((word =>word.Facilite_trouver_produits_concurrent != "") )
+  var res=data.filter((word =>word.Facilite_trouver_produits_concurrent != ""   && word.id_societe==this.id_societe
+  ) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -367,7 +386,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
       })
     })
 
-
+  })
 
   }
 
@@ -465,15 +484,23 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
   }
 
   onSelectedConcurrent(concuurent){
-    var nom_selected_point_vente=''
-    /********** Get pointe vente name By Id Selected *********/
-    this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-    
-      data.forEach(pointvente=>{
-        nom_selected_point_vente=pointvente.nom
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+		
   
     /********** Data concurrent magasin ********/
-  this.faciliteTrouverProduitService.getFaciliteTrouverProduitConcurrentMagasin(this.id_selectedpointvenete,concuurent).subscribe((data:FaciliterTrouverProduitConcurrent[])=>{
+  this.faciliteTrouverProduitService.getFaciliteTrouverProduitConcurrentMagasin(this.id_selectedpointvenete,concuurent).subscribe((datac:FaciliterTrouverProduitConcurrent[])=>{
+    var FaciliterTrouverConcurrentMagasin= datac.filter((word =>word.Facilite_trouver_produits_concurrent != "") )
+
     var M;
     var AMN;
     var P;
@@ -487,7 +514,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
      M=0
     AMN=0
     P=0 
-  const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
+  const result = FaciliterTrouverConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element   && word.id_societe==this.id_societe
+  );
   console.log(result)
   var yearTime=new Date()
   var year = yearTime.getFullYear()
@@ -521,7 +549,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
     this.NoteFaciliteTrouverProduitMagasinConcurrent=[]
   })
   })
-  })
+
   
   }
   lineChart(title,name1,name2,name3,name4,dataPoints,baliseid){

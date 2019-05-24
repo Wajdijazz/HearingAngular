@@ -15,6 +15,7 @@ import { zip } from 'rxjs/internal/observable/zip';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DatePipe } from '@angular/common';
 import { Concurrent } from './concurrent.interface';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -26,7 +27,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
   //@Input() form: FormGroup;
   
-  id_societe=2 // pull from session
+  id_societe=null// pull from session
   form: FormGroup;
   payLoad = '';
   sondageId=null;
@@ -62,7 +63,8 @@ export class DynamicFormComponent implements OnInit {
   iden :any 
 
 ids : any=null;
-  constructor(private sharedService : SharedServiceService,   private questionsService : QuestionsService, private route: ActivatedRoute,private  questionService : QuestionService,  private qcs: QuestionControlService) {  }
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
+  constructor(private userService:UserService,private sharedService : SharedServiceService,   private questionsService : QuestionsService, private route: ActivatedRoute,private  questionService : QuestionService,  private qcs: QuestionControlService) {  }
 
   ngOnInit() {
     this.sondageId = Number(this.route.snapshot.paramMap.get('sondageid'));
@@ -77,9 +79,22 @@ ids : any=null;
 
   onSubmit() {
 
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+		
+			this.id_societe=this.userInfo.id_societe
+		
 
-this.questionsService.getQuestions(this.sondageId).subscribe((data:Questions[])=>{
-  this.question=data;
+    this.id_societe=this.userInfo.id_societe
+this.questionsService.getQuestions(this.sondageId).subscribe((data1:Questions[])=>{
+  this.question=data1;
 
  
 
@@ -229,6 +244,9 @@ this.questionsService.getQuestions(this.sondageId).subscribe((data:Questions[])=
 
 
 })
-
+},
+		
+);
   }
+  
 }

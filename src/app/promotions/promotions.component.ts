@@ -16,6 +16,7 @@ import { AmChartsComponent } from '../am-charts/am-charts.component'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -52,12 +53,24 @@ export class PromotionsComponent implements OnInit {
   concurrent4 : any
   concurrent5: any;
   chartdata=[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor(private promotionsService :PromotionsService, private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService,  private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor(  private userService:UserService,private promotionsService :PromotionsService, private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService,  private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
 
   ngOnInit() {
 
-    this.id_societe=2//  Todo Load from session Societe
+
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
 
      /***************** get societe name by id *******************************/
      this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
@@ -81,8 +94,9 @@ export class PromotionsComponent implements OnInit {
 })
 
  /***************** Concurrent   from dataBase ******************/
- this.concurrentService.getConcurrent().subscribe((data:PromotionsConcurrent[])=>{
-  data.forEach(concurrent => {
+ this.concurrentService.getConcurrent().subscribe((datacon:PromotionsConcurrent[])=>{
+  var dataconcurrent=datacon.filter(word => word.id_societe==this.id_societe);
+  dataconcurrent.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
 var index = this.concurrents.findIndex(x => x.viewValue==this.nom_concurrent)
 if (index === -1){
@@ -395,7 +409,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
   
 })
 
-
+      })
 
   }
 
@@ -493,8 +507,23 @@ this.lineChart1("Evolution des promotions Magasin",nom_selected_point_vente,this
 
 onSelectedConcurrent(concuurent){
 
+  this.userService.getUserBoard().subscribe(
+    data => {
+      this.userInfo = {
+      id: data.user.id,
+      id_societe:data.user.id_societe,
+      name: data.user.name,
+      email: data.user.email
+      };
+    
+    
+    this.id_societe=this.userInfo.id_societe
+
   /********** Data concurrent magasin ********/
-this.promotionsService.getPromotionsMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((data:PromotionsConcurrent[])=>{
+this.promotionsService.getPromotionsMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:PromotionsConcurrent[])=>{
+  var PromotionsConcurrentMagasin= datac.filter((word =>word.promotions_concurrent != "") )
+
+  
   console.log(data)
   var M;
   var AMN;
@@ -509,10 +538,11 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
+const result = PromotionsConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
+console.log(TotalReponse)
 
 result.forEach(el=>{  
   console.log(el.promotions_concurrent)
@@ -557,7 +587,7 @@ this.lineChart1("Evolution des promotions Enseignes",concuurent,this.PromotionsM
 
   this.PromotionsMagasinConcurrent=[]
 })
-
+    })
 
 }
 

@@ -12,6 +12,7 @@ import { Societe } from '../societe/societe.interface';
 import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteQualiteMaterielConcurrent } from './note-qualite-materiel-concurrent.interface';
 import { NoteQualiteMaterielReponse } from './note-qualite-materiel-reponse.interface';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -42,11 +43,24 @@ export class NoteQualiteMaterielComponent implements OnInit {
   QualiteMaterielMagasin: NoteQualiteMaterielReponse[];
   NoteQualiteMaterielMagasin=[]
   NoteQualiteMaterielMagasinConcurrent=[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor(private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteMaterielService:NoteQualiteMaterielService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  constructor( private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteMaterielService:NoteQualiteMaterielService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
-    this.id_societe=2//  Todo Load from session Societe
+   
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+		
     this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
       this.societe=data
       this.societe.forEach(element=>{
@@ -67,7 +81,7 @@ export class NoteQualiteMaterielComponent implements OnInit {
 
 /***************** Concurrent   from dataBase ******************/
 this.concurrentService.getConcurrent().subscribe((data:NoteQualiteMaterielConcurrent[])=>{
-  var res=data.filter((word =>word.Qualite_materiel_concurrent != "") )
+  var res=data.filter((word =>word.Qualite_materiel_concurrent != "" && word.id_societe==this.id_societe ) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -371,7 +385,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
       })
     })
 
-
+  })
 }
 
 /*********************************************** Init Charts ****************************************************************************/
@@ -468,15 +482,24 @@ onSelected(Idselected): void{
 }
 
 onSelectedConcurrent(concuurent){
-  var nom_selected_point_vente=''
-  /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
+
+  this.userService.getUserBoard().subscribe(
+    data => {
+      this.userInfo = {
+      id: data.user.id,
+      id_societe:data.user.id_societe,
+      name: data.user.name,
+      email: data.user.email
+      };
+    
+    
+    this.id_societe=this.userInfo.id_societe
   
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
 
   /********** Data concurrent magasin ********/
-this.qualiteMaterielService.getQualiteMaterielMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((data:NoteQualiteMaterielConcurrent[])=>{
+this.qualiteMaterielService.getQualiteMaterielMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:NoteQualiteMaterielConcurrent[])=>{
+  var QualiteMaterielConcurrentMagasin= datac.filter((word =>word.Qualite_materiel_concurrent != "") )
+
   var M;
   var AMN;
   var P;
@@ -490,7 +513,7 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
+const result = QualiteMaterielConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element   && word.id_societe==this.id_societe);
 console.log(result)
 var yearTime=new Date()
 var year = yearTime.getFullYear()
@@ -524,7 +547,7 @@ this.lineChart1("En relatif vs la concurrence",concuurent,this.NoteQualiteMateri
   this.NoteQualiteMaterielMagasinConcurrent=[]
 })
 })
-})
+
 
 }
 

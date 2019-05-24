@@ -10,7 +10,9 @@ import {Router} from "@angular/router";
 export class SharedServiceService {
   private pointvente : any;
   private idp : any
-  private Sujet  :any
+  private societe  :any
+  private ids  :any
+
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { 
     this.pointvente=null;
@@ -45,18 +47,30 @@ export class SharedServiceService {
   
 
 
-public setSujet(val:any):void{
-  this.Sujet=val;
+public setSociete(val:any):void{
+  this.societe=val;
 
 }
 
-public getSujet():any{
+public getSociete():any{
 
- return this.Sujet;
+ return this.societe;
 
 
 }
 
+
+public setIdSociete(val:any):void{
+  this.ids=val;
+
+}
+
+public getIdSociete():any{
+
+ return this.ids;
+
+
+}
   saverponses(data) {
     this.http.post(`${this.url}/reponses`, data)
       .subscribe(

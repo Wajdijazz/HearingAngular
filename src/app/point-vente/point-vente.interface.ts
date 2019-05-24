@@ -1,5 +1,5 @@
 export interface PointVente{
-	id: Number;
+	id: number;
 	id_societe : Number;
 	nom : string,
 	adresse : string,

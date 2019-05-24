@@ -19,6 +19,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { AmchartsService } from '../am-charts/amcharts.service';
+import { UserService } from '../services/user.service';
 
 
 
@@ -72,8 +73,9 @@ export class NpsComponent implements OnInit {
   
   Nps_values=[]
   Nps_values_Selected=[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor(private zone: NgZone, amChartService: AmchartsService,private societeService :SocieteService,private pointeventeService: PointVenteService,private npsService : NpsService,   private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor(    private userService:UserService,private zone: NgZone, amChartService: AmchartsService,private societeService :SocieteService,private pointeventeService: PointVenteService,private npsService : NpsService,   private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
 
   
 
@@ -83,7 +85,19 @@ export class NpsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.id_societe=2//  Todo Load from session Societe
+   
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+		
  /***************** get societe name by id *******************************/
  this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
   data.forEach(element=>{
@@ -193,6 +207,7 @@ export class NpsComponent implements OnInit {
 })
   })
 })
+      })
   }
 
  
@@ -312,6 +327,10 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
   
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
+  chart.background.fill = am4core.color("white");
+  chart.background.stroke = am4core.color("black");
+
+
   let titre = chart.titles.create();
   titre.text = title
   titre.fontSize = 20;
@@ -368,10 +387,15 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
 // Themes end
 
 // Create chart instance
+
 let chart = am4core.create(baliseid, am4charts.XYChart);
 let titre = chart.titles.create();
 titre.text = title
 titre.fontSize = 20;
+chart.background.fill = am4core.color("white");
+chart.background.stroke = am4core.color("black");
+
+
 
 chart.data = dataPoints
 

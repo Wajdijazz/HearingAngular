@@ -1,8 +1,16 @@
-
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Ajout Questionnaire</h4>
+                      <p class="card-category">Ajouter un questionnaire </p>
+                  </div>
 <div class="form-horizontal pad-10">
 	<form #ajoutQuestionnaireForm="ngForm">
 		<h2> Choisissez votre point de vente:</h2>
-		<select style="height:20px;" name="pointvente" id="pointvente" #pointvente="ngModel" [(ngModel)]="questionnaire.id_pointvente" class="form-group col-md-8">
+		<select style="height:40px;" name="pointvente" id="pointvente" #pointvente="ngModel" [(ngModel)]="questionnaire.id_pointvente" class="form-group col-md-8">
 			<option *ngFor="let pointvente of pointsVente" value="{{pointvente.id}}">
 				{{pointvente.nom}}
 			</option>
@@ -33,8 +41,13 @@
 			  placement="top"
 			  (confirm)="createSelectedTheme(detailquestionnaire)"
               (click)="creerQuestionnaire(questionnaire)"
-              type="submit" class="btn btn-save btn-primary" [disabled]="!ajoutQuestionnaireForm.valid">
+              type="submit" class="btn btn-danger" [disabled]="!ajoutQuestionnaireForm.valid">
         <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
       </button>
 	</form>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>

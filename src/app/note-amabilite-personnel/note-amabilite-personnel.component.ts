@@ -12,6 +12,7 @@ import { Societe } from '../societe/societe.interface';
 import { PointVente } from '../point-vente/point-vente.interface';
 import { AmabilitePersonnelConcurrent } from './amabilite-personnel-concurrent';
 import { AmabilitePersonnelReponse } from './amabilite-personnel-reponse.interface';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -42,11 +43,24 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
   NoteAmabilitePersonnelMagasin=[]
   NoteAmabilitePersonnelMagasinConcurrent=[]
   AmabilitePersonnel: AmabilitePersonnelReponse[];
+  userInfo:any;
+  board: any;
+  errorMessage: string;
 
-  constructor(private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private amabilitepersonnelService:AmabilitePersonnelService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  constructor(private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private amabilitepersonnelService:AmabilitePersonnelService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
-    this.id_societe=2//  Todo Load from session Societe
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
     this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
       this.societe=data
       this.societe.forEach(element=>{
@@ -65,7 +79,7 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
 })
 /***************** Concurrent   from dataBase ******************/
 this.concurrentService.getConcurrent().subscribe((data:AmabilitePersonnelConcurrent[])=>{
-  var res=data.filter((word =>word.Amabilite_personnel_concurrent != "") )
+  var res=data.filter((word =>word.Amabilite_personnel_concurrent != "" && word.id_societe==this.id_societe) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -371,6 +385,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
 
       })
     })
+  })
   }
 
   ngAfterViewInit(){
@@ -464,15 +479,23 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
   }
 
   onSelectedConcurrent(concuurent){
-    var nom_selected_point_vente=''
-    /********** Get pointe vente name By Id Selected *********/
-    this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-    
-      data.forEach(pointvente=>{
-        nom_selected_point_vente=pointvente.nom
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+ 
   
     /********** Data concurrent magasin ********/
-  this.amabilitepersonnelService.getAmabilitePersonnelMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((data:AmabilitePersonnelConcurrent[])=>{
+  this.amabilitepersonnelService.getAmabilitePersonnelMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:AmabilitePersonnelConcurrent[])=>{
+    var amabiliteConcurrentMagasin= datac.filter((word =>word.Amabilite_personnel_concurrent != "") )
+
     var M;
     var AMN;
     var P;
@@ -486,7 +509,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
      M=0
     AMN=0
     P=0 
-  const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
+  const result = amabiliteConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
   console.log(result)
   var yearTime=new Date()
   var year = yearTime.getFullYear()
@@ -520,7 +543,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
     this.NoteAmabilitePersonnelMagasinConcurrent=[]
   })
   })
-  })
+
   
   }
 

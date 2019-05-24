@@ -1,8 +1,10 @@
+<div style="width: 60%"class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
 <mat-sidenav-container class="sidenav-container" >
-  <mat-sidenav   #drawer class="sidenav" 
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
+    
+
     
       <div class="lien">
 
@@ -11,9 +13,9 @@
             </div>
               
            
-      <a  style="color: #ffff"  mat-list-item href="reporting/Nuage-Mots" routerLinkActive="active-list-item">Nuage de mots</a><br><br>
+      <a  style="color: #ffff"  mat-list-item href="/admin-layout/reporting/Nuage-Mots" routerLinkActive="active-list-item">Nuage de mots</a><br><br>
 
-      <a  style="color: #ffff"  mat-list-item routerLink="/reporting/nps" routerLinkActive="active-list-item">Net Promoter Score</a><br><br>
+      <a  style="color: #ffff"  mat-list-item routerLink="/admin-layout/reporting/nps" routerLinkActive="active-list-item">Net Promoter Score</a><br><br>
 
       <a style="text-align:center;color: #ffff" mat-list-item routerLink="/reporting/Note-Image-Prix" routerLinkActive="active-list-item">Image prix</a><br><br>
       <a  style="color: #ffff" mat-list-item routerLink="/reporting/promotions"routerLinkActive="active-list-item"> Promotion</a><br><br>
@@ -32,11 +34,15 @@
      
 
 
-  </div>
+ 
 
-  </mat-sidenav>
-  <mat-sidenav-content>
-    
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
+ 
+</div>
 </mat-sidenav-container>
+</div>
+</div>
+
+</div>
+</div>
+
+

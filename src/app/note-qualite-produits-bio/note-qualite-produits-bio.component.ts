@@ -12,6 +12,7 @@ import { Societe } from '../societe/societe.interface';
 import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteQualiteProduitsBioConcurrent } from './note-qualite-produits-bio-concurrent.interface';
 import { NoteQualiteProduitsBioReponse } from './note-qualite-produits-bio-reponse.interface';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-note-qualite-produits-bio',
@@ -41,11 +42,23 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
   QualiteProduitBioMagasin: NoteQualiteProduitsBioReponse[];
   NoteQualiteProduitBioMagasin=[]
   NoteQualiteProduitBioMagasinConcurrent=[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor(private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteProduitBioService:NoteQualiteProduitsBioService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  constructor(private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteProduitBioService:NoteQualiteProduitsBioService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
-    this.id_societe=2//  Todo Load from session Societe
+     
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
 
      /***************** get societe name by id *******************************/
      this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
@@ -69,7 +82,9 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
 
    /***************** Concurrent   from dataBase ******************/
    this.concurrentService.getConcurrent().subscribe((data:NoteQualiteProduitsBioConcurrent[])=>{
-      data.forEach(concurrent => {
+    var res=data.filter((word =>word.Qualite_produits_bio_concurrent != "" && word.id_societe==this.id_societe) )
+
+    res.forEach(concurrent => {
     this.nom_concurrent=concurrent.concurrent
     var index = this.concurrents.findIndex(x => x.viewValue==this.nom_concurrent)
     if (index === -1){
@@ -139,13 +154,13 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
   
    /****************************************** Qualité Produit Bio Enseigne concurrent et calcul ***************************************************/
 
-   this.qualiteProduitBioService.getQualiteProduitBioEnseigneConcurrent(this.id_societe).subscribe((data:NoteQualiteProduitsBioConcurrent[])=>{
+   this.qualiteProduitBioService.getQualiteProduitBioEnseigneConcurrent(this.id_societe).subscribe((datac:NoteQualiteProduitsBioConcurrent[])=>{
 
 
-   this.NoteQualiteProduitBioConcurrent=data
+   this.NoteQualiteProduitBioConcurrent=datac.filter((word =>word.Qualite_produits_bio_concurrent != "") )
     var tab_concurrent=[]
     var i=0
-    data.forEach(concurrent=>{
+    this.NoteQualiteProduitBioConcurrent.forEach(concurrent=>{
       console.log(concurrent)
 
       var index1 = tab_concurrent.findIndex(x => x.concurrent==concurrent.concurrent)
@@ -372,7 +387,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
 })
 
 })
-
+      })
 }
  
 ngAfterViewInit(){
@@ -470,15 +485,22 @@ onSelected(Idselected): void{
 }
 
 onSelectedConcurrent(concuurent){
-  var nom_selected_point_vente=''
-  /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
+  this.userService.getUserBoard().subscribe(
+    data => {
+      this.userInfo = {
+      id: data.user.id,
+      id_societe:data.user.id_societe,
+      name: data.user.name,
+      email: data.user.email
+      };
+    
+    
+    this.id_societe=this.userInfo.id_societe
   
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
-
   /********** Data concurrent magasin ********/
-this.qualiteProduitBioService.getQualiteProduitBioMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((data:NoteQualiteProduitsBioConcurrent[])=>{
+this.qualiteProduitBioService.getQualiteProduitBioMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:NoteQualiteProduitsBioConcurrent[])=>{
+  var QualiteProduitBioConcurrentMagasin= datac.filter((word =>word.Qualite_produits_bio_concurrent != "") )
+
   var M;
   var AMN;
   var P;
@@ -492,7 +514,8 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
+const result = QualiteProduitBioConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element  && word.id_societe==this.id_societe
+);
 console.log(result)
 var yearTime=new Date()
 var year = yearTime.getFullYear()
@@ -526,7 +549,7 @@ this.lineChart1("En relatif vs la concurrence",concuurent,this.NoteQualiteProdui
   this.NoteQualiteProduitBioMagasinConcurrent=[]
 })
 })
-})
+
 
 }
 

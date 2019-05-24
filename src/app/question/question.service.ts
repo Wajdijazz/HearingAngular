@@ -9,6 +9,7 @@ import { TextboxQuestion }  from './question-textbox';
 import { RadioQuestion } from './question-radio';
 import { PointVenteService } from '../point-vente/point-vente.service';
 import{ PointVente } from '../point-vente/point-vente.interface';
+import { UserService } from '../services/user.service';
 
 @Injectable()
 export class QuestionService {
@@ -22,7 +23,9 @@ export class QuestionService {
   numbers: number[] = [];
 
 aux:any
-  constructor(private pointventeService : PointVenteService,private http: HttpClient, private toastr: ToastrService, private router: Router) { }
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
+  id_societe: any;
+  constructor(    private userService:UserService,private pointventeService : PointVenteService,private http: HttpClient, private toastr: ToastrService, private router: Router) { }
 
   url = 'http://localhost:3000';
    
@@ -56,11 +59,23 @@ aux:any
     }
     else
     {
+      this.userService.getUserBoard().subscribe(
+        data => {
+          this.userInfo = {
+          id: data.user.id,
+          id_societe:data.user.id_societe,
+          name: data.user.name,
+          email: data.user.email
+          };
+        
+        
+        this.id_societe=this.userInfo.id_societe
 
       this.pointventeService
       .getPointVente()
-      .subscribe((data:PointVente[])=>{
-        this.pointeventes=data;
+      .subscribe((data1:PointVente[])=>{
+        this.pointeventes=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+
         this.pointeventes.forEach((pointvente)=>{
     
            
@@ -76,6 +91,7 @@ aux:any
 
         
       })
+    })
 
       let questionsretour: QuestionBase<any>[]=[];
       let observableQuestions=this.http.get(`${this.url}/choix-questionnaire/${id}`);

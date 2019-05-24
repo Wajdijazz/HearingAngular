@@ -3,6 +3,7 @@ import {PointVenteService} from '../point-vente/point-vente.service';
 import {PointVente} from "../point-vente/point-vente.interface";
 import { Societe } from '../societe/societe.interface';
 import { SocieteService } from '../societe/societe.service'
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-ajout-point-vente',
@@ -16,35 +17,51 @@ export class AjoutPointVenteComponent implements OnInit {
 
 	pointvente: PointVente={
 		id: null,
-		id_societe:null, //A changer
+		id_societe:null, 
 		nom: '',
 		adresse: '',
 		concurrents: ''
 	};
+	userInfo: { id: any; id_societe: any; name: any; email: any; };
+	board: any;
+	errorMessage: string;
 
 	
 	
-  constructor(private pointventeService: PointVenteService,private societeService : SocieteService) { }
+  constructor(private userService: UserService,private pointventeService: PointVenteService,private societeService : SocieteService) { }
 
   ngOnInit() {
 	
-		this.societeService
-  	.getSociete()
-  	.subscribe((data:Societe[])=>{
-  		console.log(data);
-			this.societes=data;
-			
-  	})
+
+		this.userService.getUserBoard().subscribe(
+      data => {
+        this.userInfo = {
+          id: data.user.id,
+          id_societe:data.user.id_societe,
+          name: data.user.name,
+          email: data.user.email
+        };
+    
+      
+     this.board = data.description;
+      },
+      error => {
+        this.errorMessage = `${error.status}: ${error.error}`;
+      }
+		);
+  }
 
 
-
-
-	}
+	
 	
 
   creerPointVente(data:PointVente){
-		data.id_societe=Number(data.id_societe);
-	  this.pointventeService.createPointVente(data);
+		console.log(this.userInfo.id_societe)
+
+		data.id_societe=this.userInfo.id_societe;
+    this.pointventeService.createPointVente(data);
+    var bal=true
+
 	  
   }
 

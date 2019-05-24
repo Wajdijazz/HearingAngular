@@ -16,6 +16,7 @@ import { last } from 'rxjs/operators';
 import { findLast } from '@angular/compiler/src/directive_resolver';
 import { LCONTAINER_LENGTH } from '@angular/core/src/render3/interfaces/container';
 import { Services } from '@angular/core/src/view';
+import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-ajout-questionnaire',
   templateUrl: './ajout-questionnaire.component.html',
@@ -46,25 +47,41 @@ export class AjoutQuestionnaireComponent implements OnInit {
 	
 	questionnaire : Questionnaire ={
 		id: 0,
-		id_societe :2, //a changer depuis la session
+		id_societe :null, 
 		id_pointvente : null,
-		sujet : ''
+		sujet : '',
+		pointvente:''
 	}
+	userInfo: { id: any; id_societe: any; name: any; email: any; };
+	board: any;
+	errorMessage: string;
 	
 
-  constructor(private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService) { }
+  constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService) { }
 
   ngOnInit() {
-  	//On récupère les points de vente du client pour le sélecteur dans le formulaire
-  	this.pointVenteService.getPointVente().subscribe((data:PointVente[])=>{
-  	//	console.log(data);
-  		this.pointsVente=data;
-  		this.pointsVente.forEach((pointvente)=>{
-  			
-  		});
-  	//	console.log("Points de vente de cette société d'id=",this.questionnaire.id_societe," :",this.pointsVente);
-  		//On set le selecteur au premier point de vente de la liste
-  		this.questionnaire.id_pointvente=this.pointsVente[0].id;
+	  //On récupère les points de vente du client pour le sélecteur dans le formulaire
+	  this.pointVenteService.getPointVente().subscribe((data1:PointVente[])=>{
+		this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+			  this.pointsVente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			  this.questionnaire.id_pointvente=this.pointsVente[0].id;
+
+			
+		   this.board = data.description;
+			},
+			error => {
+			  this.errorMessage = `${error.status}: ${error.error}`;
+			}
+		  );
+ 
 		});
 
 
@@ -72,9 +89,9 @@ export class AjoutQuestionnaireComponent implements OnInit {
 		
 		this.themeService
   	.geThemes()
-  	.subscribe((data:Theme[])=>{
-  		console.log(data);
-		  this.theme=data;
+  	.subscribe((data2:Theme[])=>{
+  		console.log(data2);
+		  this.theme=data2;
 		
 			  
 		})
@@ -96,7 +113,7 @@ var i=0;
 			this.selection.forEach((selected)=>{
 				if(selected){
 					console.log(this.theme[i].id)
-					this.id_th=this.theme[i].id;
+					this.id_th=this.theme[i].id; 
 			this.questionnaires=data1;
 						
 			this.questionnaires.forEach((questionnaires)=>{
@@ -131,7 +148,8 @@ var i=0;
 
   creerQuestionnaire(data:Questionnaire){
     
-  	console.log("data avant envoi serveur",data);
+	  console.log("data avant envoi serveur",data);
+	  data.id_societe=this.userInfo.id_societe
 	
 		data.id_pointvente=Number(data.id_pointvente);
 		

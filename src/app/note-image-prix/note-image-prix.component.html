@@ -1,23 +1,37 @@
 
-<body style="background-color:#E1E0E0">
-    <div style="background: E1E0E0">
+
+
+    <div class="main-content">
+        <div class="container-fluid">
+           
+    <div >
   <div style="margin-bottom:5%;margin-right: 30px;margin-left: 30px">
   <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
-      <mat-grid-tile  style="margin-top:40px;border-radius:5px;;background:	green" > 
-        <div>
-        <mat-form-field  style="color:#ffffff">
-            <mat-placeholder   style="color: #ffffff;">Magasin de l'enseigne</mat-placeholder>
-        <mat-select style="color: #ffffff"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
+        <mat-grid-tile  style="margin-top:15px" > 
+					<div style="border-radius:10px;border-style:outset;  " class="card-header card-header-warning card-header-icon">
+							<div class="card-icon">
+        <mat-form-field  style="color:black">
+            <mat-placeholder style="color: black"  >Magasin de l'enseigne</mat-placeholder>
+        <mat-select style="color: black"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
           <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.Idmagasin">
             {{magasin.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+  </div>
+</div>
+  
       </mat-grid-tile>
-      <mat-grid-tile style="margin-top:40px;border-radius:5px;;background:	green">
-        <mat-form-field>
-            <mat-placeholder  style="color: #ffffff;">Magasin concurrent</mat-placeholder>
+   
+
+ 
+
+      
+      <mat-grid-tile  style="margin-top:15px" > 
+        <div style="border-radius:10px;border-style:outset; " class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+      <mat-form-field  style="color:black">
+            <mat-placeholder style="color:black" >Magasin concurrent</mat-placeholder>
   
         <mat-select [(ngModel)]="concurrentselected"  (ngModelChange)= 'onSelectedConcurrent($event)'>
           <mat-option style="color: black" *ngFor="let concurrent of concurrents" [value]="concurrent.viewValue">
@@ -25,6 +39,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+  </div>
       </mat-grid-tile>
       
     </mat-grid-list>
@@ -33,32 +49,39 @@
   </div>
     <!-- graphiques -->
   
-    <mat-grid-list  style="margin: 30px" 	class="graphiques" cols="2" rowHeight="300px"  gutterSize="20px" >
-        <div >
-  
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background: #ffffff" >
-        <div  id="chartupperleft" style="height:90%; width:90%;">
+    <mat-grid-list  style="margin: 30px;background:white-color" 	class="graphiques" cols="2" rowHeight="300px"  gutterSize="20px" >
+    
+          
+
+      <mat-grid-tile style=" border-radius:5px;margin-right: 20px;" >
+        
+        <div style="border-radius:5px;" id="chartupperleft" style="height:90%; width:90%;">
         </div>
       </mat-grid-tile>
+   
+
   
   
   
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background: #ffffff"  >
+      <mat-grid-tile style=" border-radius:5px;margin-right: 20px"  >
         <div id="chartupperright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
   
   
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background:#ffffff" >
+      <mat-grid-tile style=" border-radius:5px;margin-right: 20px;" >
         <div id="chartbottomleft" style="height: 90%; width: 90%;"></div></mat-grid-tile>
   
   
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background:#ffffff" >
+      <mat-grid-tile style=" border-radius:5px;margin-right: 20px" >
         <div id="chartbottomright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
   
   
-      </div>
+ 
   
     </mat-grid-list>
+  </div>
+</div>
+
   
-  </body>
+
   
   

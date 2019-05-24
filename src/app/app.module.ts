@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { SocieteComponent } from './societe/societe.component';
@@ -15,13 +16,8 @@ import {ToastrModule} from "ngx-toastr";
 import {FormsModule} from "@angular/forms";
 import { AjoutSocieteComponent } from './ajout-societe/ajout-societe.component';
 import {ConfirmationPopoverModule} from "angular-confirmation-popover";
-import { HomeComponent } from './home/home.component';
-import { PointVenteComponent } from './point-vente/point-vente.component';
 import { PointVenteService } from './point-vente/point-vente.service';
-import { AjoutPointVenteComponent } from './ajout-point-vente/ajout-point-vente.component';
-import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
 import { QuestionnaireService } from './questionnaire/questionnaire.service';
-import { AjoutQuestionnaireComponent } from './ajout-questionnaire/ajout-questionnaire.component';
 import { QuestionService } from './question/question.service';
 import { ReactiveFormsModule }          from '@angular/forms';
 import { DynamicFormComponent }         from './question/dynamic-form.component';
@@ -29,14 +25,12 @@ import { DynamicFormQuestionComponent } from './question/dynamic-form-question.c
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ReportingComponent } from './reporting/reporting.component';
-import { NpsComponent } from './nps/nps.component';
+
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import { ChartService } from './chart/chart.service';
 import {MatDialogModule} from '@angular/material/dialog';
-import { NoteImagePrixComponent } from './note-image-prix/note-image-prix.component';
-import { PromotionsComponent } from './promotions/promotions.component';
+
 import { ThemeComponent } from './theme/theme.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { DetailQuestionnaireComponent } from './detail-questionnaire/detail-questionnaire.component';
@@ -45,49 +39,56 @@ import { ChoixQuestionnaireComponent } from './choix-questionnaire/choix-questio
 import { AjoutQuestionsComponent } from './ajout-questions/ajout-questions.component';
 import { SondageComponent } from './sondage/sondage.component';
 import { ReponsesComponent } from './reponses/reponses.component';
-import { NoteQualiteProduitsComponent } from './note-qualite-produits/note-qualite-produits.component';
-import { AmChartsComponent } from './am-charts/am-charts.component';
-import { NoteAmabilitePersonnelComponent } from './note-amabilite-personnel/note-amabilite-personnel.component';
-import { NoteRapportQualitePrixComponent } from './note-rapport-qualite-prix/note-rapport-qualite-prix.component';
-import { NoteRapiditePayerComponent } from './note-rapidite-payer/note-rapidite-payer.component';
-import { NoteQualiteMaterielComponent } from './note-qualite-materiel/note-qualite-materiel.component';
-import { NoteChoixProduitComponent } from './note-choix-produit/note-choix-produit.component';
-import { NoteFaciliterTrouverProduitComponent } from './note-faciliter-trouver-produit/note-faciliter-trouver-produit.component';
-import { NotePrixProduitsBioComponent } from './note-prix-produits-bio/note-prix-produits-bio.component';
-import { NoteQualiteProduitsBioComponent } from './note-qualite-produits-bio/note-qualite-produits-bio.component';
-import { TagCloudModule } from 'angular-tag-cloud-module';
-import { NuageMotsComponent } from './nuage-mots/nuage-mots.component';
 
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { MatCheckboxModule,MatInputModule,} from '@angular/material';
+import { LoginComponent } from './login/login.component';
+import { UserComponent } from './user/user.component';
+import { RegisterComponent } from './register/register.component';
+import { AdminComponent } from './admin/admin.component';
+import { PmComponent } from './pm/pm.component';
+
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+
+import { httpInterceptorProviders } from './auth/auth-interceptor';
+
+import { ComponentsModule } from './components/components.module';
+
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { JwtHelperService} from '@auth0/angular-jwt';
+import {  JWT_OPTIONS  } from '@auth0/angular-jwt';
+import { 
+  AuthGuardService as AuthGuard 
+} from './auth/auth-guard.service';
+import { FooterAdminComponent } from './components-admin/footer-admin/footer-admin.component';
+import { NavbarAdminComponent } from './components-admin/navbar-admin/navbar-admin.component';
+import { SidebarAdminComponent } from './components-admin/sidebar-admin/sidebar-admin.component';
+import { ComponentsAdminModule } from './components-admin/components-admin.module';
+import { TypographyComponent } from './typography/typography.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-{ path: '', component : HomeComponent},
-{ path: 'societe', component: SocieteComponent},
-{ path: 'ajout-societe', component: AjoutSocieteComponent },
-{ path: 'point-vente', component : PointVenteComponent},
-{ path: 'ajout-point-vente', component : AjoutPointVenteComponent},
-{ path: 'questionnaire', component : QuestionnaireComponent},
-{ path : 'ajout-questionnaire', component : AjoutQuestionnaireComponent},
-{ path: 'choix-questionnaire', component: ChoixQuestionnaireComponent },
-{ path: 'sondage/:sondageid', component: SondageComponent },
+  { path: '', component: LoginComponent ,        
+},
+  { path: 'ajout-societe', component: AjoutSocieteComponent ,        canActivate: [AuthGuard] 
+},
+   { path: 'choix-questionnaire', component: ChoixQuestionnaireComponent ,        canActivate: [AuthGuard] 
+  },
+   { path: 'sondage/:sondageid', component: SondageComponent ,      
+  },
 
-{ path: 'questions/:sondageid', component: QuestionsComponent },
+      { path: 'questions/:sondageid', component: QuestionsComponent ,  
+    },
+     
+      { 
+        path: 'admin/societe',
+        component: SocieteComponent,
+        canActivate: [AuthGuard] 
 
+      },
+     
 
-{ path: 'reporting', component: ReportingComponent, children: [
-  { path : 'Nuage-Mots', component : NuageMotsComponent},
-    { path: 'nps', component: NpsComponent},
-    { path: 'Note-Image-Prix', component: NoteImagePrixComponent},
-    { path : 'promotions', component : PromotionsComponent},
-    { path : 'Note-Qualite-Produit', component : NoteQualiteProduitsComponent},
-    { path : 'Note-Amabilite-Personnel', component : NoteAmabilitePersonnelComponent},
-    { path : 'Note-Rapport-Qualite-Prix', component : NoteRapportQualitePrixComponent},
-    { path : 'Note-Rapidite-Paiement', component : NoteRapiditePayerComponent},
-    { path : 'Note-Qualite-Materiel', component : NoteQualiteMaterielComponent},
-    { path : 'Note-Choix-Produits', component : NoteChoixProduitComponent},
-    { path : 'Note-Facilite-Trouver-Produits', component : NoteFaciliterTrouverProduitComponent},
-    { path : 'Note-Prix-Produits-Bio', component : NotePrixProduitsBioComponent},
-    { path : 'Note-Qualite-Produits-Bio', component : NoteQualiteProduitsBioComponent}
 
 
    
@@ -100,27 +101,19 @@ const routes: Routes = [
 
 
     ]
-},
-];
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     DynamicFormComponent,
     DynamicFormQuestionComponent,
     SocieteComponent,
     AjoutSocieteComponent,
-    HomeComponent,
-    PointVenteComponent,
-    AjoutPointVenteComponent,
-    QuestionnaireComponent,
-    AjoutQuestionnaireComponent,
     
-    ReportingComponent,
-    NpsComponent,
-    NoteImagePrixComponent,
-    PromotionsComponent,
+    
+    
+    
     ThemeComponent,
     QuestionsComponent,
     DetailQuestionnaireComponent,
@@ -129,17 +122,20 @@ const routes: Routes = [
     AjoutQuestionsComponent,
     SondageComponent,
     ReponsesComponent,
-    NoteQualiteProduitsComponent,
-    AmChartsComponent,
-    NoteAmabilitePersonnelComponent,
-    NoteRapportQualitePrixComponent,
-    NoteRapiditePayerComponent,
-    NoteQualiteMaterielComponent,
-    NoteChoixProduitComponent,
-    NoteFaciliterTrouverProduitComponent,
-    NotePrixProduitsBioComponent,
-    NoteQualiteProduitsBioComponent,
-    NuageMotsComponent
+    
+    LoginComponent,
+    UserComponent,
+    RegisterComponent, 
+    AdminComponent,
+    PmComponent,
+    AdminLayoutComponent,
+
+    AdminComponent,
+    HomeComponent,
+
+  
+
+
     
   ],
   imports: [
@@ -164,6 +160,23 @@ const routes: Routes = [
     ToastrModule.forRoot(),
     FormsModule,
     TagCloudModule,
+    MatButtonModule, 
+    	MatGridListModule,
+    	MatCheckboxModule,
+    	MatInputModule,
+      MatIconModule,
+      BrowserAnimationsModule,
+      FormsModule,
+      RouterModule,
+      AppRoutingModule,
+      ComponentsModule,
+      MatTooltipModule,
+      ComponentsAdminModule,
+     
+
+      
+
+      
 
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here
@@ -174,7 +187,12 @@ const routes: Routes = [
   PointVenteService,
   QuestionnaireService,
   QuestionService,
-  ChartService
+  ChartService,
+  { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+
+  JwtHelperService,
+
+  httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

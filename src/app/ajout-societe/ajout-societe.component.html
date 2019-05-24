@@ -1,9 +1,18 @@
 <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Ajout Enseigne</h4>
+                      <p class="card-category">Ajouter une Enseigne</p>
+                  </div>
 <div class="form-horizontal pad-10">
   <br>
   <form #ajoutSocieteForm="ngForm">
     <div class="col-md-6 form-group">
-      <label class=" control-label">Nom Société</label>
+      <label class=" control-label">Nom Enseigne</label>
       <div class="col-md-12 no-padding">
         <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
         <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
@@ -24,8 +33,9 @@
         </div>
       </div>
     </div>
+    
     <div class="col-md-6 form-group">
-      <label class=" control-label">Date_Abonnement Société</label>
+      <label class=" control-label">Date_Abonnement Ensigne</label>
       <div class="col-md-12 no-padding">
         <input name="date_facturation" id="date_facturation" #date_facturation="ngModel" [(ngModel)]="societe.date_facturation" class="form-control" placeholder="" type="date" required />
         <div *ngIf="date_facturation.errors && (date_facturation.dirty || date_facturation.touched)" class="alert alert-danger">
@@ -46,4 +56,9 @@
       </button>
     </div>
   </form>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
