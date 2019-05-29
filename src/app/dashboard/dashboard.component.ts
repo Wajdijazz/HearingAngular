@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import { DashboardService } from './dashboard.service';
+import { Reponse } from '../reponses/reponse.interface';
+import { element } from '@angular/core/src/render3';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { AmchartsService } from '../am-charts/amcharts.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,88 +16,405 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  Month=[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
+  id_societe: any;
 
-  constructor() { }
-  startAnimationForLineChart(chart){
-      let seq: any, delays: any, durations: any;
-      seq = 0;
-      delays = 80;
-      durations = 500;
-
-      chart.on('draw', function(data) {
-        if(data.type === 'line' || data.type === 'area') {
-          data.element.animate({
-            d: {
-              begin: 600,
-              dur: 700,
-              from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-              to: data.path.clone().stringify(),
-              easing: Chartist.Svg.Easing.easeOutQuint
-            }
-          });
-        } else if(data.type === 'point') {
-              seq++;
-              data.element.animate({
-                opacity: {
-                  begin: seq * delays,
-                  dur: durations,
-                  from: 0,
-                  to: 1,
-                  easing: 'ease'
-                }
-              });
-          }
-      });
-
-      seq = 0;
-  };
-  startAnimationForBarChart(chart){
-      let seq2: any, delays2: any, durations2: any;
-
-      seq2 = 0;
-      delays2 = 80;
-      durations2 = 500;
-      chart.on('draw', function(data) {
-        if(data.type === 'bar'){
-            seq2++;
-            data.element.animate({
-              opacity: {
-                begin: seq2 * delays2,
-                dur: durations2,
-                from: 0,
-                to: 1,
-                easing: 'ease'
-              }
-            });
-        }
-      });
-
-      seq2 = 0;
-  };
+  constructor(private userService:UserService ,private dashboardService: DashboardService) { }
+ 
   ngOnInit() {
+
+    
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+			this.id_societe=this.userInfo.id_societe
+
+this.dashboardService.getReponses().subscribe((data1:ReponsePointeVente[])=>{
+console.log(data1.length)
+var Bar=[]
+
+var  series=[]
+var  TotalReponse
+var    dateTime
+var scoreTotal
+var TS
+var AS
+var PTS
+var PDTS
+var ScoreTheme
+
+var TS1
+var AS1
+var PTS1
+var PDTS1
+var ScoreTheme1
+
+var TS2
+var AS2
+var PTS2
+var PDTS2
+var ScoreTheme2
+
+var TS3
+var AS3
+var PTS3
+var PDTS3
+var ScoreTheme3
+
+var TS4
+var AS4 
+var PTS4 
+var PDTS4
+var ScoreTheme4
+
+var TS5
+var AS5
+var PTS5
+var PDTS5
+var ScoreTheme5
+
+var TS6
+var AS6
+var PTS6
+var PDTS6
+var ScoreTheme6
+
+var TS7
+var AS7
+var PTS7
+var PDTS7
+var ScoreTheme7
+
+var TS8
+var AS8
+var PTS8
+var PDTS8
+var ScoreTheme8
+
+var TS9
+var AS9
+var PTS9
+var PDTS9
+var ScoreTheme9
+
+var TS10
+var AS10
+var PTS10
+var PDTS10
+var ScoreTheme10
+
+
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
-      const dataDailySalesChart: any = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-          series: [
-              [12, 17, 7, 17, 23, 18, 38]
-          ]
-      };
+       
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                          ];
+               monthNames.forEach(element=>{
+                TS=0
+                AS=0
+                PTS=0
+                PDTS=0
 
-     const optionsDailySalesChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-      }
+                TS1=0
+                AS1=0
+                PTS1=0
+                PDTS1=0
 
-      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+                TS2=0
+                AS2=0
+                PTS2=0
+                PDTS2=0
 
-      this.startAnimationForLineChart(dailySalesChart);
+                TS3=0
+                AS3=0
+                PTS3=0
+                PDTS3=0
+
+                TS3=0
+                AS3=0
+                PTS3=0
+                PDTS3=0
+
+                TS4=0
+                AS4=0
+                PTS4=0
+                PDTS4=0
+
+                TS5=0
+                AS5=0
+                PTS5=0
+                PDTS5=0
+
+                TS6=0
+                AS6=0
+                PTS6=0
+                PDTS6=0
+
+                TS7=0
+                AS7=0
+                PTS7=0
+                PDTS7=0
+
+                TS8=0
+                AS8=0
+                PTS8=0
+                PDTS8=0
+
+                TS9=0
+                AS9=0
+                PTS9=0
+                PDTS9=0
+
+                TS10=0
+                AS10=0
+                PTS10=0
+                PDTS10=0
+
+             
+
+                 
+             const result=data1.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.id_societe==this.id_societe);
+                var yearTime=new Date()
+                      var year = yearTime.getFullYear()
+                    TotalReponse=result.length
+                     console.log(result)
+                     result.forEach(el=>{  
+                        var d = new Date(el.date_reponse_pointevente)
+                         dateTime=monthNames[d.getMonth()]
+                          if(dateTime==element){
+
+                            //prix satisfaction
+                         if(el.prix_satisfaction=="Très satisfait"){
+                           TS=TS+1
+                          }
+                         if(el.prix_satisfaction=="Assez satisfait"){
+                          AS=AS+1
+                          }
+                        if(el.prix_satisfaction=="Pas très satisfait"){
+                          PTS=PTS+1
+                          }
+                         if(el.prix_satisfaction=="Pas du tout satisfait"){
+                          PDTS=PDTS+1
+                          }
+                       
+                       // Promotions satisfaction 
+                          if(el.promotions_satisfaction=="Très satisfait"){
+                           TS1=TS1+1
+                          }
+                          if(el.prix_satisfaction=="Assez satisfait"){
+                       AS1=AS1+1
+                          }
+                        if(el.promotions_satisfaction=="Pas très satisfait"){
+                        PTS1=PTS1+1
+                          }
+                         if(el.promotions_satisfaction=="Pas du tout satisfait"){
+                         PDTS1=PDTS1+1
+                           }
+                       // Qualite produit 
+
+                       if(el.Qualite_Produit_satisfaction=="Très satisfait"){
+                        TS2=TS2+1
+                       }
+                       if(el.Qualite_Produit_satisfaction=="Assez satisfait"){
+                    AS2=AS2+1
+                       }
+                     if(el.Qualite_Produit_satisfaction=="Pas très satisfait"){
+                     PTS2=PTS2+1
+                       }
+                      if(el.Qualite_Produit_satisfaction=="Pas du tout satisfait"){
+                      PDTS2=PDTS2+1
+                        }
+                     //Amabilite 
+                   
+                     if(el.Amabilite_personnel_satisfaction=="Très satisfait"){
+                      TS3=TS3+1
+                     }
+                     if(el.Amabilite_personnel_satisfaction=="Assez satisfait"){
+                        AS3=AS3+1
+                     }
+                   if(el.Amabilite_personnel_satisfaction=="Pas très satisfait"){
+                         PTS3=PTS3+1
+                     }
+                    if(el.Amabilite_personnel_satisfaction=="Pas du tout satisfait"){
+                    PDTS3=PDTS3+1
+                      }
+                       // rapport  qualité prix
+                       if(el.Rapport_qualite_prix_satisfaction=="Très satisfait"){
+                        TS4=TS4+1
+                       }
+                       if(el.Rapport_qualite_prix_satisfaction=="Assez satisfait"){
+                          AS4=AS4+1
+                       }
+                     if(el.Rapport_qualite_prix_satisfaction=="Pas très satisfait"){
+                           PTS4=PTS4+1
+                       }
+                      if(el.Rapport_qualite_prix_satisfaction=="Pas du tout satisfait"){
+                      PDTS4=PDTS4+1
+                        }
+
+                        //rapidite paiement
+
+                        if(el.Rapidite_facilite_payer_satisfaction=="Très satisfait"){
+                          TS5=TS5+1
+                         }
+                         if(el.Rapidite_facilite_payer_satisfaction=="Assez satisfait"){
+                            AS5=AS5+1
+                         }
+                       if(el.Rapidite_facilite_payer_satisfaction=="Pas très satisfait"){
+                             PTS5=PTS5+1
+                         }
+                        if(el.Rapidite_facilite_payer_satisfaction=="Pas du tout satisfait"){
+                        PDTS5=PDTS5+1
+                          }
+
+                          // Qualité Materiel 
+
+                          if(el.Qualite_materiel_satisfaction=="Très satisfait"){
+                            TS6=TS6+1
+                           }
+                           if(el.Qualite_materiel_satisfaction=="Assez satisfait"){
+                              AS6=AS6+1
+                           }
+                         if(el.Qualite_materiel_satisfaction=="Pas très satisfait"){
+                               PTS6=PTS6+1
+                           }
+                          if(el.Qualite_materiel_satisfaction=="Pas du tout satisfait"){
+                          PDTS6=PDTS6+1
+                            }
+                         // choix produit
+
+                         if(el.Choix_produits_satisfaction=="Très satisfait"){
+                          TS7=TS7+1
+                         }
+                         if(el.Choix_produits_satisfaction=="Assez satisfait"){
+                            AS7=AS7+1
+                         }
+                       if(el.Choix_produits_satisfaction=="Pas très satisfait"){
+                             PTS7=PTS7+1
+                         }
+                        if(el.Choix_produits_satisfaction=="Pas du tout satisfait"){
+                        PDTS7=PDTS7+1
+                          }
+
+                          // faciliter trouver produit 
+
+                          if(el.Facilite_trouver_produits_satisfaction=="Très satisfait"){
+                            TS8=TS8+1
+                           }
+                           if(el.Facilite_trouver_produits_satisfaction=="Assez satisfait"){
+                              AS8=AS8+1
+                           }
+                         if(el.Facilite_trouver_produits_satisfaction=="Pas très satisfait"){
+                               PTS8=PTS8+1
+                           }
+                          if(el.Facilite_trouver_produits_satisfaction=="Pas du tout satisfait"){
+                          PDTS8=PDTS8+1
+                            }
+                            // prix produit bio
+
+                            if(el.Prix_produits_bio_satisfaction=="Très satisfait"){
+                              TS9=TS9+1
+                             }
+                             if(el.Prix_produits_bio_satisfaction=="Assez satisfait"){
+                                AS9=AS9+1
+                             }
+                           if(el.Prix_produits_bio_satisfaction=="Pas très satisfait"){
+                                 PTS9=PTS9+1
+                             }
+                            if(el.Prix_produits_bio_satisfaction=="Pas du tout satisfait"){
+                            PDTS9=PDTS9+1
+                              }
+
+                              // qualite produit bio 
+
+                              if(el.Qualite_produits_bio_satisfaction=="Très satisfait"){
+                                TS10=TS10+1
+                               }
+                               if(el.Qualite_produits_bio_satisfaction=="Assez satisfait"){
+                                  AS10=AS10+1
+                               }
+                             if(el.Qualite_produits_bio_satisfaction=="Pas très satisfait"){
+                                   PTS10=PTS10+1
+                               }
+                              if(el.Qualite_produits_bio_satisfaction=="Pas du tout satisfait"){
+                              PDTS10=PDTS10+1
+                                }
 
 
+
+
+
+ 
+
+                      }
+                      })
+                    ScoreTheme=0
+                    ScoreTheme=((((TS/TotalReponse)*3)+((AS/TotalReponse)*1)+((PTS/TotalReponse)*(-2))+((PDTS/TotalReponse)*(-6)))*100)
+                    ScoreTheme1=0
+                    ScoreTheme1=((((TS1/TotalReponse)*3)+((AS1/TotalReponse)*1)+((PTS1/TotalReponse)*(-2))+((PDTS1/TotalReponse)*(-6)))*100)
+                    ScoreTheme2=0
+                    ScoreTheme2=((((TS2/TotalReponse)*3)+((AS2/TotalReponse)*1)+((PTS2/TotalReponse)*(-2))+((PDTS2/TotalReponse)*(-6)))*100)
+                    ScoreTheme3=0
+                    ScoreTheme3=((((TS3/TotalReponse)*3)+((AS3/TotalReponse)*1)+((PTS3/TotalReponse)*(-2))+((PDTS3/TotalReponse)*(-6)))*100)
+                    ScoreTheme4=0
+                    ScoreTheme4=((((TS4/TotalReponse)*3)+((AS4/TotalReponse)*1)+((PTS4/TotalReponse)*(-2))+((PDTS4/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme5=0
+                    ScoreTheme5=((((TS5/TotalReponse)*3)+((AS5/TotalReponse)*1)+((PTS5/TotalReponse)*(-2))+((PDTS5/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme6=0
+                    ScoreTheme6=((((TS6/TotalReponse)*3)+((AS6/TotalReponse)*1)+((PTS6/TotalReponse)*(-2))+((PDTS6/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme7=0
+                    ScoreTheme7=((((TS7/TotalReponse)*3)+((AS7/TotalReponse)*1)+((PTS7/TotalReponse)*(-2))+((PDTS7/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme8=0
+                    ScoreTheme8=((((TS8/TotalReponse)*3)+((AS8/TotalReponse)*1)+((PTS8/TotalReponse)*(-2))+((PDTS8/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme9=0
+                    ScoreTheme9=((((TS9/TotalReponse)*3)+((AS9/TotalReponse)*1)+((PTS9/TotalReponse)*(-2))+((PDTS9/TotalReponse)*(-6)))*100)
+
+                    ScoreTheme10=0
+                    ScoreTheme10=((((TS10/TotalReponse)*3)+((AS10/TotalReponse)*1)+((PTS10/TotalReponse)*(-2))+((PDTS10/TotalReponse)*(-6)))*100)
+
+
+                    scoreTotal=0
+                    scoreTotal=(ScoreTheme+ScoreTheme1+ScoreTheme2+ScoreTheme3+ScoreTheme4+ScoreTheme5+ScoreTheme6+ScoreTheme7+ScoreTheme8+ScoreTheme9+ScoreTheme10)/11
+
+
+                    var index1 =  Bar.findIndex(x => x.viewValue==element+"-"+year,y=> y.Math.round(scoreTotal))
+                    if (index1=== -1){
+                      Bar.push({ label: element+"-"+year, y:Math.round(scoreTotal)}) 
+                    }
+
+
+
+
+
+
+            series.push({ label: element+"-"+year, y:TotalReponse}) 
+
+  })
+        
+
+    //  this.startAnimationForLineChart(dailySalesChart);
+   this.lineChart("",series,"dailySalesChart")
+   this.Histogramme("",Bar,"websiteViewsChart")
+   this.Radarcgart("radarchart")
+ 
+
+
+
+   
       /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
 
       const dataCompletedTasksChart: any = {
@@ -107,44 +433,206 @@ export class DashboardComponent implements OnInit {
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
       }
 
-      var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
+  //  var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
 
       // start animation for the Completed Tasks Chart - Line Chart
-      this.startAnimationForLineChart(completedTasksChart);
+     //this.startAnimationForLineChart(completedTasksChart);
+
+
 
 
 
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
-      var datawebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-        ]
-      };
-      var optionswebsiteViewsChart = {
-          axisX: {
-              showGrid: false
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-      };
-      var responsiveOptions: any[] = [
-        ['screen and (max-width: 640px)', {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value[0];
-            }
-          }
-        }]
-      ];
-      var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+ 
+   //   var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
       //start animation for the Emails Subscription Chart
-      this.startAnimationForBarChart(websiteViewsChart);
+     // this.startAnimationForBarChart(websiteViewsChart);
+    })
+ 
+  })
   }
+
+
+  lineChart(name1,dataPoints,baliseid){
+    am4core.useTheme(am4themes_animated);
+  // Themes end
+  // Create chart instance
+  let chart = am4core.create(baliseid, am4charts.XYChart);
+  
+  // Add data
+
+  chart.data = dataPoints
+  let titre = chart.titles.create();
+  titre.fontSize = 20;
+
+  
+ 
+
+  let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  categoryAxis.dataFields.category = "label";
+  categoryAxis.renderer.inside = false;
+  
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 2;
+  categoryAxis.renderer.line.stroke = am4core.color("#111");
+  
+  // Create value axis
+  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+  valueAxis.renderer.inside = false
+
+
+
+
+  valueAxis.renderer.minLabelPosition = 0.1;
+  valueAxis.renderer.maxLabelPosition =0.9;
+  valueAxis.renderer.line.strokeOpacity = 1;
+  valueAxis.renderer.line.strokeWidth = 2;
+  valueAxis.renderer.line.stroke = am4core.color("#111");
+
+
+
+  
+  // Create series
+  let series1 = chart.series.push(new am4charts.LineSeries());
+  series1.dataFields.valueY = "y";
+  series1.dataFields.categoryX = "label";
+  series1.name = name1;
+  series1.strokeWidth = 2;
+  series1.bullets.push(new am4charts.CircleBullet());
+  series1.tooltipText = " {name} : {valueY}";
+  series1.legendSettings.valueText = "{valueY}";
+  series1.fill=am4core.color("#fff")
+series1.stroke=am4core.color("#fff")
+
+
+  
+  
+  
+  // Add chart cursor
+  chart.cursor = new am4charts.XYCursor();
+  chart.cursor.behavior = "zoomY";
+   
+  
+  
+    return chart
+  }
+  Histogramme(title,dataPoints,baliseid){
+
+  
+
+    //am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+
+let chart = am4core.create(baliseid, am4charts.XYChart);
+let titre = chart.titles.create();
+titre.text = title
+titre.fontSize = 20;
+
+
+
+
+chart.data = dataPoints
+
+// Create axes
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "label";
+
+categoryAxis.renderer.cellStartLocation = 0.1;
+categoryAxis.renderer.cellEndLocation = 0.9;
+
+
+let  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.min = 0;
+
+
+
+
+
+
+  let series = chart.series.push(new am4charts.ColumnSeries());
+  series.dataFields.valueY = "y";
+  series.dataFields.categoryX = "label";
+
+  series.columns.template.tooltipText = "{name} : [bold]{valueY}[/] %";
+  series.columns.template.fill = am4core.color("#fff"); 
+  series.columns.template.stroke = am4core.color("#fff"); 
+
+ 
+
+
+
+
+  }
+
+  Radarcgart(baliseid){
+    am4core.useTheme(am4themes_animated);
+
+  let chart = am4core.create(baliseid, am4charts.RadarChart);
+
+  
+
+
+ 
+/* Add data */
+chart.data = [{
+  "country": "Lithuania",
+  "litres": 501
+}, {
+  "country": "Czech Republic",
+  "litres": 301
+}, {
+  "country": "Ireland",
+  "litres": 266
+}, {
+  "country": "Germany",
+  "litres": 165
+}, {
+  "country": "Australia",
+  "litres": 139
+}, {
+  "country": "Austria",
+  "litres": 336
+}, {
+  "country": "UK",
+  "litres": 290
+}, {
+  "country": "Belgium",
+  "litres": 325
+}, {
+  "country": "The Netherlands",
+  "litres": 40
+}];
+
+ 
+  
+ 
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis<am4charts.AxisRendererCircular>());
+categoryAxis.dataFields.category = "country";
+
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererRadial>());
+valueAxis.renderer.axisFills.template.fill = chart.colors.getIndex(2);
+valueAxis.renderer.axisFills.template.fillOpacity = 30;
+
+/* Create and configure series */
+let series = chart.series.push(new am4charts.RadarSeries());
+series.dataFields.valueY = "litres";
+series.dataFields.categoryX = "country";
+series.name = "Sales";
+series.strokeWidth = 5;
+series.fill=am4core.color("#fff")
+series.stroke=am4core.color("#fff")
+
+
+
+
+  
+  
+  }
+ 
 
 }

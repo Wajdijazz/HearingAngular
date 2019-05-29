@@ -1,8 +1,7 @@
 <div *ngIf="formReady" class="pad-10">
 	<div style="height:100vh;"class="presentation">
-	  <img class="logo" src="{{ pointvente?.logo}}"/>
-	  <h3>{{ pointvente?.nom }}</h3>
-	  <p> La société <b>{{ pointvente?.nom }} de {{pointvente?.adresse}}</b> nous a mandaté pour réaliser un sondage auprès de
+	  <h3>{{ societe?.nom }}</h3>
+	  <p> La société <b>{{ societe?.nom }} </b> nous a mandaté pour réaliser un sondage auprès de
 	  ses clients avec pour objectif d’améliorer la qualité de ses services. </p>
 
 	  <button style="margin-left: 25%;width:50%;"mat-raised-button color="primary" (click)="scrollToForm()">Commencer</button>

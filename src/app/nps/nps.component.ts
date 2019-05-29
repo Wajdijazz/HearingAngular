@@ -20,6 +20,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { AmchartsService } from '../am-charts/amcharts.service';
 import { UserService } from '../services/user.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 
 
 
@@ -48,7 +50,6 @@ export class NpsComponent implements OnInit {
     id_societe:null,
      nom: '',
      adresse:'',
-     concurrents:''   
   }
   id_societe : number;
   npsPointeVente : Nps[]
@@ -63,7 +64,6 @@ export class NpsComponent implements OnInit {
   InfOuit : any;
   InfDix : any;
   n : any=0;
-  Nps_Val : any
   chart1 : any;
   NpsInfSix=[];
   NpsInfDix= [];
@@ -73,9 +73,10 @@ export class NpsComponent implements OnInit {
   
   Nps_values=[]
   Nps_values_Selected=[]
+  Nps_Val:any
   userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor(    private userService:UserService,private zone: NgZone, amChartService: AmchartsService,private societeService :SocieteService,private pointeventeService: PointVenteService,private npsService : NpsService,   private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor( private pointeventereponseService:PointeventereponseService,   private userService:UserService,private zone: NgZone, amChartService: AmchartsService,private societeService :SocieteService,private pointeventeService: PointVenteService,private npsService : NpsService,   private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
 
   
 
@@ -96,26 +97,37 @@ export class NpsComponent implements OnInit {
 			  };
 		  
       
-			this.id_societe=this.userInfo.id_societe
+      this.id_societe=this.userInfo.id_societe
+      this.nom_Societe=this.userInfo.name
+      
 		
- /***************** get societe name by id *******************************/
- this.societeService.getSocieteById(this.id_societe).subscribe((data:Societe[])=>{
-  data.forEach(element=>{
-    this.nom_Societe=element.nom  
+      this.pointeventereponseService .getPointeventeName().subscribe((datap:ReponsePointeVente[])=>{
+        var datapointevenete=datap.filter(word => word.id_societe==this.id_societe && word. Fin_Sondage !=null);
+          
+       datapointevenete.forEach(element=>{
+        var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
+            if (index1=== -1){
+              this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+            }
+            else console.log("object already exists")
+  })
+  })
+
   
     /****************************** NPS Enseigne *********************************/
 
-    this.npsService.getNpsSociete(this.id_societe).subscribe((data:Nps[])=>{
+    this.npsService.getNpsSociete(this.id_societe).subscribe((data1:Nps[])=>{
+      console.log(data1)
       var InfSix
       var InfOuit
       var InfDix
       var dateTime;
-      var Nps_Val
+    
       var TotalReponse
      const monthNames = ["January", "February", "March", "April", "May", "June",
      "July", "August", "September", "October", "November", "December"
                ];
-    this.npsSociete=data
+    this.npsSociete=data1
     var yearTime=new Date()
     var year = yearTime.getFullYear()
     monthNames.forEach(element=>{
@@ -123,6 +135,7 @@ export class NpsComponent implements OnInit {
       InfOuit=0
       InfDix=0
     const result = this.npsSociete.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+    console.log(result)
   
     TotalReponse=result.length
     result.forEach(el=>{
@@ -131,7 +144,7 @@ export class NpsComponent implements OnInit {
    
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-      let reponseNps=parseInt(el.reponse)
+      var reponseNps=el.reponse
        if( (reponseNps>=0) && (reponseNps<=6)){ 
         InfSix= InfSix+1
        }  
@@ -145,69 +158,43 @@ export class NpsComponent implements OnInit {
         }
         }
         } )  
-     Nps_Val=0
-     Nps_Val=(((InfDix/TotalReponse)-(InfSix/TotalReponse))*100)
      
 
-     var index =  this.Nps_Enseigne.findIndex(x => x.label==element+"-"+year,y=>y.Math.round(Nps_Val))
-     if (index === -1){
-      this.Nps_Enseigne.push({ label: element+"-"+year, y:Math.round(Nps_Val)})
-      }
- 
+   
+   
+       
 
-
-    
     var infDix=(InfDix/TotalReponse)*100
-    var index=  this.NpsInfDix.findIndex(x => x.label==element+"-"+year,y=>y.infDix)
-     if (index === -1){
-      this.NpsInfDix.push({label: element+"-"+year,y:infDix})
-    }
-
-
     var infSix=(InfSix/TotalReponse)*100
-    var index=  this.NpsInfSix.findIndex(x => x.label==element+"-"+year,y=>y.infSix)
-     if (index === -1){
-      this.NpsInfSix.push({label: element+"-"+year,y:infSix})
-    }
-
     var infouit=(InfOuit/TotalReponse)*100
+        this.Nps_Val=infDix-infSix
+        console.log(this.Nps_Val)
+      
+if(this.Nps_Val==0){
+  this.Nps_Enseigne.push({ label: element+"-"+year, y:0})
+
+}
+    var index1 =  this.Nps_Enseigne.findIndex(x => x.label==element+"-"+year,y=>y.Math.round(this.Nps_Val))
+    if (index1=== -1){
+     this.Nps_Enseigne.push({ label: element+"-"+year, y:Math.round(this.Nps_Val)})
+     }
   
-    var index=  this.NpsInfOuit.findIndex(x => x.label==element+"-"+year,y=>y.infouit)
-     if (index === -1){
-      this.NpsInfOuit.push({label: element+"-"+year,y:infouit})
-    }
     var index=  this.Nps_values.findIndex(x => x.label==element+"-"+year)
    if (index === -1){
-   this.Nps_values.push({label: element+"-"+year,inf6 : infSix,inf8:infouit,inf10:infDix})
+   this.Nps_values.push({label: element+"-"+year,inf6 : Math.round(infSix), inf8: Math.round(infouit),inf10: Math.round(infDix)})
    }
 
-   
     })
      /*************************************************************** Chart NPS Enseigne *********************************************/ 
-  this.Histogramme("Evolution de Net Promoter Enseigne",this.Nps_values,"chartupperright")
-  this.lineChart("Evolution de Net Promoter Enseigne",this.nom_Societe,this.Nps_Enseigne,"chartupperleft");
+  this.Histogramme(this.Nps_values,"chartupperright")
+ this.lineChart(this.nom_Societe,this.Nps_Enseigne,"chartupperleft");
    
   
   
   })
     
-
-
-      //TODO: pull from database   
-      this.pointventeBySocieteService
-      .getPointVenteBySociete(this.id_societe)
-      .subscribe((data:PointVente[])=>{
-        this.pointventes=data;
-      //exemple
-      this.pointventes.forEach(element=>{
-    this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
-  //TODO: pull from database
-  //  this.concurrents.push({value: 'Concurrent-0', viewValue: element.concurrents})
-})
-})
   })
-})
-      })
+
   }
 
  
@@ -222,24 +209,19 @@ export class NpsComponent implements OnInit {
               Monthes.forEach(element=>{
               this.Month.push({ label: element+"-"+year, y : null})
               })
-this.lineChart("Evolution du Net Promoter Magasin","",this.Month,"chartbottomleft");
+this.lineChart("",this.Month,"chartbottomleft");
   
-this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomright");
+this.Histogramme(this.Month,"chartbottomright");
 
 
   }
   
-  onSelected(Idselected): void{
-    //NPS Selected Point vente
-    this.id_selectedpointvenete=Idselected
-  var nom_selected_point_vente=''
-   /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-  
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
+  onSelected(pointevente): void{
 
-    this.npsService.getNps(Idselected,this.id_societe).subscribe((data:Nps[])=>{
+ 
+  
+
+    this.npsService.getNps(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
       var InfSix
       var InfOuit;
       var InfDix
@@ -249,20 +231,19 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
      const monthNames = ["January", "February", "March", "April", "May", "June",
      "July", "August", "September", "October", "November", "December"
                ];
-    this.npsPointeVente=data
     monthNames.forEach(element=>{
       InfSix=0
       InfDix=0
       InfOuit=0
-    const result = this.npsPointeVente.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+    const result = data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Fin_Sondage!=null);
     var yearTime=new Date()
     var year = yearTime.getFullYear()
     TotalReponse=result.length
     result.forEach(el=>{ 
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){ 
-      let reponseNps=parseInt(el.reponse)
+      let reponseNps=el.Fin_Sondage
        if( (reponseNps>=0) && (reponseNps<=6)){ 
         InfSix= InfSix+1
        }  
@@ -277,7 +258,10 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
         } )  
         Nps_Val=0
      Nps_Val=(((InfDix/TotalReponse)-(InfSix/TotalReponse)) * 100) 
-
+     if(Nps_Val==0){
+      this.Nps_Enseigne.push({ label: element+"-"+year, y:0})
+    
+    }
    var index =  this.Nps_Magasin.findIndex(x => x.label==element+"-"+year,y=>y.Math.round(Nps_Val))
     if (index === -1){
       this.Nps_Magasin.push({ label: element+"-"+year, y:Math.round(Nps_Val)})
@@ -298,8 +282,8 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
  /*   let chartImagePrixConcurrent=this.chartService.lineChart("Evolution de l'image prix Concurrents","Concurrents",this.Nps_Magasin,"chartbottomleft");  
   setTimeout(function(){ chartImagePrixConcurrent.render()});*/
     
-  this.lineChart("Evolution du Net Promoter Magasin",nom_selected_point_vente,this.Nps_Magasin,"chartbottomleft");
-  this.Histogramme("Evolution de Net Promoter Magasin",this.Nps_values_Selected,"chartbottomright")
+  this.lineChart(pointevente,this.Nps_Magasin,"chartbottomleft");
+  this.Histogramme(this.Nps_values_Selected,"chartbottomright")
 
 
 
@@ -315,50 +299,74 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
 
 
 
-    })
-  })
+
 
 
   }
     
-  lineChart(title,name,dataPoints,baliseid){
+
+
+
+  lineChart(name1,dataPoints,baliseid){
     am4core.useTheme(am4themes_animated);
   // Themes end
-  
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
-  chart.background.fill = am4core.color("white");
-  chart.background.stroke = am4core.color("black");
-
-
-  let titre = chart.titles.create();
-  titre.text = title
-  titre.fontSize = 20;
   
   // Add data
+
   chart.data = dataPoints
-  
-  // Create category axis
+  let titre = chart.titles.create();
+  titre.fontSize = 20;
+
+
+  let label = chart.createChild(am4core.Label);
+//  label.text=title
+  label.fontSize = 20;
+label.align = "center";
+label.isMeasured = false;
+  label.x = 150;
+label.y = -20
+
   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.dataFields.category = "label";
   categoryAxis.renderer.inside = false;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 2;
+  categoryAxis.renderer.line.stroke = am4core.color("#111");
+
+
+
   
   // Create value axis
   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  valueAxis.renderer.inside = false;
-  valueAxis.renderer.minLabelPosition = 0.1;
-  valueAxis.renderer.maxLabelPosition = 0.9;
 
+  valueAxis.renderer.inside = true;
+
+
+
+  valueAxis.renderer.minLabelPosition = 0.1;
+  valueAxis.renderer.maxLabelPosition =0.9;
+
+  valueAxis.renderer.line.strokeOpacity = 1;
+  valueAxis.renderer.line.strokeWidth = 2;
+  valueAxis.renderer.line.stroke = am4core.color("#111");
+  
   // Create series
   let series1 = chart.series.push(new am4charts.LineSeries());
   series1.dataFields.valueY = "y";
   series1.dataFields.categoryX = "label";
-  series1.name = name;
+  series1.name = name1;
   series1.strokeWidth = 2;
   series1.bullets.push(new am4charts.CircleBullet());
-  series1.tooltipText = "NPS  {name} in  {categoryX}: {valueY}";
+  series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.visible  = true;
+  series1.fill=am4core.color("#f44336")
+  series1.stroke=am4core.color("#f44336")
+
+
+
   
   
   
@@ -368,6 +376,7 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
    
   // Add legend
   chart.legend = new am4charts.Legend();
+
   
     
   
@@ -379,7 +388,7 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
 
 
 
-  Histogramme(title,dataPoints,baliseid){
+  Histogramme(dataPoints,baliseid){
 
   
 
@@ -390,10 +399,8 @@ this.Histogramme("Evolution du Net Promoter Magasin",this.Month,"chartbottomrigh
 
 let chart = am4core.create(baliseid, am4charts.XYChart);
 let titre = chart.titles.create();
-titre.text = title
 titre.fontSize = 20;
-chart.background.fill = am4core.color("white");
-chart.background.stroke = am4core.color("black");
+
 
 
 
@@ -405,10 +412,15 @@ categoryAxis.dataFields.category = "label";
 
 categoryAxis.renderer.cellStartLocation = 0.1;
 categoryAxis.renderer.cellEndLocation = 0.9;
-
+categoryAxis.renderer.line.strokeOpacity = 1;
+categoryAxis.renderer.line.strokeWidth = 2;
+categoryAxis.renderer.line.stroke = am4core.color("#111");
 
 let  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.min = 0;
+valueAxis.renderer.line.strokeOpacity = 1;
+valueAxis.renderer.line.strokeWidth = 2;
+valueAxis.renderer.line.stroke = am4core.color("#111");
 
 valueAxis.renderer.labels.template.adapter.add("text", function(text) {
   return text + "%";

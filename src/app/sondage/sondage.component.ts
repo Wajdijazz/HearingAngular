@@ -11,6 +11,8 @@ import {SharedServiceService} from '../services-speciales/shared-service.service
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FormGroup }                 from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import { SocieteService } from '../societe/societe.service';
+import { Societe } from '../societe/societe.interface';
 
 @Component({
   selector: 'app-sondage',
@@ -24,17 +26,18 @@ export class SondageComponent implements OnInit {
 	questionnaires : Questionnaire[];
 	sondage : any;
 	sondageId=99999;
-	pointvente : PointVente;
+  pointvente : PointVente;
+  societe: Societe;
   reponseclient = [];
   observableQuestionnaire:Observable<any>;
-  observablePointVente:Observable<any>;
+  observableSociete:Observable<any>;
   reponsespossibles = ["Oui","Non"];
 
   questionsPromise: Promise<any>;
   questionnairePromise: Promise<any>;
   questions: QuestionBase<any>[] = [];
 
-  constructor(private sharedService :SharedServiceService,  private questionService : QuestionService ,private pointventeService : PointVenteService,private questionnaireService : QuestionnaireService,private route: ActivatedRoute) {
+  constructor(private societeService: SocieteService,private sharedService :SharedServiceService,  private questionService : QuestionService ,private pointventeService : PointVenteService,private questionnaireService : QuestionnaireService,private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -67,14 +70,13 @@ export class SondageComponent implements OnInit {
     .then((sondage)=>{
       //Une fois les infos du questionnaire stockés dans this.sondage
       //On récupère les infos sur le point de vente depuis la BDD
-      this.observablePointVente=this.pointventeService.getPointVente();
-      this.observablePointVente.subscribe((data:PointVente[])=>{
-        data.forEach((pointvente)=>{
-          if(pointvente.id==this.sondage.id_pointvente){
-            this.sharedService.setSelectedpointevente(pointvente.nom);
-            this.sharedService.setSelectedIdpointevente(pointvente.id)
+      this.observableSociete=this.societeService.getSociete();
+      this.observableSociete.subscribe((data:Societe[])=>{
+        data.forEach((societe)=>{
+          if(societe.id==this.sondage.id_societe){
+         
             
-            return this.pointvente=pointvente;
+            return this.societe=societe;
           }
         })
       });

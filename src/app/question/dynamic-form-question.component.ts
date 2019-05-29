@@ -13,6 +13,7 @@ import { QuestionService } from '../question/question.service'
 import { ActivatedRoute } from '@angular/router';
 import { QuestionsService } from '../questions/questions.service';
 import { Questions } from '../questions/questions.interface';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { Questions } from '../questions/questions.interface';
 export class DynamicFormQuestionComponent {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
+	userInfo: { id: any; id_societe: any; name: any; email: any; };
   get isValid() { return this.form.controls[this.question.key].valid; };
   labeltemporaire=''
   labeltemporaire1='SOC';
@@ -35,13 +37,22 @@ societe:any=""
  questions : Questions [];
 
 
-  constructor(private route: ActivatedRoute,private questionService : QuestionsService , private sharedService : SharedServiceService){
+  constructor( private userService:UserService,private route: ActivatedRoute,private questionService : QuestionsService , private sharedService : SharedServiceService){
   }
 
   ngOnInit(){
 
-	 this.societe= this.sharedService.getSelectedpointevente()
-	 
+		this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		  
+      
+this.societe=this.userInfo.name
 
 
 	this.question.label=this.question.label.replace(this.labeltemporaire1,this.societe);
@@ -61,7 +72,7 @@ societe:any=""
 			element.scrollIntoView({ inline: "nearest"});
 
       }else{				
-				var objDiv = document.getElementById(String(37));
+				var objDiv = document.getElementById(String(38));
 				objDiv.scrollIntoView({inline: "nearest"})
 
 
@@ -101,7 +112,7 @@ societe:any=""
 		});
 	  }
 
-
+	})
 		
 	}
 
@@ -122,7 +133,7 @@ scrolltextbox(){
 
       }else{
 				//TODO: scroll vers le bouton Valider
-				var objDiv = document.getElementById(String(37));
+				var objDiv = document.getElementById(String(38));
 				objDiv.scrollIntoView({inline: "nearest"})
 				var objDiv2= document.getElementById(String("fin"));
 				objDiv2.scrollIntoView({inline: "nearest"})
@@ -157,7 +168,7 @@ onPointventeselected(Selectedpointvente){
 
       }else{
 				//TODO: scroll vers le bouton Valider
-				var objDiv = document.getElementById(String(37));
+				var objDiv = document.getElementById(String(38));
 				objDiv.scrollIntoView({inline: "nearest"})
 
 			}	

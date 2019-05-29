@@ -19,22 +19,22 @@ export class PromotionsService {
       return this.http.get('http://localhost:3000/promotions/'+id);
   }
 
-  getPromotionsMagasin(id1:number,id2:number) {
+  getPromotionsMagasin(id2,pointevente) {
     console.log("get Image prix");
     
-      return this.http.get('http://localhost:3000/promotions/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
   }
 
 
 getpromotionsConcurrent(idsociete:number) {
   console.log("get promotions concurrent");
   
-    return this.http.get('http://localhost:3000/promotionsConcurrent/'+idsociete);
+  return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getPromotionsMagasinConcurrent(idpointevenete,concurrent) {
+getPromotionsMagasinConcurrent(selectedpointvenete,concurrent) {
   console.log("get Image prix Concurrent Magasin ");
-    return this.http.get('http://localhost:3000/promotionsConcurrent/'+idpointevenete+'/'+concurrent+'/');
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

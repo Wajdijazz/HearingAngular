@@ -12,28 +12,28 @@ export class NoteImagePrixService {
   url = 'http://localhost:3000';
 
 
-  getImageprixMagasin(id1:number,id2:number) {
-    console.log("get Image prix");
-    
-      return this.http.get('http://localhost:3000/noteImagePrix/'+id1+'/'+id2+'/');
-  }
+ 
 
   getImageprixsociete(id:number) {
     console.log("get Image prix");
     
       return this.http.get('http://localhost:3000/noteImagePrix/'+id);
   }
-
+  getImageprixMagasin(id2,pointevente) {
+    console.log("get Image prix");
+    
+      return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
+  }
 
 getImageprixConcurrent(idsociete:number) {
   console.log("get Image prix concurrent");
   
-    return this.http.get('http://localhost:3000/noteImagePrixConcurrent/'+idsociete);
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getImageprixMagasinConcurrent(idpointevenete,concurrent) {
+getImageprixMagasinConcurrent(selectedpointvenete,concurrent) {
   console.log("get Image prix Concurrent Magasin ");
-    return this.http.get('http://localhost:3000/noteImagePrixConcurrent/'+idpointevenete+'/'+concurrent+'/');
+    return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

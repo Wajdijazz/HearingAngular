@@ -14,9 +14,9 @@ export class NoteProduitBioService {
   url = 'http://localhost:3000';
 
 
-  getPrixProduitBioMagasin(id1:number,id2:number) {
+  getPrixProduitBioMagasin(id2,pointevente) {
     
-      return this.http.get('http://localhost:3000/notePrixProduitBio/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
   }
 
   getPrixProduitBiosociete(id:number) {
@@ -27,11 +27,10 @@ export class NoteProduitBioService {
 
   getPrixProduitBioEnseigneConcurrent(idsociete:number) {
   
-    return this.http.get('http://localhost:3000/notePrixProduitBioConcurrent/'+idsociete);
-}
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);}
 
 
-getPrixProduitBioMagasinConcurrent(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/notePrixProduitBioConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getPrixProduitBioMagasinConcurrent(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

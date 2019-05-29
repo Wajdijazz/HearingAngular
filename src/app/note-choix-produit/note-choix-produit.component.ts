@@ -13,6 +13,8 @@ import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteChoixProduitConcurrent } from './note-choix-produit-concurrent.interface';
 import { NoteChoixProduitReponse } from './note-choix-produit-reponse.interface';
 import { UserService } from '../services/user.service';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 
 @Component({
   selector: 'app-note-choix-produit',
@@ -45,9 +47,10 @@ export class NoteChoixProduitComponent implements OnInit {
   userInfo:any;
   board: any;
   errorMessage: string;
+  selectedpointvenete: any;
 
 
-  constructor(    private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private choixProduitsService:NoteChoixProduitService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  constructor( private pointeventereponseService:PointeventereponseService ,   private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private choixProduitsService:NoteChoixProduitService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
     this.userService.getUserBoard().subscribe(
@@ -68,17 +71,17 @@ export class NoteChoixProduitComponent implements OnInit {
         this.nom_Societe=element.nom
              /***************** Pointe vente  from dataBase ******************/
 
-        this.pointventeBySocieteService .getPointVenteBySociete(this.id_societe).subscribe((data:PointVente[])=>{
-          this.pointventes=data;
-        this.pointventes.forEach(element=>{
-        this.nom_concurrent=element.concurrents 
-        var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
-            if (index1=== -1){
-              this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
-            }
-            else console.log("object already exists")
-    })
-    })
+             this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+              var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Choix_produits_satisfaction!= "");
+                
+             datapointevenete.forEach(element=>{
+              var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
+                  if (index1=== -1){
+                    this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+                  }
+                  else console.log("object already exists")
+        })
+        })
     /***************** Concurrent   from dataBase ******************/
 this.concurrentService.getConcurrent().subscribe((data:NoteChoixProduitConcurrent[])=>{
   var res=data.filter((word =>word.Choix_produits_concurrent != ""  && word.id_societe==this.id_societe ) )
@@ -412,18 +415,14 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
   }
   /********************************* Choix Produit Selected Magasin  et Calcul **********************************************************************/
-  onSelected(Idselected): void{
-    this.id_selectedpointvenete=Idselected
-    var nom_selected_point_vente=''
-     /********** Get pointe vente name By Id Selected *********/
-    this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-    
-      data.forEach(pointvente=>{
-        nom_selected_point_vente=pointvente.nom
+  onSelected(pointevente): void{
+
+    this.selectedpointvenete=pointevente
   
-    this.choixProduitsService.getChoixProduitsMagasin(Idselected,this.id_societe).subscribe((data:NoteChoixProduitReponse[])=>{
   
-      this.ChoixProduitsMagasin=data
+    this.choixProduitsService.getChoixProduitsMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+  
+   
         var TS
         var AS
         var PTS
@@ -440,24 +439,24 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
          AS=0
          PTS=0
          PDTS=0
-    const result = this.ChoixProduitsMagasin.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+    const result = data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Choix_produits_satisfaction !="")
     var yearTime=new Date()
     var year = yearTime.getFullYear()
     TotalReponse=result.length
       result.forEach(el=>{  
-        var d = new Date(el.date_reponse)
+        var d = new Date(el.date_reponse_pointevente)
          dateTime=monthNames[d.getMonth()]
          if(dateTime==element){
-           if(el.reponse=="Très satisfait"){
+           if(el.Choix_produits_satisfaction=="Très satisfait"){
              TS=TS+1
             }
-           if(el.reponse=="Assez satisfait"){
+           if(el.Choix_produits_satisfaction=="Assez satisfait"){
             AS=AS+1
             }
-          if(el.reponse=="Pas très satisfait"){
+          if(el.Choix_produits_satisfaction=="Pas très satisfait"){
             PTS=PTS+1
             }
-           if(el.reponse=="Pas du tout satisfait"){
+           if(el.Choix_produits_satisfaction=="Pas du tout satisfait"){
             PDTS=PDTS+1
             }
          }
@@ -471,31 +470,19 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
       }
      
       })
-   this.lineChart1("Evolution de la Choix produit Magasin",nom_selected_point_vente,this.NoteChoixProduitsMagasin,"chartbottomleft");
+   this.lineChart1("Evolution de la Choix produit Magasin",pointevente,this.NoteChoixProduitsMagasin,"chartbottomleft");
       this.NoteChoixProduitsMagasin=[]
     })
    
-      })
-    })
+    
   }
 
   onSelectedConcurrent(concuurent){
-    this.userService.getUserBoard().subscribe(
-			data => {
-			  this.userInfo = {
-				id: data.user.id,
-				id_societe:data.user.id_societe,
-				name: data.user.name,
-				email: data.user.email
-			  };
-		  
-      
-			this.id_societe=this.userInfo.id_societe
-		
+ 
 
   
     /********** Data concurrent magasin ********/
-  this.choixProduitsService.getChoixProduitsConcurrentMagasin(this.id_selectedpointvenete,concuurent).subscribe((datac:NoteChoixProduitConcurrent[])=>{
+  this.choixProduitsService.getChoixProduitsConcurrentMagasin(this.selectedpointvenete,concuurent).subscribe((datac:NoteChoixProduitConcurrent[])=>{
     var ChoixProduitsConcurrentMagasin= datac.filter((word =>word.Choix_produits_concurrent != "") )
 
     var M;
@@ -544,7 +531,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
   this.lineChart1("En relatif vs la concurrence",concuurent,this.NoteChoixProduitMagasinConcurrent,"chartbottomright");  
     this.NoteChoixProduitMagasinConcurrent=[]
   })
-  })
+
 
   
   }
@@ -704,8 +691,8 @@ label.y = -20
   series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.visible  = true;
-  series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
+  series1.fill=am4core.color("#f44336")
+  series1.stroke=am4core.color("#f44336")
 
 
 

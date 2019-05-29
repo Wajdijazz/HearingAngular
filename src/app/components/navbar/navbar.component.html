@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top  ">
+    <div style="background:linear-gradient(#a9afbb, white); " class="container-fluid">
         <div class="navbar-wrapper">
           <h1>Bienvenue {{nom}} chez Hearing</h1>
         </div>
@@ -21,7 +21,7 @@
             </form>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#pablo">
+                    <a class="nav-link" href="/admin-layout/dashboard">
                         <i class="material-icons">dashboard</i>
                         <p>
                             <span class="d-lg-none d-md-block">Stats</span>
@@ -30,12 +30,12 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a (click)="logout()"  class="nav-link"  >
+                    <button style="background:linear-gradient(#a9afbb, white)" (click)="logout()"  class="nav-link"  >
                         <i class="material-icons">lock</i>
                         <p>
                             <span class="d-lg-none d-md-block">Account</span>
                         </p>
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>

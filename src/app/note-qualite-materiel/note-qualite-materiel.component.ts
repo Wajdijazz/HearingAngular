@@ -13,6 +13,8 @@ import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteQualiteMaterielConcurrent } from './note-qualite-materiel-concurrent.interface';
 import { NoteQualiteMaterielReponse } from './note-qualite-materiel-reponse.interface';
 import { UserService } from '../services/user.service';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 
 
 @Component({
@@ -44,8 +46,9 @@ export class NoteQualiteMaterielComponent implements OnInit {
   NoteQualiteMaterielMagasin=[]
   NoteQualiteMaterielMagasinConcurrent=[]
   userInfo: { id: any; id_societe: any; name: any; email: any; };
+  selectedpointvenete: any;
 
-  constructor( private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteMaterielService:NoteQualiteMaterielService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  constructor(private pointeventereponseService:PointeventereponseService, private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private qualiteMaterielService:NoteQualiteMaterielService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
    
@@ -66,17 +69,17 @@ export class NoteQualiteMaterielComponent implements OnInit {
       this.societe.forEach(element=>{
         this.nom_Societe=element.nom
         /***************** Pointe vente  from dataBase ******************/
-    this.pointventeBySocieteService .getPointVenteBySociete(this.id_societe).subscribe((data:PointVente[])=>{
-      this.pointventes=data;
-    this.pointventes.forEach(element=>{
-    this.nom_concurrent=element.concurrents 
-    var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
-        if (index1=== -1){
-          this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
-        }
-        else console.log("object already exists")
-})
-})
+        this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+          var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Qualite_materiel_satisfaction != "");
+            
+         datapointevenete.forEach(element=>{
+          var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
+              if (index1=== -1){
+                this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+              }
+              else console.log("object already exists")
+    })
+    })
 
 
 /***************** Concurrent   from dataBase ******************/
@@ -414,18 +417,14 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
 
 /*********************************  Qualite produitSelected Magasin  et Calcul **********************************************************************/
-onSelected(Idselected): void{
-  this.id_selectedpointvenete=Idselected
-  var nom_selected_point_vente=''
-   /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-  
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
+onSelected(pointevente): void{
 
-  this.qualiteMaterielService.getQualiteMaterielMagasin(Idselected,this.id_societe).subscribe((data:NoteQualiteMaterielReponse[])=>{
+  this.selectedpointvenete=pointevente
 
-    this.QualiteMaterielMagasin=data
+
+  this.qualiteMaterielService.getQualiteMaterielMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+
+
       var TS
       var AS
       var PTS
@@ -442,24 +441,24 @@ onSelected(Idselected): void{
        AS=0
        PTS=0
        PDTS=0
-  const result = this.QualiteMaterielMagasin.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Qualite_materiel_satisfaction!="");
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.Qualite_materiel_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.Qualite_materiel_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.Qualite_materiel_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.Qualite_materiel_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -473,31 +472,18 @@ onSelected(Idselected): void{
     }
    
     })
- this.lineChart1("Evolution de la quelite Materiel Magasin",nom_selected_point_vente,this.NoteQualiteMaterielMagasin,"chartbottomleft");
+ this.lineChart1("Evolution de la quelite Materiel Magasin",pointevente,this.NoteQualiteMaterielMagasin,"chartbottomleft");
     this.NoteQualiteMaterielMagasin=[]
   })
  
-    })
-  })
+ 
 }
 
 onSelectedConcurrent(concuurent){
 
-  this.userService.getUserBoard().subscribe(
-    data => {
-      this.userInfo = {
-      id: data.user.id,
-      id_societe:data.user.id_societe,
-      name: data.user.name,
-      email: data.user.email
-      };
-    
-    
-    this.id_societe=this.userInfo.id_societe
-  
 
   /********** Data concurrent magasin ********/
-this.qualiteMaterielService.getQualiteMaterielMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:NoteQualiteMaterielConcurrent[])=>{
+this.qualiteMaterielService.getQualiteMaterielMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:NoteQualiteMaterielConcurrent[])=>{
   var QualiteMaterielConcurrentMagasin= datac.filter((word =>word.Qualite_materiel_concurrent != "") )
 
   var M;
@@ -546,7 +532,7 @@ this.NoteQualiteMaterielMagasinConcurrent.push({ label: element+"-"+year, y:Math
 this.lineChart1("En relatif vs la concurrence",concuurent,this.NoteQualiteMaterielMagasinConcurrent,"chartbottomright");  
   this.NoteQualiteMaterielMagasinConcurrent=[]
 })
-})
+
 
 
 }
@@ -704,8 +690,8 @@ label.y = -20
   series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.visible  = true;
-  series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
+  series1.fill=am4core.color("#f44336")
+  series1.stroke=am4core.color("#f44336")
 
 
 

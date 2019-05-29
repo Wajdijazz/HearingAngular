@@ -15,9 +15,9 @@ export class FaciliterTrouverProduitService {
   url = 'http://localhost:3000';
 
 
-  getFaciliteTrouverProduitMagasin(id1:number,id2:number) {
+  getFaciliteTrouverProduitMagasin(id2,pointevente) {
     
-      return this.http.get('http://localhost:3000/noteFaciliteTrouverProduit/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
   }
 
   getFaciliteTrouverProduit(id:number) {
@@ -27,11 +27,11 @@ export class FaciliterTrouverProduitService {
 
   getFaciliteTrouverProduitConcurrentSociete(idsociete:number) {
   
-    return this.http.get('http://localhost:3000/noteFaciliteTrouverProduitConcurrent/'+idsociete);
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getFaciliteTrouverProduitConcurrentMagasin(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/noteFaciliteTrouverProduitConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getFaciliteTrouverProduitConcurrentMagasin(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

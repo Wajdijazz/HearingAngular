@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
 
             }
             this.authority = 'user';
-            this.router.navigateByUrl('/admin-layout/about-hearing');
+            this.router.navigateByUrl('/admin-layout/dashboard');
 
             return true;
           });

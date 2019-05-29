@@ -13,6 +13,8 @@ import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteProduitBioConcurrent } from './note-produit-bio-concurrent.interface';
 import { NoteProduitBioReponse } from './note-produit-bio-reponse.interface';
 import { UserService } from '../services/user.service';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 
 @Component({
   selector: 'app-note-prix-produits-bio',
@@ -43,7 +45,8 @@ export class NotePrixProduitsBioComponent implements OnInit {
   NotePrixProduitBioMagasin=[]
   NoteprixProduitBioMagasinConcurrent=[]
   userInfo: { id: any; id_societe: any; name: any; email: any; };
-  constructor(    private userService:UserService ,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private prixProduitBioService:NoteProduitBioService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
+  selectedpointvenete: any;
+  constructor(  private pointeventereponseService:PointeventereponseService,  private userService:UserService ,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private prixProduitBioService:NoteProduitBioService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
     this.userService.getUserBoard().subscribe(
@@ -67,15 +70,15 @@ export class NotePrixProduitsBioComponent implements OnInit {
       
 
    /***************** Pointe vente  from dataBase ******************/
-    this.pointventeBySocieteService .getPointVenteBySociete(this.id_societe).subscribe((data:PointVente[])=>{
-        this.pointventes=data;
-      this.pointventes.forEach(element=>{
-      this.nom_concurrent=element.concurrents 
-      var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
-          if (index1=== -1){
-            this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
-          }
-          else console.log("object already exists")
+   this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+    var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word.  Prix_produits_bio_satisfaction!= "");
+      
+   datapointevenete.forEach(element=>{
+    var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
+        if (index1=== -1){
+          this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+        }
+        else console.log("object already exists")
 })
 })
 
@@ -425,18 +428,13 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
 
   /********************************* Priox Bio Selected Magasin  et Calcul **********************************************************************/
-onSelected(Idselected): void{
-  this.id_selectedpointvenete=Idselected
-  var nom_selected_point_vente=''
-   /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
+  onSelected(pointevente): void{
+
+    this.selectedpointvenete=pointevente
   
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
 
-  this.prixProduitBioService.getPrixProduitBioMagasin(Idselected,this.id_societe).subscribe((data:NoteProduitBioReponse[])=>{
+  this.prixProduitBioService.getPrixProduitBioMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
 
-    this.PrixProduitBioMagasin=data
       var TS
       var AS
       var PTS
@@ -453,24 +451,24 @@ onSelected(Idselected): void{
        AS=0
        PTS=0
        PDTS=0
-  const result = this.PrixProduitBioMagasin.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Prix_produits_bio_satisfaction!="" ) ;
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.Prix_produits_bio_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.Prix_produits_bio_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.Prix_produits_bio_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.Prix_produits_bio_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -484,12 +482,12 @@ onSelected(Idselected): void{
     }
    
     })
- this.lineChart1("Evolution de Prix de nos produits bio Magasin",nom_selected_point_vente,this.NotePrixProduitBioMagasin,"chartbottomleft");
+ this.lineChart1("Evolution de Prix de nos produits bio Magasin",pointevente,this.NotePrixProduitBioMagasin,"chartbottomleft");
     this.NotePrixProduitBioMagasin=[]
   })
  
-    })
-  })
+   
+  
 }
 
 
@@ -497,21 +495,10 @@ onSelected(Idselected): void{
 
 onSelectedConcurrent(concuurent){
  
-  this.userService.getUserBoard().subscribe(
-    data => {
-      this.userInfo = {
-      id: data.user.id,
-      id_societe:data.user.id_societe,
-      name: data.user.name,
-      email: data.user.email
-      };
-    
-    
-    this.id_societe=this.userInfo.id_societe
-  
+ 
 
   /********** Data concurrent magasin ********/
-this.prixProduitBioService.getPrixProduitBioMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:NoteProduitBioConcurrent[])=>{
+this.prixProduitBioService.getPrixProduitBioMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:NoteProduitBioConcurrent[])=>{
   var PrixProduitBioConcurrentMagasin= datac.filter((word =>word.Prix_produits_bio_concurrent != "") )
 
   var M;
@@ -555,7 +542,7 @@ this.NoteprixProduitBioMagasinConcurrent.push({ label: element+"-"+year, y:Math.
 this.lineChart1("En relatif vs la concurrence",concuurent,this.NoteprixProduitBioMagasinConcurrent,"chartbottomright");  
   this.NoteprixProduitBioMagasinConcurrent=[]
 })
-})
+
 
 
 }
@@ -712,9 +699,8 @@ label.y = -20
   series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.visible  = true;
-  series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
-
+  series1.fill=am4core.color("#f44336")
+  series1.stroke=am4core.color("#f44336")
 
 
   

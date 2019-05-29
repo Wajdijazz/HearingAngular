@@ -1,69 +1,85 @@
 <div class="main-content">
-  <div class="container-fluid">
-      <div class="row">
-          <div class="col-md-8">
-              <div class="card">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title">Ajout Pointe de vente</h4>
-                      <p class="card-category">Ajouter une pointe vente </p>
-                  </div>
-<div class="form-horizontal pad-10">
-  <br>
-  <form #ajoutPointVenteForm="ngForm">
-    <div class="col-md-6 form-group">
-      <label class=" control-label">Nom Point Vente</label>
-      <div class="col-md-12 no-padding">
-        <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="pointvente.nom" class="form-control" placeholder="" type="text" required />
-        <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
-          <div [hidden]="!nom.errors.required">
-            Nom est requis!
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Ajout Pointe de vente</h4>
+                        <p class="card-category">Ajouter une pointe vente </p>
+                    </div>
+  <div class="form-horizontal pad-10">
+    <br>
+    <form #ajoutPointVenteForm="ngForm">
+      <div class="col-md-6 form-group">
+        <label style="color:black" class=" control-label">Nom Point Vente</label>
+        <div class="col-md-12 no-padding">
+          <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="pointvente.nom" class="form-control" placeholder="" type="text" required />
+          <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
+            <div [hidden]="!nom.errors.required">
+              Nom est requis!
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="col-md-6 form-group">
-      <label class=" control-label">Adresse Pointe de vente</label>
-      <div class="col-md-12 no-padding">
-        <input name="adresse" id="adresse" #adresse="ngModel" [(ngModel)]="pointvente.adresse" class="form-control" placeholder="" type="text" required />
-        <div *ngIf="adresse.errors && (adresse.dirty || adresse.touched)" class="alert alert-danger">
-          <div [hidden]="!adresse.errors.required">
-            adresse est requis!
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 form-group">
-      <label class=" control-label">Concurrents Société</label>
-      <div class="col-md-12 no-padding">
-        <input name="concurrents" id="concurrents" #concurrents="ngModel" [(ngModel)]="pointvente.concurrents" class="form-control" placeholder="" type="text" required />
-        <div *ngIf="concurrents.errors && (concurrents.dirty || concurrents.touched)" class="alert alert-danger">
-          <div [hidden]="!concurrents.errors.required">
-            concurrents est requis!
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pad-10">
-      <button type="submit" class="btn btn-danger" mwlConfirmationPopover
-              [popoverTitle]="'Confirmation'"
-              [popoverMessage]="'êtes-vous sûr?'"
-              placement="top"
-              (confirm)="creerPointVente(pointvente)"
-                [disabled]="!ajoutPointVenteForm.valid">
-        Sauvegarder
-      </button>
-   
-    </div>
   
-  </form>
+      <div class="col-md-6 form-group">
+        <label style="color:black" class=" control-label">Adresse Pointe de vente</label>
+        <div class="col-md-12 no-padding">
+          <input name="adresse" id="adresse" #adresse="ngModel" [(ngModel)]="pointvente.adresse" class="form-control" placeholder="" type="text" required />
+          <div *ngIf="adresse.errors && (adresse.dirty || adresse.touched)" class="alert alert-danger">
+            <div [hidden]="!adresse.errors.required">
+              adresse est requis!
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="pad-10">
+        <button type="submit" class="btn btn-danger" mwlConfirmationPopover
+                [popoverTitle]="'Confirmation'"
+                [popoverMessage]="'êtes-vous sûr?'"
+                placement="top"
+                (confirm)="creerPointVente(pointvente)"
+                  [disabled]="!ajoutPointVenteForm.valid">
+          Sauvegarder
+        </button>
+     
+      </div>
+    
+    </form>
+  
+  </div>
+  </div>
+  </div>
 
+  <div class="col-md-8">
+    <div class="card">
+        <div class="card-header card-header-danger">
+            <h4 class="card-title ">Pointes Des Ventes de {{societe}}</h4>
+            <p class="card-category">Liste des  pointes Des Ventes de la societé </p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <tr>    
+                      <th>Nom</th>
+                      <th>Adresse</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let pointvente of pointsvente">
+                      
+                        <td>{{ pointvente.nom }}</td>
+                        <td>{{ pointvente.adresse }}</td>
+                      </tr>
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-
-
+  
+  </div>
+  </div>
+  </div>

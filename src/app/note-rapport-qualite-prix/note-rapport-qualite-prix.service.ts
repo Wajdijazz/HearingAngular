@@ -16,23 +16,25 @@ export class NoteRapportQualitePrixService {
   url = 'http://localhost:3000';
 
 
-  getRapportQualitePrixMagasin(id1:number,id2:number) {
-    
-      return this.http.get('http://localhost:3000/NoteRapportQualitePrix/'+id1+'/'+id2+'/');
-  }
-
+ 
   getRapportQualitePrix(id:number) {
       return this.http.get('http://localhost:3000/NoteRapportQualitePrix/'+id);
   }
 
-
-  getRapportQualitePrixConcurrentSociete(idsociete:number) {
-  
-    return this.http.get('http://localhost:3000/NoteRapportQualitePrixConcurrent/'+idsociete);
+  getRapportQualitePrixMagasin(id2,pointevente) {
+    
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
 }
 
 
-getRapportQualitePrixConcurrentMagasin(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/NoteRapportQualitePrixConcurrent/'+idpointevenete+'/'+concurrent+'/');
+
+  getRapportQualitePrixConcurrentSociete(idsociete:number) {
+  
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
+}
+
+
+getRapportQualitePrixConcurrentMagasin(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

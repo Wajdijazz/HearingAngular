@@ -14,7 +14,8 @@ export class PointVenteComponent implements OnInit {
 	pointsvente : PointVente[];
   userInfo: { id: any; id_societe: any; name: any; email: any; };
   board: any;
-  errorMessage: string;
+	errorMessage: string;
+	societe:any
 
   constructor(private userService:UserService,private pointventeService : PointVenteService, private router : Router) { }
 
@@ -32,7 +33,7 @@ export class PointVenteComponent implements OnInit {
 				name: data.user.name,
 				email: data.user.email
 			  };
-		  
+		
         this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
         console.log(this.pointsvente)
 			
@@ -47,8 +48,6 @@ export class PointVenteComponent implements OnInit {
     })
   }
 
-  goToAddPointVente(){
-  	this.router.navigateByUrl('/ajout-point-vente');
-  }
+ 
 
 }

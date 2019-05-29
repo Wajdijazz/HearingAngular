@@ -42,6 +42,10 @@ import { NotePrixProduitsBioComponent } from 'src/app/note-prix-produits-bio/not
 import { NoteQualiteProduitsBioComponent } from 'src/app/note-qualite-produits-bio/note-qualite-produits-bio.component';
 import { NuageMotsComponent } from 'src/app/nuage-mots/nuage-mots.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import { ConcurrentSocieteComponent } from 'src/app//concurrent-societe/concurrent-societe.component';
+import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurrent.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -87,6 +91,8 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     NotePrixProduitsBioComponent,
     NoteQualiteProduitsBioComponent,
     NuageMotsComponent,
+    ConcurrentSocieteComponent,
+    AjoutConcurrentComponent
   ]
 })
 

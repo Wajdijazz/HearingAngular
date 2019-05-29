@@ -14,7 +14,7 @@
                             <thead class=" text-primary">
                               <tr>
                                 <th>ID</th>
-                                <th> PointVente</th>
+                   
                                 <th>Sujet</th>
                                 <th>Questions</th>
                             
@@ -23,7 +23,7 @@
                               <tbody>
                                 <tr *ngFor="let questionnaire of questionnaires">
                                   <td>{{ questionnaire.id }}</td>
-                                  <td> {{ questionnaire.pointvente }}</td>
+                        
                                   <td>{{ questionnaire.sujet }}</td>
                                   <button type="submit" class="btn btn-danger" (click)="getQuestionnaire(questionnaire.id)" >
                                     <span class="glyphicon glyphicon-floppy-disk"></span> Question

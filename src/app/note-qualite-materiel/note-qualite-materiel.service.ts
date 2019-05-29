@@ -15,23 +15,22 @@ export class NoteQualiteMaterielService {
   url = 'http://localhost:3000';
 
 
-  getQualiteMaterielMagasin(id1:number,id2:number) {
-    
-      return this.http.get('http://localhost:3000/noteQualiteMateriel/'+id1+'/'+id2+'/');
-  }
+  
 
   getQualiteMaterielSociete(id:number) {
       return this.http.get('http://localhost:3000/noteQualiteMateriel/'+id);
   }
-
+  getQualiteMaterielMagasin(id2,pointevente) {
+    
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
+  }
 
   getQualiteMaterielSocieteConcurrent(idsociete:number) {
   
-    return this.http.get('http://localhost:3000/noteQualiteMaterielConcurrent/'+idsociete);
-}
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);}
 
 
-getQualiteMaterielMagasinConcurrent(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/noteQualiteMaterielConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getQualiteMaterielMagasinConcurrent(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

@@ -11,10 +11,9 @@ export class NpsService {
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
   url = 'http://localhost:3000';
-  getNps(id1:number,id2:number) {
-    console.log("getNps");
+  getNps(id2,pointevente) {
     
-      return this.http.get('http://localhost:3000/nps/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
   }
 
   getNpsSociete(id:number) {

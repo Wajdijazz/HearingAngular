@@ -1,0 +1,12 @@
+#radarchart {
+    width: 100%;
+    height: 300px;
+  }
+  #websiteViewsChart {
+    width: 100%;
+    height:300px;
+  }
+  #dailySalesChart {
+    width: 100%;
+    height:200px;
+  }

@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
       <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-4">
               <div class="card">
                   <div class="card-header card-header-danger">
                       <h4 class="card-title">Ajout Questionnaire</h4>
@@ -9,14 +9,9 @@
                   </div>
 <div class="form-horizontal pad-10">
 	<form #ajoutQuestionnaireForm="ngForm">
-		<h2> Choisissez votre point de vente:</h2>
-		<select style="height:40px;" name="pointvente" id="pointvente" #pointvente="ngModel" [(ngModel)]="questionnaire.id_pointvente" class="form-group col-md-8">
-			<option *ngFor="let pointvente of pointsVente" value="{{pointvente.id}}">
-				{{pointvente.nom}}
-			</option>
-		</select>
+	
 		
-		<h2> Titre Questionnaire</h2>
+		<h2> Objectif de  Questionnaire</h2>
 		
 		<div class="">
 			<input name="sujet" id="sujet" #sujet="ngModel" [(ngModel)]="questionnaire.sujet" class="form-control" placeholder="" type="text" required />
@@ -32,7 +27,7 @@
 		<h2> Choix des thèmes </h2>
 
 		<div *ngFor="let theme of theme;  index as i"   class="col-md-8 form-group">
-			<label class="col-md-8">{{theme.theme}}</label>
+			<label style="color: black"class="col-md-8">{{theme.theme}}</label>
         	<input   style="height:20px;" name="{{theme.theme}}"  id="{{theme}}" #{{theme.id}}="ngModel" [(ngModel)]="selection[i]"   class="col-md-4" type="checkbox"/>
     	</div>
     	<button mwlConfirmationPopover
@@ -48,6 +43,41 @@
 </div>
 </div>
 </div>
+
+<div class="col-md-6">
+	<div class="card">
+			<div class="card-header card-header-danger">
+					<h4 class="card-title ">Questionnaires</h4>
+					<p class="card-category"> Liste des questionnaires  de la societé</p>
+			</div>
+			<div class="card-body">
+					<div class="table-responsive">
+							<table class="table">
+								<thead class=" text-primary">
+									<tr>
+										<th>ID</th>
+			 
+										<th>Objectif</th>
+										<th>Questions</th>
+								
+									</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let questionnaire of questionnaires">
+											<td>{{ questionnaire.id }}</td>
+						
+											<td>{{ questionnaire.sujet }}</td>
+											<button type="submit" class="btn btn-danger" (click)="getQuestionnaire(questionnaire.id)" >
+												<span class="glyphicon glyphicon-floppy-disk"></span> Question
+											</button>
+											
+										</tbody>
+							</table>
+					</div>
+			</div>
+	</div>
+</div>
+
 </div>
 </div>
 </div>

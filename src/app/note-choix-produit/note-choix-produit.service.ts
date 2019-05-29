@@ -16,9 +16,11 @@ export class NoteChoixProduitService {
   url = 'http://localhost:3000';
 
 
-  getChoixProduitsMagasin(id1:number,id2:number) {
+  getChoixProduitsMagasin(id2,pointevente) {
+    console.log("get qualite produit ");
     
-      return this.http.get('http://localhost:3000/noteChoixProduits/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
+  
   }
 
   getChoixProduits(id:number) {
@@ -28,11 +30,11 @@ export class NoteChoixProduitService {
 
   getChoixProduitsConcurrentSociete(idsociete:number) {
   
-    return this.http.get('http://localhost:3000/noteChoixProduitsConcurrent/'+idsociete);
-}
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);}
 
 
-getChoixProduitsConcurrentMagasin(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/noteChoixProduitsConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getChoixProduitsConcurrentMagasin(selectedpointvenete,concurrent) {
+  console.log("get qualite produit Concurrent Magasin ");
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

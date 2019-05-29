@@ -26,6 +26,11 @@ import { NoteChoixProduitComponent } from 'src/app/note-choix-produit/note-choix
 import { NoteFaciliterTrouverProduitComponent } from 'src/app/note-faciliter-trouver-produit/note-faciliter-trouver-produit.component';
 import { NotePrixProduitsBioComponent } from 'src/app/note-prix-produits-bio/note-prix-produits-bio.component';
 import { NoteQualiteProduitsBioComponent } from 'src/app/note-qualite-produits-bio/note-qualite-produits-bio.component';
+import { ConcurrentSocieteComponent } from 'src/app//concurrent-societe/concurrent-societe.component';
+import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurrent.component';
+
+
+
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -77,6 +82,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'ajout-point-vente',      component: AjoutPointVenteComponent },
     { path: 'questionnaire',  component: QuestionnaireComponent },
+    { path: 'concurrent',  component: ConcurrentSocieteComponent },
+    { path: 'ajout-concurrent',  component: AjoutConcurrentComponent },
+
     { path: 'upgrade',        component: UpgradeComponent },
         { path : 'Nuage-Mots', component : NuageMotsComponent},
           { path: 'nps', component: NpsComponent},

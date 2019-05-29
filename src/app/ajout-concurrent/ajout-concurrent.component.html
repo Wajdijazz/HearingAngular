@@ -1,0 +1,75 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Ajout concurrent de societé {{societe}}</h4>
+                      <p class="card-category">Ajouter un concurrent  </p>
+                  </div>
+
+                  <div class="form-horizontal pad-10">
+                    <br>
+                    <form #ajoutConcurrentForm="ngForm">
+                      <div class="col-md-6 form-group">
+                        <label style="color: black"class=" control-label">Nom Concurrent</label>
+                        <div class="col-md-12 no-padding">
+                          <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="concurrent.nom" class="form-control" placeholder="" type="text" required />
+                          <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
+                            <div [hidden]="!nom.errors.required">
+                              Nom est requis!
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                   
+                     
+                      <div class="pad-10">
+                        <button type="submit" class="btn btn-danger" mwlConfirmationPopover
+                                [popoverTitle]="'Confirmation'"
+                                [popoverMessage]="'êtes-vous sûr?'"
+                                placement="top"
+                                (confirm)="creerConcurrent(concurrent)"
+                                  [disabled]="!ajoutConcurrentForm.valid">
+                          Sauvegarder
+                        </button>
+                     
+                      </div>
+                    
+                    </form>
+                  
+                  </div>
+
+</div>
+</div>
+<div class="col-md-6">
+  <div class="card">
+      <div class="card-header card-header-danger">
+          <h4 class="card-title ">Concurrents  de {{societe}}</h4>
+          <p class="card-category">Liste des  concurrents  de la societé {{societe}}</p>
+      </div>
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <tr>    
+                    <th>Concurrents</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let concurrent of concurrents">
+                    
+                      <td>{{concurrent.nom}}</td>
+                    </tr>
+                    </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+

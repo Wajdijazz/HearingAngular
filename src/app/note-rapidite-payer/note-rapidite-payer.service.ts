@@ -13,23 +13,23 @@ export class NoteRapiditePayerService {
   url = 'http://localhost:3000';
 
 
-  getRapiditePayerMagasin(id1:number,id2:number) {
-    
-      return this.http.get('http://localhost:3000/noteRapiditePayer/'+id1+'/'+id2+'/');
-  }
-
+ 
   getRapiditePayer(id:number) {
       return this.http.get('http://localhost:3000/noteRapiditePayer/'+id);
+  }
+  getRapiditePayerMagasin(id2,pointevente){
+    
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
   }
 
 
   getRapiditePayerConcurrentSociete(idsociete:number) {
   
-    return this.http.get('http://localhost:3000/noteRapiditePayerConcurrent/'+idsociete);
+    return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getRapiditePayerConcurrentMagasin(idpointevenete,concurrent) {
-    return this.http.get('http://localhost:3000/noteRapiditePayerConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getRapiditePayerConcurrentMagasin(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

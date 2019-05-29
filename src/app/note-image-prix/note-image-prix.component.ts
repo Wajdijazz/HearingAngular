@@ -21,6 +21,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { UserService } from '../services/user.service';
 import { UserSociete } from '../services-speciales/UserSociete';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 
 
 @Component({
@@ -70,7 +72,7 @@ export class NoteImagePrixComponent implements OnInit {
   Month1=[]
   nom_Societe: any;
   nom_concurrent : any
-  id_selectedpointvenete : any
+  selectedpointvenete : any
   reponse_concurrent=[]
   concurrent_list=[]
   a=[]
@@ -81,7 +83,7 @@ export class NoteImagePrixComponent implements OnInit {
    aux:any=null
   userInfo: { id: any; 
     id_societe: any; name: any; email: any; };
-  constructor(    private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private noteimageprixService:NoteImagePrixService, private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor(private pointeventereponseService:PointeventereponseService   , private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private noteimageprixService:NoteImagePrixService, private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
 
   ngOnInit() {
   
@@ -95,7 +97,8 @@ export class NoteImagePrixComponent implements OnInit {
 			  };
 		  
       
-			this.id_societe=this.userInfo.id_societe
+      this.id_societe=this.userInfo.id_societe
+
 		
 	
    
@@ -112,10 +115,10 @@ export class NoteImagePrixComponent implements OnInit {
       
 
    /***************** Pointe vente  from dataBase ******************/
-    this.pointventeBySocieteService .getPointVenteBySociete(this.id_societe).subscribe((data:PointVente[])=>{
-        this.pointventes=data;
-      this.pointventes.forEach(element=>{
-      this.nom_concurrent=element.concurrents 
+    this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+      var datapointevenete=data.filter(word => word.id_societe==this.id_societe);
+        
+     datapointevenete.forEach(element=>{
       var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
           if (index1=== -1){
             this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
@@ -152,8 +155,8 @@ dataconcurrent.forEach(concurrent => {
 
       var dateTime;
       var TotalReponse;
-     const monthNames = ["January", "February", "March", "April", "May", "June",
-     "July", "August", "September", "October", "November", "December"
+     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
                ];
     monthNames.forEach(element=>{
        TS=0
@@ -186,12 +189,12 @@ dataconcurrent.forEach(concurrent => {
     ScoreTheme=((((TS/TotalReponse)*3)+((AS/TotalReponse)*1)+((PTS/TotalReponse)*(-2))+((PDTS/TotalReponse)*(-6)))*100)
 
 
-    var index1 = this.magasins.findIndex(x => x.viewValue==element+"-"+year,y=> y.Math.round(ScoreTheme))
+    var index1 =  this.NoteImagePrixEnseigne.findIndex(x => x.viewValue==element+"-"+year,y=> y.Math.round(ScoreTheme))
     if (index1=== -1){
       this.NoteImagePrixEnseigne.push({ label: element+"-"+year, y:Math.round(ScoreTheme)}) 
     }
     })
-    this.lineChart1("Evolution de l'image prix Enseigne", this.nom_Societe,this.NoteImagePrixEnseigne,"chartupperleft")
+    this.lineChart1( this.nom_Societe,this.NoteImagePrixEnseigne,"chartupperleft")
 
   });
 
@@ -234,8 +237,8 @@ dataconcurrent.forEach(concurrent => {
     var yearTime=new Date()
 var year = yearTime.getFullYear()
 
-   const monthNames = ["January", "February", "March", "April", "May", "June",
-   "July", "August", "September", "October", "November", "December"
+   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
              ];
   monthNames.forEach(element=>{
     tab_concurrent.forEach(ta=>{
@@ -433,7 +436,7 @@ if (ta.index==5)
 })
 this.chartdata.push({label : element+"-"+year,y1:Math.round(ScoreRelatif1),y2:Math.round(ScoreRelatif2),y3:Math.round(ScoreRelatif3),y4:Math.round(ScoreRelatif4),y5:Math.round(ScoreRelatif5)})
 
-this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,this.concurrent3,this.concurrent4, this.chartdata,"chartupperright")
+this.lineChart(this.concurrent1,this.concurrent2,this.concurrent3,this.concurrent4, this.chartdata,"chartupperright")
 
 
   })
@@ -468,8 +471,8 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
 
   /*********************************************** Init Charts ****************************************************************************/
   ngAfterViewInit(){
-    const Monthes = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    const Monthes = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
               ];
     /*********************** Chart Init Image prix Magasin **************************/
               var yearTime=new Date()
@@ -477,7 +480,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
               Monthes.forEach(element=>{
               this.Month.push({ label: element+"-"+year, y : null})
               })
- this.lineChart1("Evolution de l'image prix Magasin","",this.Month,"chartbottomleft");
+ this.lineChart1("",this.Month,"chartbottomleft");
 
   /*********************** Chart Init Image Prix Magasin Concurrent ****************/
             var yearTime1=new Date()
@@ -485,7 +488,7 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
             Monthes.forEach(element=>{
             this.Month1.push({ label: element+"-"+year1, y : null})
             })
-this.lineChart3("En relatif vs la concurrence","",this.Month1,"chartbottomright");
+this.lineChart1("",this.Month1,"chartbottomright");
 
 
   }
@@ -494,17 +497,14 @@ this.lineChart3("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
  
   /*********************************  Image prix Selected Magasin  et Calcul **********************************************************************/
-onSelected(Idselected): void{
-  this.id_selectedpointvenete=Idselected
-  var nom_selected_point_vente=''
-   /********** Get pointe vente name By Id Selected *********/
-  this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
-  
-    data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
-  this.noteimageprixService.getImageprixMagasin(Idselected,this.id_societe).subscribe((data:NoteImagePrix[])=>{
+onSelected(pointevente): void{
 
-    this.NoteImagePrix=data
+  this.selectedpointvenete=pointevente
+  this.noteimageprixService.getImageprixMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+
+
+
+    data
       var TS
       var AS
       var PTS
@@ -517,28 +517,29 @@ onSelected(Idselected): void{
      "July", "August", "September", "October", "November", "December"
                ];
     monthNames.forEach(element=>{
-       TS=0
+       TS=0 
        AS=0
        PTS=0
        PDTS=0
-  const result = this.NoteImagePrix.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result =data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
+  console.log(TotalReponse)
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.prix_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.prix_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.prix_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.prix_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -552,12 +553,10 @@ onSelected(Idselected): void{
     }
    
     })
- this.lineChart1("Evolution de l'image prix Magasin",nom_selected_point_vente,this.NoteImagePrixMagasin,"chartbottomleft");
+ this.lineChart1(pointevente,this.NoteImagePrixMagasin,"chartbottomleft");
     this.NoteImagePrixMagasin=[]
   })
- 
-    })
-  })
+
 }
 
 
@@ -566,7 +565,7 @@ onSelected(Idselected): void{
 onSelectedConcurrent(concuurent){
 
   /********** Data concurrent magasin ********/
-this.noteimageprixService.getImageprixMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((data:ImagePrixConcurrent[])=>{
+this.noteimageprixService.getImageprixMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((data:ImagePrixConcurrent[])=>{
   var M;
   var AMN;
   var P;
@@ -604,7 +603,7 @@ ScoreRelatif=0
 ScoreRelatif=((M/TotalReponse)-(P/TotalReponse))*100
 this.NoteImagePrixMagasinConcurrent.push({ label: element+"-"+year, y:Math.round(ScoreRelatif)}) 
 })
-this.lineChart3("En relatif vs la concurrence",concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright");  
+this.lineChart1(concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright");  
   this.NoteImagePrixMagasinConcurrent=[]
 })
 
@@ -614,53 +613,49 @@ this.lineChart3("En relatif vs la concurrence",concuurent,this.NoteImagePrixMaga
 
   //TODO: aggrandissement, changer le css cette fonction fonctionne.
     
-  lineChart(title,name1,name2,name3,name4,dataPoints,baliseid){
+  lineChart(name1,name2,name3,name4,dataPoints,baliseid){
     am4core.useTheme(am4themes_animated);
-  // Themes end
-
-
+    // Themes end
+    // Create chart instance
+    let chart = am4core.create(baliseid, am4charts.XYChart);
   
-  // Create chart instance
-  let chart = am4core.create(baliseid, am4charts.XYChart);
-
-  // Set cell size in pixels
-  chart.background.fill = am4core.color("#00bcd4");
-  chart.background.stroke = am4core.color("black");
- 
-
-
-
-
-
-
-  chart.responsive.enabled = true;
-
-  chart.data = dataPoints
-  let titre = chart.titles.create();
-  titre.text = title
-  titre.fontSize = 20;
-  // Add data
-   // Add chart cursor
-   chart.cursor = new am4charts.XYCursor();
-   chart.cursor.behavior = "zoomY";
+  chart.responsive.enabled=true
+  
+    // Add data
+  
+    chart.data = dataPoints
+    let titre = chart.titles.create();
+    titre.fontSize = 20;
+  
+  
+  
+  
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "label";
+    categoryAxis.renderer.inside = false;
+    categoryAxis.renderer.line.strokeOpacity = 1;
+    categoryAxis.renderer.line.strokeWidth = 2;
+    categoryAxis.renderer.line.stroke = am4core.color("#111");
+  
+  
+  
+  
+  
     
-   // Add legend
-   chart.legend = new am4charts.Legend();
-  chart.data = dataPoints
+    // Create value axis
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   
-  // Create category axis
-  let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  categoryAxis.dataFields.category = "label";
-  categoryAxis.renderer.inside = false;
+    valueAxis.renderer.inside = false;
   
-  // Create value axis
-  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  valueAxis.renderer.inside = false;
-
   
-  valueAxis.renderer.minLabelPosition = 0.1;
-  valueAxis.renderer.maxLabelPosition = 1
-
+  
+    valueAxis.renderer.minLabelPosition = 0.1;
+    valueAxis.renderer.maxLabelPosition =0.9;
+    valueAxis.renderer.line.strokeOpacity = 1;
+    valueAxis.renderer.line.strokeWidth = 2;
+    valueAxis.renderer.line.stroke = am4core.color("#111");
+  
+  
     
   // Create series
   let series1 = chart.series.push(new am4charts.LineSeries());
@@ -671,7 +666,7 @@ this.lineChart3("En relatif vs la concurrence",concuurent,this.NoteImagePrixMaga
   series1.bullets.push(new am4charts.CircleBullet());
   series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
-  series1.visible  = true;
+  series1.visible  = false;
   series1.fill=am4core.color("green")
 series1.stroke=am4core.color("green")
 
@@ -718,7 +713,12 @@ let series4= chart.series.push(new am4charts.LineSeries());
  series4.stroke=am4core.color("#6D6D6D")
 
   
+ chart.cursor = new am4charts.XYCursor();
+ chart.cursor.behavior = "zoomY";
   
+ // Add legend
+ chart.legend = new am4charts.Legend();
+chart.data = dataPoints
   
  
  
@@ -729,34 +729,30 @@ let series4= chart.series.push(new am4charts.LineSeries());
 
 
    
-  lineChart1(title,name1,dataPoints,baliseid){
+  lineChart1(name1,dataPoints,baliseid){
     am4core.useTheme(am4themes_animated);
   // Themes end
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
-  chart.background.fill = am4core.color("#ff9800");
-  chart.background.stroke = am4core.color("black");
+
 
 
   // Add data
 
   chart.data = dataPoints
   let titre = chart.titles.create();
-  titre.text = title
   titre.fontSize = 20;
 
 
-  let label = chart.createChild(am4core.Label);
-//  label.text=title
-  label.fontSize = 20;
-label.align = "center";
-label.isMeasured = false;
-  label.x = 150;
-label.y = -20
+
 
   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.dataFields.category = "label";
   categoryAxis.renderer.inside = false;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 2;
+  categoryAxis.renderer.line.stroke = am4core.color("#111");
+
 
 
 
@@ -771,6 +767,9 @@ label.y = -20
 
   valueAxis.renderer.minLabelPosition = 0.1;
   valueAxis.renderer.maxLabelPosition =0.9;
+  valueAxis.renderer.line.strokeOpacity = 1;
+  valueAxis.renderer.line.strokeWidth = 2;
+  valueAxis.renderer.line.stroke = am4core.color("#111");
 
 
   
@@ -796,88 +795,17 @@ series1.stroke=am4core.color("white")
   chart.cursor.behavior = "zoomY";
    
   // Add legend
+ 
   chart.legend = new am4charts.Legend();
-
-  
-    
-  
-    return chart
-  }
-
-
-  lineChart3(title,name1,dataPoints,baliseid){
-  // Themes end
-  // Create chart instance
-  let chart = am4core.create(baliseid, am4charts.XYChart);
-  chart.background.fill = am4core.color("#00bcd4");
-  chart.background.stroke = am4core.color("black");
-
-
-  // Add data
-
   chart.data = dataPoints
-  let titre = chart.titles.create();
-  titre.text = title
-  titre.fontSize = 20;
-
-
-  let label = chart.createChild(am4core.Label);
-//  label.text=title
-  label.fontSize = 20;
-label.align = "center";
-label.isMeasured = false;
-  label.x = 150;
-label.y = -20
-
-  let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  categoryAxis.dataFields.category = "label";
-  categoryAxis.renderer.inside = false;
-
-
-
-
-  
-  // Create value axis
-  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-  valueAxis.renderer.inside = false;
-
-
-
-  valueAxis.renderer.minLabelPosition = 0.1;
-  valueAxis.renderer.maxLabelPosition =0.9;
-
-
-  
-  // Create series
-  let series1 = chart.series.push(new am4charts.LineSeries());
-  series1.dataFields.valueY = "y";
-  series1.dataFields.categoryX = "label";
-  series1.name = name1;
-  series1.strokeWidth = 2;
-  series1.bullets.push(new am4charts.CircleBullet());
-  series1.tooltipText = " {name} : {valueY}";
-  series1.legendSettings.valueText = "{valueY}";
-  series1.visible  = true;
-  series1.fill=am4core.color("white")
-series1.stroke=am4core.color("white")
-
-
-
-  
-  
-  // Add chart cursor
-  chart.cursor = new am4charts.XYCursor();
-  chart.cursor.behavior = "zoomY";
-   
-  // Add legend
-  chart.legend = new am4charts.Legend();
-
   
     
   
     return chart
   }
+
+
+  
 
 
   

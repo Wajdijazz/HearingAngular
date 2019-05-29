@@ -17,6 +17,8 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { UserService } from '../services/user.service';
+import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 
 
 @Component({
@@ -54,8 +56,9 @@ export class PromotionsComponent implements OnInit {
   concurrent5: any;
   chartdata=[]
   userInfo: { id: any; id_societe: any; name: any; email: any; };
+  selectedpointvenete: any;
 
-  constructor(  private userService:UserService,private promotionsService :PromotionsService, private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService,  private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor( private pointeventereponseService:PointeventereponseService , private userService:UserService,private promotionsService :PromotionsService, private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService,  private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
 
   ngOnInit() {
 
@@ -81,17 +84,17 @@ export class PromotionsComponent implements OnInit {
 
 
       /***************** Pointe vente  from dataBase ******************/
-    this.pointventeBySocieteService .getPointVenteBySociete(this.id_societe).subscribe((data:PointVente[])=>{
-      this.pointventes=data;
-    this.pointventes.forEach(element=>{
-    this.nom_concurrent=element.concurrents 
-    var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
-        if (index1=== -1){
-          this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
-        }
-        else console.log("object already exists")
-})
-})
+      this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+        var datapointevenete=data.filter(word => word.id_societe==this.id_societe);
+          
+       datapointevenete.forEach(element=>{
+        var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
+            if (index1=== -1){
+              this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+            }
+            else console.log("object already exists")
+  })
+  })
 
  /***************** Concurrent   from dataBase ******************/
  this.concurrentService.getConcurrent().subscribe((datacon:PromotionsConcurrent[])=>{
@@ -151,7 +154,7 @@ else console.log("object already exists")
     this.PromotionsEnseign.push({ label: element+"-"+year, y:Math.round(ScoreTheme)}) 
   })
      /*************************************************************** Chart Promotion Enseigne *********************************************/ 
-  this.lineChart1("Evolution des promotions Enseignes",this.nom_Societe,this.PromotionsEnseign,"chartupperleft");
+  this.lineChart1(this.nom_Societe,this.PromotionsEnseign,"chartupperleft");
 
 })
 
@@ -199,7 +202,6 @@ monthNames.forEach(element=>{
     M=0
     AMN=0
     P=0
-    console.log(this.promotions)
 var res= this.promotions.filter((word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.concurrent==ta.concurrent && word.promotions_concurrent !="") )
 
 TotalReponse=res.length
@@ -391,7 +393,7 @@ ScoreRelatif5=((P/TotalReponse)-(M/TotalReponse))*100
 })
 this.chartdata.push({label : element+"-"+year,y1:Math.round(ScoreRelatif1),y2:Math.round(ScoreRelatif2),y3:Math.round(ScoreRelatif3),y4:Math.round(ScoreRelatif4),y5:Math.round(ScoreRelatif5)})
 
-this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,this.concurrent3,this.concurrent4, this.chartdata,"chartupperright")
+this.lineChart(this.concurrent1,this.concurrent2,this.concurrent3,this.concurrent4, this.chartdata,"chartupperright")
 
 
 })
@@ -424,29 +426,24 @@ this.lineChart("En relatif vs la concurrence",this.concurrent1,this.concurrent2,
               Monthes.forEach(element=>{
               this.Month.push({ label: element+"-"+year, y : null})
               })
-this.lineChart1("Evolution des promotions Magasin","",this.Month,"chartbottomleft");
+this.lineChart1("",this.Month,"chartbottomleft");
   /*********************** Chart Init Promotions Magasin Concurrent ****************/
             var yearTime1=new Date()
             var year1 = yearTime1.getFullYear()
             Monthes.forEach(element=>{
             this.Month1.push({ label: element+"-"+year1, y : null})
             })
-this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright");
+this.lineChart1("",this.Month1,"chartbottomright");
 
   }
 
 
 
   /*********************************  Promotion Selected Magasin  et Calcul **********************************************************************/
-onSelected(Idselected): void{
-  this.id_selectedpointvenete=Idselected
-  var nom_selected_point_vente=''
-  /********** Get pointe vente name By Id Selected *********/
- this.pointeventeService.getpointventbyid(this.id_selectedpointvenete).subscribe((data:PointVente[])=>{
+  onSelected(pointevente): void{
 
-      data.forEach(pointvente=>{
-      nom_selected_point_vente=pointvente.nom
-  this.promotionsService.getPromotionsMagasin(Idselected,this.id_societe).subscribe((data:Promotions[])=>{
+    this.selectedpointvenete=pointevente
+  this.promotionsService.getPromotionsMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
 
 
       var TS
@@ -465,30 +462,32 @@ onSelected(Idselected): void{
        AS=0
        PTS=0
        PDTS=0
-  const result = data.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = data.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
+
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.promotions_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.promotions_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.promotions_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.promotions_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
     })
     ScoreTheme=0
     ScoreTheme=((((TS/TotalReponse)*3)+((AS/TotalReponse)*1)+((PTS/TotalReponse)*(-2))+((PDTS/TotalReponse)*(-6)))*100)
+    console.log(ScoreTheme)
 
    var index =  this.PromotionsMagasin.findIndex(x => x.label==element+"-"+year,y=>y.ScoreTheme)
     if (index === -1){
@@ -496,12 +495,11 @@ onSelected(Idselected): void{
     }
    
     })
-this.lineChart1("Evolution des promotions Magasin",nom_selected_point_vente,this.PromotionsMagasin,"chartbottomleft");
+this.lineChart1(pointevente,this.PromotionsMagasin,"chartbottomleft");
 
     this.PromotionsMagasin=[]
   })
-})
- })
+
 
 }
 
@@ -520,7 +518,7 @@ onSelectedConcurrent(concuurent){
     this.id_societe=this.userInfo.id_societe
 
   /********** Data concurrent magasin ********/
-this.promotionsService.getPromotionsMagasinConcurrent(this.id_selectedpointvenete,concuurent).subscribe((datac:PromotionsConcurrent[])=>{
+this.promotionsService.getPromotionsMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:PromotionsConcurrent[])=>{
   var PromotionsConcurrentMagasin= datac.filter((word =>word.promotions_concurrent != "") )
 
   
@@ -582,7 +580,7 @@ this.PromotionsMagasinConcurrent.push({ label: element+"-"+year, y:Math.round(Sc
 })
 
 
-this.lineChart1("Evolution des promotions Enseignes",concuurent,this.PromotionsMagasinConcurrent,"chartbottomright");
+this.lineChart1(concuurent,this.PromotionsMagasinConcurrent,"chartbottomright");
 
 
   this.PromotionsMagasinConcurrent=[]
@@ -593,133 +591,30 @@ this.lineChart1("Evolution des promotions Enseignes",concuurent,this.PromotionsM
 
 
     
-  lineChart(title,name1,name2,name3,name4,dataPoints,baliseid){
-    am4core.useTheme(am4themes_animated);
-  // Themes end
-  
-
-  
-  // Create chart instance
-  let chart = am4core.create(baliseid, am4charts.XYChart);
-  chart.data = dataPoints
-  let titre = chart.titles.create();
-  titre.text = title
-  titre.fontSize = 20;
-  // Add data
-   // Add chart cursor
-   chart.cursor = new am4charts.XYCursor();
-   chart.cursor.behavior = "zoomY";
-    
-   // Add legend
-   chart.legend = new am4charts.Legend();
-  chart.data = dataPoints
-  
-  // Create category axis
-  let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  categoryAxis.dataFields.category = "label";
-  categoryAxis.renderer.inside = false;
-  
-  // Create value axis
-  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  valueAxis.renderer.inside = false;
-
-  
-  valueAxis.renderer.minLabelPosition = 0.1;
-  valueAxis.renderer.maxLabelPosition = 1
-
-    
-  // Create series
-  let series1 = chart.series.push(new am4charts.LineSeries());
-  series1.dataFields.valueY = "y1";
-  series1.dataFields.categoryX = "label";
-  series1.name = name1;
-  series1.strokeWidth = 2;
-  series1.bullets.push(new am4charts.CircleBullet());
-  series1.tooltipText = " {name} : {valueY}";
-  series1.legendSettings.valueText = "{valueY}";
-  series1.visible  = true;
-  series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
-
-
-
-  let series2 = chart.series.push(new am4charts.LineSeries());
-  series2.dataFields.valueY = "y2";
-  series2.dataFields.categoryX = "label";
-  series2.name = name2;
-  series2.strokeWidth = 2;
-  series2.bullets.push(new am4charts.CircleBullet());
-  series2.tooltipText = " {name} : {valueY}";
-  series2.legendSettings.valueText = "{valueY}";
-  series2.visible  = true;
-series2.fill=am4core.color("red")
-series2.stroke=am4core.color("red")
-
-
-  
-
-  let series3 = chart.series.push(new am4charts.LineSeries());
-  series3.dataFields.valueY = "y3";
-  series3.dataFields.categoryX = "label";
-  series3.name = name3;
-  series3.strokeWidth = 2;
-  series3.bullets.push(new am4charts.CircleBullet());
-  series3.tooltipText = " {name} : {valueY}";
-  series3.legendSettings.valueText = "{valueY}";
-  series3.visible  = true;
-  series3.fill=am4core.color("blue")
-series3.stroke=am4core.color("blue")
-  
-
-let series4= chart.series.push(new am4charts.LineSeries());
-  series4.dataFields.valueY = "y4";
-  series4.dataFields.categoryX = "label";
-  series4.name = name4;
-  series4.strokeWidth = 2;
-  series4.bullets.push(new am4charts.CircleBullet());
-  series4.tooltipText = " {name} : {valueY}";
-  series4.legendSettings.valueText = "{valueY}";
-  series4.visible  = true;
-  series4.fill=am4core.color("#6D6D6D")
- series4.stroke=am4core.color("#6D6D6D")
-
-  
-  
-  
- 
- 
-  
-    return chart
-  }
-
-
-
-   
-  lineChart1(title,name1,dataPoints,baliseid){
-    am4core.useTheme(am4themes_animated);
+lineChart(name1,name2,name3,name4,dataPoints,baliseid){
+  am4core.useTheme(am4themes_animated);
   // Themes end
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
-  
+
+chart.responsive.enabled=true
+
   // Add data
 
   chart.data = dataPoints
   let titre = chart.titles.create();
-  titre.text = title
   titre.fontSize = 20;
 
 
-  let label = chart.createChild(am4core.Label);
-//  label.text=title
-  label.fontSize = 20;
-label.align = "center";
-label.isMeasured = false;
-  label.x = 150;
-label.y = -20
+
 
   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.dataFields.category = "label";
   categoryAxis.renderer.inside = false;
+  categoryAxis.renderer.line.strokeOpacity = 1;
+  categoryAxis.renderer.line.strokeWidth = 2;
+  categoryAxis.renderer.line.stroke = am4core.color("#111");
+
 
 
 
@@ -734,38 +629,159 @@ label.y = -20
 
   valueAxis.renderer.minLabelPosition = 0.1;
   valueAxis.renderer.maxLabelPosition =0.9;
+  valueAxis.renderer.line.strokeOpacity = 1;
+  valueAxis.renderer.line.strokeWidth = 2;
+  valueAxis.renderer.line.stroke = am4core.color("#111");
 
 
   
-  // Create series
-  let series1 = chart.series.push(new am4charts.LineSeries());
-  series1.dataFields.valueY = "y";
-  series1.dataFields.categoryX = "label";
-  series1.name = name1;
-  series1.strokeWidth = 2;
-  series1.bullets.push(new am4charts.CircleBullet());
-  series1.tooltipText = " {name} : {valueY}";
-  series1.legendSettings.valueText = "{valueY}";
-  series1.visible  = true;
-  series1.fill=am4core.color("green")
+// Create series
+let series1 = chart.series.push(new am4charts.LineSeries());
+series1.dataFields.valueY = "y1";
+series1.dataFields.categoryX = "label";
+series1.name = name1;
+series1.strokeWidth = 2;
+series1.bullets.push(new am4charts.CircleBullet());
+series1.tooltipText = " {name} : {valueY}";
+series1.legendSettings.valueText = "{valueY}";
+series1.visible  = false;
+series1.fill=am4core.color("green")
 series1.stroke=am4core.color("green")
 
 
 
-  
-  
-  // Add chart cursor
-  chart.cursor = new am4charts.XYCursor();
-  chart.cursor.behavior = "zoomY";
-   
-  // Add legend
-  chart.legend = new am4charts.Legend();
+let series2 = chart.series.push(new am4charts.LineSeries());
+series2.dataFields.valueY = "y2";
+series2.dataFields.categoryX = "label";
+series2.name = name2;
+series2.strokeWidth = 2;
+series2.bullets.push(new am4charts.CircleBullet());
+series2.tooltipText = " {name} : {valueY}";
+series2.legendSettings.valueText = "{valueY}";
+series2.visible  = true;
+series2.fill=am4core.color("red")
+series2.stroke=am4core.color("red")
+
+
+
+
+let series3 = chart.series.push(new am4charts.LineSeries());
+series3.dataFields.valueY = "y3";
+series3.dataFields.categoryX = "label";
+series3.name = name3;
+series3.strokeWidth = 2;
+series3.bullets.push(new am4charts.CircleBullet());
+series3.tooltipText = " {name} : {valueY}";
+series3.legendSettings.valueText = "{valueY}";
+series3.visible  = true;
+series3.fill=am4core.color("blue")
+series3.stroke=am4core.color("blue")
+
+
+let series4= chart.series.push(new am4charts.LineSeries());
+series4.dataFields.valueY = "y4";
+series4.dataFields.categoryX = "label";
+series4.name = name4;
+series4.strokeWidth = 2;
+series4.bullets.push(new am4charts.CircleBullet());
+series4.tooltipText = " {name} : {valueY}";
+series4.legendSettings.valueText = "{valueY}";
+series4.visible  = true;
+series4.fill=am4core.color("#6D6D6D")
+series4.stroke=am4core.color("#6D6D6D")
+
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "zoomY";
+
+// Add legend
+chart.legend = new am4charts.Legend();
+chart.data = dataPoints
+
+
+
+
+  return chart
+}
+
+
+
+ 
+lineChart1(name1,dataPoints,baliseid){
+  am4core.useTheme(am4themes_animated);
+// Themes end
+// Create chart instance
+let chart = am4core.create(baliseid, am4charts.XYChart);
+
+
+
+// Add data
+
+chart.data = dataPoints
+let titre = chart.titles.create();
+titre.fontSize = 20;
+
+
+
+
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "label";
+categoryAxis.renderer.inside = false;
+categoryAxis.renderer.line.strokeOpacity = 1;
+categoryAxis.renderer.line.strokeWidth = 2;
+categoryAxis.renderer.line.stroke = am4core.color("#111");
+
+
+
+
+
+
+// Create value axis
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+valueAxis.renderer.inside = false;
+
+
+
+valueAxis.renderer.minLabelPosition = 0.1;
+valueAxis.renderer.maxLabelPosition =0.9;
+valueAxis.renderer.line.strokeOpacity = 1;
+valueAxis.renderer.line.strokeWidth = 2;
+valueAxis.renderer.line.stroke = am4core.color("#111");
+
+
+
+// Create series
+let series1 = chart.series.push(new am4charts.LineSeries());
+series1.dataFields.valueY = "y";
+series1.dataFields.categoryX = "label";
+series1.name = name1;
+series1.strokeWidth = 2;
+series1.bullets.push(new am4charts.CircleBullet());
+series1.tooltipText = " {name} : {valueY}";
+series1.legendSettings.valueText = "{valueY}";
+series1.visible  = true;
+series1.fill=am4core.color("white")
+series1.stroke=am4core.color("white")
+
+
+
+
+
+// Add chart cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "zoomY";
+ 
+// Add legend
+
+chart.legend = new am4charts.Legend();
+chart.data = dataPoints
 
   
-    
-  
-    return chart
-  }
+
+  return chart
+}
+
 
 
 }

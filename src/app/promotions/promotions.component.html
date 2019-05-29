@@ -1,67 +1,130 @@
 
-   <div class="main-content">
+    <div class="main-content">
       <div class="container-fluid">
-         
-    <div style="background: E1E0E0">
-  <div style="margin-bottom:5%;margin-right: 30px;margin-left: 30px">
-  <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
-      <mat-grid-tile  style="margin-top:40px;border-radius:5px;;background:	green" > 
-        <div>
-        <mat-form-field  style="color:#ffffff">
-            <mat-placeholder   style="color: #ffffff;">Magasin de l'enseigne</mat-placeholder>
-        <mat-select style="color: #ffffff"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
-          <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.Idmagasin">
-            {{magasin.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-      </mat-grid-tile>
-      <mat-grid-tile style="margin-top:40px;border-radius:5px;;background:	green">
-        <mat-form-field>
-            <mat-placeholder  style="color: #ffffff;">Magasin concurrent</mat-placeholder>
-  
-        <mat-select [(ngModel)]="concurrentselected"  (ngModelChange)= 'onSelectedConcurrent($event)'>
-          <mat-option style="color: black" *ngFor="let concurrent of concurrents" [value]="concurrent.viewValue">
-            {{concurrent.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      </mat-grid-tile>
-      
-    </mat-grid-list>
-  
-  </div>
-  </div>
+          <div >
+              <div style="margin-bottom:2%;margin-right: 30px;margin-left: 30px">
+              <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
+                    <mat-grid-tile  style="margin-top:15px" > 
+                      <div style="border-radius:10px;border-style:outset;  " class="card-header card-header-warning card-header-icon">
+                          <div class="card-icon">
+                    <mat-form-field  style="color:black">
+                        <mat-placeholder style="color: black"  >Magasin de l'enseigne</mat-placeholder>
+                    <mat-select style="color: black"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
+                      <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.viewValue">
+                        {{magasin.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              </div>
+              
+                  </mat-grid-tile>
+               
+              
+              
+              
+                  
+                  <mat-grid-tile  style="margin-top:15px" > 
+                    <div style="border-radius:10px;border-style:outset; " class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                  <mat-form-field  style="color:black">
+                        <mat-placeholder style="color:black" >Magasin concurrent</mat-placeholder>
+              
+                    <mat-select [(ngModel)]="concurrentselected"  (ngModelChange)= 'onSelectedConcurrent($event)'>
+                      <mat-option style="color: black" *ngFor="let concurrent of concurrents" [value]="concurrent.viewValue">
+                        {{concurrent.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+                  </mat-grid-tile>
+                  
+                </mat-grid-list>
+              
+              </div>
+              </div>
+ 
     <!-- graphiques -->
-  
-    <mat-grid-list  style="margin: 30px" 	class="graphiques" cols="2" rowHeight="300px"  gutterSize="20px" >
-        <div >
-  
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background: #ffffff" >
-        <div  id="chartupperleft" style="height:90%; width:90%;">
-        </div>
-      </mat-grid-tile>
-  
-  
-  
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background: #ffffff"  >
-        <div id="chartupperright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-  
-  
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background:#ffffff" >
-        <div id="chartbottomleft" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-  
-  
-      <mat-grid-tile style=" border-style:outset;border-radius:5px;margin-right: 20px;background:#ffffff" >
-        <div id="chartbottomright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-  
-  
-      </div>
-  
-    </mat-grid-list>
-  
-      </div>
-      </div>
+    <div class="row">
+                
+        <div class="col-md-6">
+                <div class="card card-chart">
+                        <div class="card-header  card-header-success ">
+                                <div  id="chartupperleft"></div>
+                            </div>
+                        <div class="card-body">
+
+                                <h4 class="card-title">Evolution de l'image prix de  {{nom_Societe}}</h4>
+
+
+           
+                              </div>
+                              <div class="card-footer">
+                                    <div class="stats">
+                                     
+                                    </div>
+                                </div>
+   </div>
+                 </div>
+                 <div class="col-md-6">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-warning">
+                                <div class="ct-chart" id="chartupperright"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">En relatif vs la concurrence</h4>
+    
+                           
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+
+                 <div class="row">
+                
+                    <div class="col-md-6">
+                            <div class="card card-chart">
+                                    <div class="card-header  card-header-success ">
+                                            <div  id="chartbottomleft"></div>
+                                        </div>
+                                    <div class="card-body">
+            
+                                            <h4 class="card-title">Evolution de l'image prix de  Magasin</h4>
+            
+            
+                       
+                                          </div>
+                                          <div class="card-footer">
+                                                <div class="stats">
+                                                 
+                                                </div>
+                                            </div>
+               </div>
+                             </div>
+                             <div class="col-md-6">
+                                    <div class="card card-chart">
+                                        <div class="card-header card-header-warning">
+                                            <div class="ct-chart" id="chartbottomright"></div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">En relatif vs la concurrence</h4>
+                
+                                       
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="stats">
+                                             
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
   
   

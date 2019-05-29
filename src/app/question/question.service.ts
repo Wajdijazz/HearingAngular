@@ -10,6 +10,8 @@ import { RadioQuestion } from './question-radio';
 import { PointVenteService } from '../point-vente/point-vente.service';
 import{ PointVente } from '../point-vente/point-vente.interface';
 import { UserService } from '../services/user.service';
+import { ConcurrentService } from '../concurrent-societe/concurrent.service';
+import { Concurrent } from '../concurrent-societe/concurrent.interface';
 
 @Injectable()
 export class QuestionService {
@@ -25,7 +27,9 @@ export class QuestionService {
 aux:any
   userInfo: { id: any; id_societe: any; name: any; email: any; };
   id_societe: any;
-  constructor(    private userService:UserService,private pointventeService : PointVenteService,private http: HttpClient, private toastr: ToastrService, private router: Router) { }
+  pointeVentesList: {key: string, value: string}[] = [];
+  concurrent: Concurrent[];
+  constructor( private concurrentService:ConcurrentService,   private userService:UserService,private pointventeService : PointVenteService,private http: HttpClient, private toastr: ToastrService, private router: Router) { }
 
   url = 'http://localhost:3000';
    
@@ -46,7 +50,20 @@ aux:any
         }
       );
   }
-
+  
+  createreponsepointevenete(data1) {
+    this.http.post(`${this.url}/pointeVenteReponse`, data1)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.toastr.success('Votre pointeVente a été créer avec succès.', 'Success');
+        },
+        err => {
+          console.log('Error occured:' , err);
+          this.toastr.error(err.message, 'Error occured');
+        }
+      );
+  }
 
 
 
@@ -79,9 +96,10 @@ aux:any
         this.pointeventes.forEach((pointvente)=>{
     
            
-          var index = this.concurrents.findIndex(x => x.value==pointvente.concurrents)
+      
+          var index = this.pointeVentesList.findIndex(x => x.value==pointvente.nom)
           if (index === -1){
-            this.concurrents.push({key:pointvente.concurrents,value:pointvente.concurrents})
+            this.pointeVentesList.push({key:pointvente.nom,value:pointvente.nom})
           }
         else console.log("object already exists")
            
@@ -91,7 +109,23 @@ aux:any
 
         
       })
-    })
+   
+this.concurrentService.getConcurrent().subscribe((data1:Concurrent[])=>{
+
+  this.concurrent=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+  this.concurrent.forEach(concurrent=>{
+    var index = this.concurrents.findIndex(x => x.value==concurrent.nom)
+    if (index === -1){
+      this.concurrents.push({ key:concurrent.nom,value:concurrent.nom})
+    }
+
+
+  })
+})
+
+})
+
+
 
       let questionsretour: QuestionBase<any>[]=[];
       let observableQuestions=this.http.get(`${this.url}/choix-questionnaire/${id}`);
@@ -175,6 +209,24 @@ aux:any
             }));
          
             break;
+
+            case "dropdown1":
+
+
+         
+      
+            questionsretour.push(
+            new DropdownQuestion({
+              key: question.qkey,
+              label: question.qlabel,
+              options:this.pointeVentesList,
+              order:   question.qorder,
+              required: question.qrequired,
+                  dependance : qdependance
+            }));
+         
+            break;
+
 
             case "textbox":
             questionsretour.push(

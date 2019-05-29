@@ -46,9 +46,9 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       { path: 'admin', component: AdminComponent, children: [
-        { path: 'societe', component: SocieteComponent},
         { path: 'ajout-societe', component: AjoutSocieteComponent},
         { path: 'home', component:  HomeComponent},
+        
 
 
 

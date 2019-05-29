@@ -2,7 +2,7 @@
 <div class="main-content">
   <div class="container-fluid">
       <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-4">
               <div class="card">
                   <div class="card-header card-header-danger">
                       <h4 class="card-title">Ajout Enseigne</h4>
@@ -59,6 +59,36 @@
 </div>
 </div>
 </div>
+<div class="col-md-8">
+  <div class="card">
+      <div class="card-header card-header-danger">
+          <h4 class="card-title ">Liste des  enseignes Clients</h4>
+      </div>
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+    <tr>
+      <th>Nom</th>
+      <th>Type Abonnement</th>
+      <th>Date_facturation</th>
+      <th>Comptes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let societe of societes">
+      <td>{{ societe.nom }}</td>
+      <td>{{ societe.type_abonnement }}</td>
+      <td>{{ societe.date_facturation }}</td>
+      <td>
+      <button type="submit" style="color:white;background:black;border-radius: 10px"   (click)="getSociete(societe.id)">
+          <span class="glyphicon glyphicon-floppy-disk"></span> Creer
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
 </div>
 </div>
 </div>

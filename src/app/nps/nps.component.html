@@ -3,15 +3,15 @@
     <div class="main-content">
         <div class="container-fluid">
 		<div style="background: E1E0E0">
-	  <div style="margin-bottom:5%;margin-left:30%">
+	  <div style="margin-bottom:1%;margin-left:30%">
 	  <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
-		  <mat-grid-tile  style="margin-top:25px" > 
+		  <mat-grid-tile  style="margin-top:2px" > 
 					<div style="border-radius:10px; border-style:outset; " class="card-header card-header-warning card-header-icon">
 							<div class="card-icon">
 			<mat-form-field  style="color:black">
 				<mat-placeholder   style="color: black;">Magasin de l'enseigne</mat-placeholder>
 			<mat-select style="color: black"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
-			  <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.Idmagasin">
+			  <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.viewValue">
 				{{magasin.viewValue}}
 			  </mat-option>
 			</mat-select>
@@ -28,31 +28,87 @@
 	  </div>
 		<!-- graphiques -->
 	  
-		<mat-grid-list  style="margin: 30px" 	class="graphiques" cols="2" rowHeight="300px"  gutterSize="20px" >
-			<div >
-	  
-		  <mat-grid-tile style=" margin-right: 20px" >
-			<div  id="chartupperleft" style="height:90%; width:90%;">
-			</div>
-		  </mat-grid-tile>
-	  
-	  
-	  
-		  <mat-grid-tile style=" margin-right: 20px"  >
-			<div id="chartupperright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-	  
-	  
-		  <mat-grid-tile style=" margin-right: 20px" >
-			<div id="chartbottomleft" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-	  
-	  
-		  <mat-grid-tile style=" margin-right: 20px" >
-			<div id="chartbottomright" style="height: 90%; width: 90%;"></div></mat-grid-tile>
-	  
-	  
-		  </div>
-	  
-		</mat-grid-list>
+		<div class="row">
+                
+        <div class="col-md-6">
+                <div class="card card-chart">
+                        <div class="card-header  ">
+                                <div  id="chartupperleft"></div>
+                            </div>
+                        <div class="card-body">
+
+                                <h4 class="card-title">Evolution de Net Promoter de  {{nom_Societe}}</h4>
+
+
+           
+                              </div>
+                              <div class="card-footer">
+                                    <div class="stats">
+                                     
+                                    </div>
+                                </div>
+   </div>
+                 </div>
+                 <div class="col-md-6">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="ct-chart" id="chartupperright"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Evolution de Net Promoter de  {{nom_Societe}} </h4>
+    
+                           
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+								 </div>
+								 
+
+								 <div class="row">
+                
+                    <div class="col-md-6">
+                            <div class="card card-chart">
+                                    <div class="card-header   ">
+                                            <div  id="chartbottomleft"></div>
+                                        </div>
+                                    <div class="card-body">
+            
+                                            <h4 class="card-title">Evolution de Net Promoter de  Magasin</h4>
+            
+            
+                       
+                                          </div>
+                                          <div class="card-footer">
+                                                <div class="stats">
+                                                 
+                                                </div>
+                                            </div>
+               </div>
+                             </div>
+                             <div class="col-md-6">
+                                    <div class="card card-chart">
+                                        <div class="card-header ">
+                                            <div class="ct-chart" id="chartbottomright"></div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">Evolution de Net Promoter de  Magasin</h4>
+                
+                                       
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="stats">
+                                             
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+
 	</div>
 </div>
 

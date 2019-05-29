@@ -19,10 +19,10 @@ export class ChoixQuestionnaireComponent implements OnInit {
   questionnaire : Questionnaire ={
 
     id:null,
-    id_pointvente:null,
+  
     id_societe:null,
     sujet:'',
-    pointvente:''
+  
   }
   choixquestionnaires : ChoixQuestionnaire[];
   choixquestionnaire : ChoixQuestionnaire={

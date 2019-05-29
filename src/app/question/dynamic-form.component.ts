@@ -16,6 +16,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { DatePipe } from '@angular/common';
 import { Concurrent } from './concurrent.interface';
 import { UserService } from '../services/user.service';
+import { ReponsePointeVente } from './reponse-pointe-vente.interface';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -43,8 +44,9 @@ export class DynamicFormComponent implements OnInit {
 
   concurrent : Concurrent={
    id : null,
-   id_pointevente : null,
+  
    id_societe : null, 
+   pointevente:'',
    date_reponse_concurrent : null,
    concurrent : "",
    prix_concurrent : "",
@@ -59,6 +61,28 @@ export class DynamicFormComponent implements OnInit {
    Prix_produits_bio_concurrent:"",
    Qualite_produits_bio_concurrent:""
 
+  }
+
+  pointVenteReponse : ReponsePointeVente={
+    id : null,
+  
+    id_societe : null, 
+    date_reponse_pointevente: null,
+    nom : "",
+    prix_satisfaction : "",
+    promotions_satisfaction :"",
+    Qualite_Produit_satisfaction :"" ,
+    Amabilite_personnel_satisfaction :"",
+    Rapport_qualite_prix_satisfaction:"",
+    Rapidite_facilite_payer_satisfaction:"",
+    Qualite_materiel_satisfaction:"",
+    Choix_produits_satisfaction:"",
+    Facilite_trouver_produits_satisfaction:"",
+    Prix_produits_bio_satisfaction:"",
+    Qualite_produits_bio_satisfaction:"",
+    Fin_Sondage:null
+
+    
   }
   iden :any 
 
@@ -78,7 +102,6 @@ ids : any=null;
   }
 
   onSubmit() {
-
     this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
@@ -117,17 +140,135 @@ this.questionsService.getQuestions(this.sondageId).subscribe((data1:Questions[])
         this.reponses.theme_key=key
         this.reponses.reponse=value    
         this.sharedService.saverponses(this.reponses)
-
-
-
-        
-
       
   }); 
+
+
+// Save responses PointeVente
+var date_confirmation = new Date();
+this.pointVenteReponse.id_societe=this.id_societe
+this.pointVenteReponse.date_reponse_pointevente=date_confirmation;
+
+
+if(this.form.value.frequentationPointeVente==null)
+{
+ this.form.value.frequentationPointeVente=""
+}
+else{
+ this.pointVenteReponse.nom=this.form.value.frequentationPointeVente
+}
+
+
+if(this.form.value.prix_satisfaction==null)
+{
+ this.form.value.prix_satisfaction=""
+}
+else{
+ this.pointVenteReponse.prix_satisfaction=this.form.value.prix_satisfaction
+}
+
+
+if(this.form.value.promotions_satisfaction==null)
+{
+ this.form.value.promotions_satisfaction=""
+}
+else{
+ this.pointVenteReponse.promotions_satisfaction=this.form.value.promotions_satisfaction
+}
+
+
+
+if(this.form.value.Qualite_Produit_satisfaction==null)
+{
+ this.pointVenteReponse.Qualite_Produit_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Qualite_Produit_satisfaction=this.form.value.Qualite_Produit_satisfaction
+}
+
+
+if(this.form.value.Amabilite_personnel_satisfaction==null)
+{
+ this.form.value.Amabilite_personnel_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Amabilite_personnel_satisfaction=this.form.value.Amabilite_personnel_satisfaction
+}
+
+
+if(this.form.value.Rapport_qualite_prix_satisfaction==null)
+{
+ this.form.value.Rapport_qualite_prix_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Rapport_qualite_prix_satisfaction=this.form.value.Rapport_qualite_prix_satisfaction
+}
+
+
+if(this.form.value.Rapidite_facilite_payer_satisfaction==null)
+{
+ this.form.value.Rapidite_facilite_payer_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Rapidite_facilite_payer_satisfaction=this.form.value.Rapidite_facilite_payer_satisfaction
+}
+
+
+if(this.form.value.Qualite_materiel_satisfaction==null)
+{
+ this.form.value.Qualite_materiel_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Qualite_materiel_satisfaction=this.form.value.Qualite_materiel_satisfaction
+}
+
+if(this.form.value.Choix_produits_satisfaction==null)
+{
+ this.form.value.Choix_produits_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Choix_produits_satisfaction=this.form.value.Choix_produits_satisfaction
+}
+
+if(this.form.value.Facilite_trouver_produits_satisfaction==null)
+{
+ this.form.value.Facilite_trouver_produits_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Facilite_trouver_produits_satisfaction=this.form.value.Facilite_trouver_produits_satisfaction
+}
+
+if(this.form.value.Prix_produits_bio_satisfaction==null)
+{
+ this.form.value.Prix_produits_bio_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Prix_produits_bio_satisfaction=this.form.value.Prix_produits_bio_satisfaction
+}
+
+if(this.form.value.Qualite_produits_bio_satisfaction==null)
+{
+ this.form.value.Qualite_produits_bio_satisfaction=""
+}
+else{
+ this.pointVenteReponse.Qualite_produits_bio_satisfaction=this.form.value.Qualite_produits_bio_satisfaction
+}
+
+
+ this.pointVenteReponse.Fin_Sondage=parseInt(this.form.value.Fin_Sondage)
+
+
+
+
+
+this.questionService.createreponsepointevenete(this.pointVenteReponse)  
+console.log(this.pointVenteReponse)
+
+
+  // Save responses concurrent
        var date_confirmation = new Date();
-       var idpointevente= this.sharedService.getIdSelectedpointevente()
        this.concurrent.id_societe=this.id_societe
-       this.concurrent.id_pointevente=idpointevente;
+       this.concurrent.pointevente=this.form.value.frequentationPointeVente
       this.concurrent.date_reponse_concurrent=date_confirmation;
 
 

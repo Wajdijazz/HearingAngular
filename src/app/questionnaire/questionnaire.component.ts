@@ -36,19 +36,7 @@ export class QuestionnaireComponent implements OnInit {
 				name: data.user.name,
 				email: data.user.email
         };
-        data1.forEach(element=>{
-     this.pointventeService.getpointventbyid(element.id_pointvente).subscribe((da:PointVente[])=>{
-       console.log(da)
-
-        
-
-           da.forEach(element2=>{
-
-              element.pointvente=element2.nom
-            })
-
-      })
-    })
+    
 
 	
   

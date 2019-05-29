@@ -12,27 +12,27 @@ export class QualiteProduitService {
   url = 'http://localhost:3000';
 
 
-  getQualiteproduitMagasin(id1:number,id2:number) {
-    console.log("get qualite produit ");
-    
-      return this.http.get('http://localhost:3000/noteQualiteProduit/'+id1+'/'+id2+'/');
-  }
 
   getQualiteproduitSociete(id:number) {
     console.log("get qualite produit societe")
       return this.http.get('http://localhost:3000/noteQualiteProduit/'+id);
   }
 
+  getQualiteproduitMagasin(id2,pointevente) {
+    console.log("get qualite produit ");
+    
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
+  }
 
   getQualiteproduitSocieteConcurrent(idsociete:number) {
   console.log("get qualité produit concurrent");
   
-    return this.http.get('http://localhost:3000/noteQualiteProduitConcurrent/'+idsociete);
+  return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getqualiteproduitMagasinConcurrent(idpointevenete,concurrent) {
+getqualiteproduitMagasinConcurrent(selectedpointvenete,concurrent) {
   console.log("get qualite produit Concurrent Magasin ");
-    return this.http.get('http://localhost:3000/noteQualiteProduitConcurrent/'+idpointevenete+'/'+concurrent+'/');
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

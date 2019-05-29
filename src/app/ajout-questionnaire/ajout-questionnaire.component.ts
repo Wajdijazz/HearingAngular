@@ -17,6 +17,7 @@ import { findLast } from '@angular/compiler/src/directive_resolver';
 import { LCONTAINER_LENGTH } from '@angular/core/src/render3/interfaces/container';
 import { Services } from '@angular/core/src/view';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-ajout-questionnaire',
   templateUrl: './ajout-questionnaire.component.html',
@@ -48,32 +49,36 @@ export class AjoutQuestionnaireComponent implements OnInit {
 	questionnaire : Questionnaire ={
 		id: 0,
 		id_societe :null, 
-		id_pointvente : null,
 		sujet : '',
-		pointvente:''
+
 	}
 	userInfo: { id: any; id_societe: any; name: any; email: any; };
 	board: any;
 	errorMessage: string;
 	
 
-  constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService) { }
+  constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService,private router: Router) { }
 
   ngOnInit() {
 	  //On récupère les points de vente du client pour le sélecteur dans le formulaire
-	  this.pointVenteService.getPointVente().subscribe((data1:PointVente[])=>{
-		this.userService.getUserBoard().subscribe(
+	  this.questionnaireService
+  	.getQuestionnaire()
+  	.subscribe((data1:Questionnaire[])=>{
+    
+
+    this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
 				id: data.user.id,
 				id_societe:data.user.id_societe,
 				name: data.user.name,
 				email: data.user.email
-			  };
-		  
-			  this.pointsVente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-			  this.questionnaire.id_pointvente=this.pointsVente[0].id;
+        };
+    
 
+	
+  
+        this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
 			
 		   this.board = data.description;
 			},
@@ -81,9 +86,12 @@ export class AjoutQuestionnaireComponent implements OnInit {
 			  this.errorMessage = `${error.status}: ${error.error}`;
 			}
 		  );
- 
-		});
 
+
+  
+
+    
+  	})
 
 
 		
@@ -130,7 +138,38 @@ var i=0;
 
 		})
 
-
+		this.questionnaireService
+		.getQuestionnaire()
+		.subscribe((data1:Questionnaire[])=>{
+	  
+  
+	  this.userService.getUserBoard().subscribe(
+			  data => {
+				this.userInfo = {
+				  id: data.user.id,
+				  id_societe:data.user.id_societe,
+				  name: data.user.name,
+				  email: data.user.email
+		  };
+	  
+  
+	  
+	
+		  this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			  
+			 this.board = data.description;
+			  },
+			  error => {
+				this.errorMessage = `${error.status}: ${error.error}`;
+			  }
+			);
+  
+  
+	
+  
+	  
+		})
+	
 	
 });
 
@@ -147,16 +186,24 @@ var i=0;
  
 
   creerQuestionnaire(data:Questionnaire){
+	console.log(  this.userInfo.id_societe)
+
     
 	  console.log("data avant envoi serveur",data);
-	  data.id_societe=this.userInfo.id_societe
+	  data.id_societe=Number(this.userInfo.id_societe)
 	
-		data.id_pointvente=Number(data.id_pointvente);
+	//	data.id_pointvente=Number(data.id_pointvente);
 		
 		this.questionnaireService.createQuestionnaire(data);
-	
+
+		
 	}
 
+	getQuestionnaire(Idquestionnaire){
+    
+
+		this.router.navigateByUrl(`sondage/${Idquestionnaire}`);
 	
+	  }
 
 }

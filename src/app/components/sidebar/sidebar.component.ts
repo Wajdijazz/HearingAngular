@@ -25,15 +25,15 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/admin-layout/about-hearing', title: 'Hearing',  icon:'home', class: ''},
-
-    { path: '/admin-layout/point-vente', title: 'Pointe des ventes',  icon:'table_chart', class: '' },
-    { path: '/admin-layout/questionnaire', title: 'Questionnaires',  icon:'table_chart', class: '' },
-    { path: '/admin-layout/ajout-point-vente', title: 'Ajouter pointe vente',  icon:'library_add', class: '' },
-    { path: '/admin-layout/ajout-questionnaire', title: 'Ajouter questionnaire',  icon:'library_add', class: ''}
+    { path: '/admin-layout/dashboard', title: 'Dashboard',  icon:'dashboard', class: ''},
+    { path: '/admin-layout/ajout-point-vente', title: 'Pointes de Ventes',  icon:'table_chart', class: '' },
+    { path: '/admin-layout/ajout-concurrent', title: 'Concurrents',  icon:'table_chart', class: '' },
 
 
+    { path: '/admin-layout/ajout-questionnaire', title: 'Questionnaires',  icon:'table_chart', class: ''}
 
-
+    
+  
 
 
 ];
@@ -121,7 +121,7 @@ export class SidebarComponent implements OnInit {
         },
         {
           label: 'Choix de produits',
-          link: '/admin-layout/Choix-Produits',
+          link: '/admin-layout/Note-Choix-Produits',
 
         },
         {

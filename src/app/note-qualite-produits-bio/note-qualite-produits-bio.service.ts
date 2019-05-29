@@ -14,9 +14,9 @@ export class NoteQualiteProduitsBioService {
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
   url = 'http://localhost:3000';
 
-  getQualiteProduitBioMagasin(id1:number,id2:number) {
+  getQualiteProduitBioMagasin(id2,pointevente) {
     
-    return this.http.get('http://localhost:3000/noteQualiteProduitBio/'+id1+'/'+id2+'/');
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
 }
 
 getQualiteProduitBiosociete(id:number) {
@@ -27,11 +27,11 @@ getQualiteProduitBiosociete(id:number) {
 
 getQualiteProduitBioEnseigneConcurrent(idsociete:number) {
 
-  return this.http.get('http://localhost:3000/noteQualiteProduitBioConcurrent/'+idsociete);
+  return this.http.get('http://localhost:3000/themeconcurrent/'+idsociete);
 }
 
 
-getQualiteProduitBioMagasinConcurrent(idpointevenete,concurrent) {
-  return this.http.get('http://localhost:3000/noteQualiteProduitBioConcurrent/'+idpointevenete+'/'+concurrent+'/');
+getQualiteProduitBioMagasinConcurrent(selectedpointvenete,concurrent) {
+  return this.http.get('http://localhost:3000/themeconcurrent/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }
