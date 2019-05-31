@@ -74,7 +74,7 @@ export class AjoutQuestionnaireComponent implements OnInit {
 				name: data.user.name,
 				email: data.user.email
         };
-    
+    this.id_societe=this.userInfo.id_societe
 
 	
   
@@ -195,6 +195,9 @@ var i=0;
 	//	data.id_pointvente=Number(data.id_pointvente);
 		
 		this.questionnaireService.createQuestionnaire(data);
+		
+	  
+	
 
 		
 	}
@@ -205,5 +208,45 @@ var i=0;
 		this.router.navigateByUrl(`sondage/${Idquestionnaire}`);
 	
 	  }
+
+
+	  DeletQuestionnaire(id_questionnaire){
+		console.log(id_questionnaire)
+		this.questionnaireService.DeleteQuestionnaireEById(id_questionnaire,this.id_societe).subscribe((data:Questionnaire[])=> {
+	 
+		  // show an alert to tell the user if product was created or not
+		  console.log(data);
+		  this.questionnaireService
+		  .getQuestionnaire()
+		  .subscribe((data1:Questionnaire[])=>{
+		  this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+			  id: data.user.id,
+			  id_societe:data.user.id_societe,
+			  name: data.user.name,
+			  email: data.user.email
+			  };
+		  
+			  this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			
+			 this.board = data.description;
+			},
+			error => {
+			  this.errorMessage = `${error.status}: ${error.error}`;
+			}
+			);
+		
+	  
+		  })
+	  
+	   })
+	 
+	}
+	id_societe(id_questionnaire: any, id_societe: any) {
+		throw new Error("Method not implemented.");
+	}
+
+	  
 
 }

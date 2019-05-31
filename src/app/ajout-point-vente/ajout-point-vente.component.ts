@@ -26,6 +26,7 @@ export class AjoutPointVenteComponent implements OnInit {
   errorMessage: string;
   societe:any
   pointsvente: PointVente[];
+  id_societe: any;
 
 	
 	
@@ -48,7 +49,7 @@ export class AjoutPointVenteComponent implements OnInit {
 		
         this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
         console.log(this.pointsvente)
-			
+			  this.id_societe=this.userInfo.id_societe
 		   this.board = data.description;
 			},
 			error => {
@@ -69,6 +70,31 @@ export class AjoutPointVenteComponent implements OnInit {
 	
 
   creerPointVente(data:PointVente){
+   
+    this.pointventeService
+  	.getPointVente()
+  	.subscribe((data1:PointVente[])=>{
+    this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+			  };
+		
+        this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			
+		   this.board = data.description;
+			},
+			error => {
+			  this.errorMessage = `${error.status}: ${error.error}`;
+			}
+		  );
+  
+
+    })
+
 
 		data.id_societe=this.userInfo.id_societe;
     this.pointventeService.createPointVente(data);
@@ -102,4 +128,40 @@ export class AjoutPointVenteComponent implements OnInit {
 	  
   }
 
+
+  DeletPointeVente(idPointeVente){
+    console.log(idPointeVente)
+    this.pointventeService.DeletePointeVenteById(idPointeVente,this.id_societe).subscribe((data:PointVente[])=> {
+ 
+      // show an alert to tell the user if product was created or not
+      console.log(data);
+      this.pointventeService
+      .getPointVente()
+      .subscribe((data1:PointVente[])=>{
+      this.userService.getUserBoard().subscribe(
+        data => {
+          this.userInfo = {
+          id: data.user.id,
+          id_societe:data.user.id_societe,
+          name: data.user.name,
+          email: data.user.email
+          };
+      
+          this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+        
+         this.board = data.description;
+        },
+        error => {
+          this.errorMessage = `${error.status}: ${error.error}`;
+        }
+        );
+    
+  
+      })
+  
+   })
+ 
+}
+
+  
 }

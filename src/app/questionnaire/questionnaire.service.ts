@@ -33,4 +33,13 @@ export class QuestionnaireService {
         }
       );
   }
+
+
+
+
+  DeleteQuestionnaireEById(id:number,id_societe) {
+    
+      return this.http.delete(`${this.url}/questionnaire/${id}/${id_societe}`);
+
+  }
 }

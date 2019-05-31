@@ -65,6 +65,7 @@
                     <tr>    
                       <th>Nom</th>
                       <th>Adresse</th>
+                      <th>Supprimer Pointe Vente</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,6 +73,11 @@
                       
                         <td>{{ pointvente.nom }}</td>
                         <td>{{ pointvente.adresse }}</td>
+                        <td>
+                                <button type="submit" class="btn btn-danger"   (click)="DeletPointeVente(pointvente.id)">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
+                                  </button>
+                                </td>
                       </tr>
                       </tbody>
                 </table>

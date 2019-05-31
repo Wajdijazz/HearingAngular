@@ -101,13 +101,14 @@ export class NpsComponent implements OnInit {
       this.nom_Societe=this.userInfo.name
       
 		
-      this.pointeventereponseService .getPointeventeName().subscribe((datap:ReponsePointeVente[])=>{
-        var datapointevenete=datap.filter(word => word.id_societe==this.id_societe && word. Fin_Sondage !=null);
+      this.npsService.getNpsSociete(this.id_societe).subscribe((datap:Nps[])=>{
+        console.log(datap)
+        var datapointevenete=datap.filter(word =>  word. Fin_Sondage !=null);
           
        datapointevenete.forEach(element=>{
         var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
             if (index1=== -1){
-              this.magasins.push({value: 'Magasin-0', viewValue: element.nom, Idmagasin:element.id})   
+              this.magasins.push({value: 'Magasin-0', viewValue: element.nom})   
             }
             else console.log("object already exists")
   })
@@ -134,17 +135,17 @@ export class NpsComponent implements OnInit {
       InfSix=0
       InfOuit=0
       InfDix=0
-    const result = this.npsSociete.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+    const result = this.npsSociete.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
     console.log(result)
   
     TotalReponse=result.length
     result.forEach(el=>{
       
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
    
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-      var reponseNps=el.reponse
+      var reponseNps=el.Fin_Sondage
        if( (reponseNps>=0) && (reponseNps<=6)){ 
         InfSix= InfSix+1
        }  

@@ -58,19 +58,29 @@
 										<th>ID</th>
 			 
 										<th>Objectif</th>
+										<th>Supprimer Questionnaire</th>
 										<th>Questions</th>
+								
 								
 									</tr>
 									</thead>
 									<tbody>
 										<tr *ngFor="let questionnaire of questionnaires">
 											<td>{{ questionnaire.id }}</td>
+										
 						
 											<td>{{ questionnaire.sujet }}</td>
+											<td>
+													<button type="submit" class="btn btn-danger"   (click)="DeletQuestionnaire(questionnaire.id)">
+															<span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
+														</button>
+													</td>
+													<td>
 											<button type="submit" class="btn btn-danger" (click)="getQuestionnaire(questionnaire.id)" >
 												<span class="glyphicon glyphicon-floppy-disk"></span> Question
 											</button>
-											
+										</td>
+										</tr>	
 										</tbody>
 							</table>
 					</div>

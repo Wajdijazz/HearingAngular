@@ -1,6 +1,7 @@
 
 export interface NoteImagePrix{
-    reponse : any,
-    date_reponse : Date
+    nom
+    prix_satisfaction : any,
+    date_reponse_pointevente : Date
    
 }

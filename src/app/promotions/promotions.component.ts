@@ -19,6 +19,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { UserService } from '../services/user.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { Concurrent } from '../question/concurrent.interface';
 
 
 @Component({
@@ -40,10 +41,10 @@ export class PromotionsComponent implements OnInit {
   nom_Societe: String;
   pointventes: PointVente[];
   nom_concurrent: string;
-  NotePromotions: Promotions[];
+  NotePromotions: ReponsePointeVente[];
   PromotionsEnseign=[];
   PromotionsEnseignConcurrent=[]
-  promotions  : PromotionsConcurrent[]
+  promotions  : Concurrent[]
   PromotionsMagasin=[]
   Month=[]
   Month1=[]
@@ -84,7 +85,7 @@ export class PromotionsComponent implements OnInit {
 
 
       /***************** Pointe vente  from dataBase ******************/
-      this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+      this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
         var datapointevenete=data.filter(word => word.id_societe==this.id_societe);
           
        datapointevenete.forEach(element=>{
@@ -97,8 +98,9 @@ export class PromotionsComponent implements OnInit {
   })
 
  /***************** Concurrent   from dataBase ******************/
- this.concurrentService.getConcurrent().subscribe((datacon:PromotionsConcurrent[])=>{
-  var dataconcurrent=datacon.filter(word => word.id_societe==this.id_societe);
+
+ this.concurrentService.getAlConcurrent(this.id_societe).subscribe((datacon:Concurrent[])=>{
+  var dataconcurrent=datacon
   dataconcurrent.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
 var index = this.concurrents.findIndex(x => x.viewValue==this.nom_concurrent)
@@ -109,7 +111,7 @@ else console.log("object already exists")
 });
 })
   /******************************************************* Promotions Satisfaction enseigne et Calcul **************************************************/
-  this.promotionsService.getpromotionsEnseigne(this.id_societe).subscribe((data:Promotions[])=>{
+  this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
     this.NotePromotions=data
       var TS
       var AS
@@ -127,24 +129,24 @@ else console.log("object already exists")
        AS=0
        PTS=0
        PDTS=0
-  const result = this.NotePromotions.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = this.NotePromotions.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.promotions_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.promotions_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.promotions_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.promotions_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -162,8 +164,9 @@ else console.log("object already exists")
    
 
     /******************************************   Promotions Enseigne concurrent et calcul ***************************************************/
-    this.promotionsService.getpromotionsConcurrent(this.id_societe).subscribe((data:PromotionsConcurrent[])=>{
-     this.promotions=data
+
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((dataConcurrent:Concurrent[])=>{
+      this.promotions=dataConcurrent
   
 
   var tab_concurrent=[]
@@ -443,7 +446,7 @@ this.lineChart1("",this.Month1,"chartbottomright");
   onSelected(pointevente): void{
 
     this.selectedpointvenete=pointevente
-  this.promotionsService.getPromotionsMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+    this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
 
 
       var TS
@@ -518,8 +521,8 @@ onSelectedConcurrent(concuurent){
     this.id_societe=this.userInfo.id_societe
 
   /********** Data concurrent magasin ********/
-this.promotionsService.getPromotionsMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:PromotionsConcurrent[])=>{
-  var PromotionsConcurrentMagasin= datac.filter((word =>word.promotions_concurrent != "") )
+  this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((datac:Concurrent[])=>{
+    var PromotionsConcurrentMagasin= datac.filter((word =>word.promotions_concurrent != "") )
 
   
   console.log(data)
@@ -536,7 +539,7 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = PromotionsConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
+const result = PromotionsConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element );
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length

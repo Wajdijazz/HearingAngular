@@ -20,7 +20,6 @@ export class PointVenteService {
         res => {
           console.log(res);
           this.toastr.success('Votre point de vente a été créer avec succès.', 'Success');
-          this.router.navigateByUrl('/point-vente');
         },
         err => {
           console.log('Error occured:' , err);
@@ -35,6 +34,13 @@ export class PointVenteService {
     console.log("getpointvent");
     
       return this.http.get(`${this.url}/point-vente/${id}`);
+  }
+
+  DeletePointeVenteById(id:number,id_societe) {
+    console.log("getpointvent");
+    
+      return this.http.delete(`${this.url}/point-vente/${id}/${id_societe}`);
+
   }
   
 }

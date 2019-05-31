@@ -1,4 +1,5 @@
 export interface Nps {
-    reponse : any,
-    date_reponse : Date
+    nom
+    Fin_Sondage : any,
+    date_reponse_pointevente : Date
 }

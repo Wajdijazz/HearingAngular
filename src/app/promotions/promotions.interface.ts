@@ -1,7 +1,8 @@
 export interface Promotions{
 
-    reponse : any,
-    date_reponse : Date
+    nom
+    promotions_satisfaction : any,
+    date_reponse_pointevente : Date
    
 
 

@@ -16,10 +16,14 @@ export class PointeventereponseService {
   url = 'http://localhost:3000';
 
 
-  getPointeventeName() {
-  
-       
-    return this.http.get(`${this.url}/pointeVenteReponse`);
+  getReponseMagasin(id2,pointevente) {
+    
+    return this.http.get('http://localhost:3000/themepointevente/'+id2+'/'+pointevente+'/');
+  }
 
-}
+  getReponseEnseigne(id:number) {
+    console.log("getNps");
+    
+      return this.http.get('http://localhost:3000/pointeVenteReponse/'+id);
+  }
 }

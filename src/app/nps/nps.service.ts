@@ -19,6 +19,6 @@ export class NpsService {
   getNpsSociete(id:number) {
     console.log("getNps");
     
-      return this.http.get('http://localhost:3000/nps/'+id);
+      return this.http.get('http://localhost:3000/pointeVenteReponse/'+id);
   }
 }

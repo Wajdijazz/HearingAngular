@@ -55,13 +55,21 @@
                 <thead class=" text-primary">
                   <tr>    
                     <th>Concurrents</th>
+                    <th>Supprimer Concurrent</th>
+
                   </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let concurrent of concurrents">
                     
                       <td>{{concurrent.nom}}</td>
+                      <td>
+                          <button type="submit" class="btn btn-danger"   (click)="DeletConcurrent(concurrent.id)">
+                              <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
+                            </button>
+                          </td>
                     </tr>
+                   
                     </tbody>
               </table>
           </div>

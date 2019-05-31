@@ -14,6 +14,13 @@ export class DashboardService {
   getReponses() {
     return this
       .http
-      .get(`${this.url}/reponses`);
+      .get(`${this.url}/pointeVenteReponse`);
       }
+
+
+      getReponsesConcurrents() {
+        return this
+          .http
+          .get(`${this.url}/themeconcurrent`);
+          }
 }

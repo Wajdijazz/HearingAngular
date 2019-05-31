@@ -15,6 +15,7 @@ import { NoteRapiditePayerReponse } from './note-rapidite-payer-reponse.interfac
 import { UserService } from '../services/user.service';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { Concurrent } from '../question/concurrent.interface';
 
 @Component({
   selector: 'app-note-rapidite-payer',
@@ -29,9 +30,9 @@ export class NoteRapiditePayerComponent implements OnInit {
   nom_concurrent: string;
   magasins=[]
   concurrents=[]
-  RapiditePayer: NoteRapiditePayerReponse[];
+  RapiditePayer: ReponsePointeVente[];
   NoteRapiditePayerEnseigne=[]
-  RapiditeConcurrent: NoteRapiditePayerConcurrent[];
+  RapiditeConcurrent: Concurrent[];
   concurrent1: any;
   concurrent2: any;
   concurrent3: any;
@@ -71,8 +72,9 @@ export class NoteRapiditePayerComponent implements OnInit {
         this.nom_Societe=element.nom
              /***************** Pointe vente  from dataBase ******************/
 
-             this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
-              var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Rapidite_facilite_payer_satisfaction!= "");
+
+             this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+              var datapointevenete=data.filter(word => word. Rapidite_facilite_payer_satisfaction!= "");
                 
              datapointevenete.forEach(element=>{
               var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -83,8 +85,9 @@ export class NoteRapiditePayerComponent implements OnInit {
         })
         })
     /***************** Concurrent   from dataBase ******************/
-this.concurrentService.getConcurrent().subscribe((data:NoteRapiditePayerConcurrent[])=>{
-  var res=data.filter((word =>word.Rapidite_facilite_payer_concurrent != "" && word.id_societe==this.id_societe) )
+
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
+  var res=data.filter((word =>word.Rapidite_facilite_payer_concurrent != "" ) )
   console.log(res)
 
   res.forEach(concurrent => {
@@ -99,7 +102,8 @@ else console.log("object already exists")
 })
 
  /******************************************************* Rapidite Payer Satisfaction enseigne et Calcul **************************************************/
- this.rapiditepayerService.getRapiditePayer(this.id_societe).subscribe((data:NoteRapiditePayerReponse[])=>{
+
+ this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
         
   this.RapiditePayer=data
    var TS
@@ -118,24 +122,24 @@ else console.log("object already exists")
     AS=0
     PTS=0
     PDTS=0
-const result = this.RapiditePayer.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+const result = this.RapiditePayer.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
  result.forEach(el=>{  
-   var d = new Date(el.date_reponse)
+   var d = new Date(el.date_reponse_pointevente)
     dateTime=monthNames[d.getMonth()]
     if(dateTime==element){
-      if(el.reponse=="Très satisfait"){
+      if(el.Rapidite_facilite_payer_satisfaction=="Très satisfait"){
         TS=TS+1
        }
-      if(el.reponse=="Assez satisfait"){
+      if(el.Rapidite_facilite_payer_satisfaction=="Assez satisfait"){
        AS=AS+1
        }
-     if(el.reponse=="Pas très satisfait"){
+     if(el.Rapidite_facilite_payer_satisfaction=="Pas très satisfait"){
        PTS=PTS+1
        }
-      if(el.reponse=="Pas du tout satisfait"){
+      if(el.Rapidite_facilite_payer_satisfaction=="Pas du tout satisfait"){
        PDTS=PDTS+1
        }
     }
@@ -155,7 +159,7 @@ TotalReponse=result.length
 
 /****************************************** Rapidite PayerEnseigne concurrent et calcul ***************************************************/
 
-this.rapiditepayerService.getRapiditePayerConcurrentSociete(this.id_societe).subscribe((data:NoteRapiditePayerConcurrent[])=>{
+this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
   this.RapiditeConcurrent= data.filter((word =>word.Rapidite_facilite_payer_concurrent != "") )
 
    var tab_concurrent=[]
@@ -425,7 +429,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
     this.selectedpointvenete=pointevente
 
-    this.rapiditepayerService.getRapiditePayerMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+    this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
   
 
         var TS
@@ -487,8 +491,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
  
   
     /********** Data concurrent magasin ********/
-  this.rapiditepayerService.getRapiditePayerConcurrentMagasin(this.selectedpointvenete,concuurent).subscribe((datac:NoteRapiditePayerConcurrent[])=>{
-    var RapiditePaiementConcurrentMagasin= datac.filter((word =>word.Rapidite_facilite_payer_concurrent != "") )
+    this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((data:Concurrent[])=>{   
+       var RapiditePaiementConcurrentMagasin= data.filter((word =>word.Rapidite_facilite_payer_concurrent != "") )
 
     var M;
     var AMN;
@@ -503,7 +507,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
      M=0
     AMN=0
     P=0 
-  const result = RapiditePaiementConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
+  const result = RapiditePaiementConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element );
   console.log(result)
   var yearTime=new Date()
   var year = yearTime.getFullYear()

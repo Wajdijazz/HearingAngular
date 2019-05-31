@@ -15,6 +15,7 @@ import { AmabilitePersonnelReponse } from './amabilite-personnel-reponse.interfa
 import { UserService } from '../services/user.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { Concurrent } from '../question/concurrent.interface';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
   magasins=[]
   concurrents=[]
   NoteAmabilitePersonnelEnseigne=[]
-  AmabilitePersonnelConcurrent: AmabilitePersonnelConcurrent[];
+  AmabilitePersonnelConcurrent: Concurrent[];
   concurrent1: any;
   concurrent2: any;
   concurrent3: any;
@@ -44,7 +45,7 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
   AmabilitePersonnelMagasin: AmabilitePersonnelReponse[];
   NoteAmabilitePersonnelMagasin=[]
   NoteAmabilitePersonnelMagasinConcurrent=[]
-  AmabilitePersonnel: AmabilitePersonnelReponse[];
+  AmabilitePersonnel: ReponsePointeVente[];
   userInfo:any;
   board: any;
   errorMessage: string;
@@ -69,8 +70,9 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
       this.societe.forEach(element=>{
         this.nom_Societe=element.nom
              /***************** Pointe vente  from dataBase ******************/
-             this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
-              var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Amabilite_personnel_satisfaction!= "");
+           
+             this.pointeventereponseService.getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+              var datapointevenete=data.filter(word =>  word. Amabilite_personnel_satisfaction!= "");
                 
              datapointevenete.forEach(element=>{
               var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -81,8 +83,9 @@ export class NoteAmabilitePersonnelComponent implements OnInit {
         })
         })
 /***************** Concurrent   from dataBase ******************/
-this.concurrentService.getConcurrent().subscribe((data:AmabilitePersonnelConcurrent[])=>{
-  var res=data.filter((word =>word.Amabilite_personnel_concurrent != "" && word.id_societe==this.id_societe) )
+
+this.concurrentService.getAlConcurrent(this.id_societe).subscribe((dataConcurrent:Concurrent[])=>{
+    var res=dataConcurrent.filter((word =>word.Amabilite_personnel_concurrent != "" ) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -97,8 +100,8 @@ else console.log("object already exists")
 
 
 /******************************************************* Amabilité personnel  enseigne et Calcul **************************************************/
-this.amabilitepersonnelService.getAmabilitePersonnelSociete(this.id_societe).subscribe((data:AmabilitePersonnelReponse[])=>{
-        
+
+this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{        
   this.AmabilitePersonnel =data
    var TS
    var AS
@@ -116,24 +119,24 @@ this.amabilitepersonnelService.getAmabilitePersonnelSociete(this.id_societe).sub
     AS=0
     PTS=0
     PDTS=0
-const result = this.AmabilitePersonnel.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+const result = this.AmabilitePersonnel.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
  result.forEach(el=>{  
-   var d = new Date(el.date_reponse)
+   var d = new Date(el.date_reponse_pointevente)
     dateTime=monthNames[d.getMonth()]
     if(dateTime==element){
-      if(el.reponse=="Très satisfait"){
+      if(el.Amabilite_personnel_satisfaction=="Très satisfait"){
         TS=TS+1
        }
-      if(el.reponse=="Assez satisfait"){
+      if(el.Amabilite_personnel_satisfaction=="Assez satisfait"){
        AS=AS+1
        }
-     if(el.reponse=="Pas très satisfait"){
+     if(el.Amabilite_personnel_satisfaction=="Pas très satisfait"){
        PTS=PTS+1
        }
-      if(el.reponse=="Pas du tout satisfait"){
+      if(el.Amabilite_personnel_satisfaction=="Pas du tout satisfait"){
        PDTS=PDTS+1
        }
     }
@@ -153,7 +156,7 @@ TotalReponse=result.length
 
 /******************************************************* Amabilité personnel  enseigne  concurrent et Calcul **************************************************/
 
-this.amabilitepersonnelService.getAmabilitePersonnelSocieteConcurrent(this.id_societe).subscribe((data:AmabilitePersonnelConcurrent[])=>{
+this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
 
   this.AmabilitePersonnelConcurrent=data.filter((word =>word.Amabilite_personnel_concurrent != "") )
 
@@ -418,7 +421,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
     this.selectedpointvenete=pointevente
   
-    this.amabilitepersonnelService.getAmabilitePersonnelMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+    this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
   
         var TS
         var AS
@@ -477,7 +480,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
    
   
     /********** Data concurrent magasin ********/
-  this.amabilitepersonnelService.getAmabilitePersonnelMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:AmabilitePersonnelConcurrent[])=>{
+    this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((datac:Concurrent[])=>{
     var amabiliteConcurrentMagasin= datac.filter((word =>word.Amabilite_personnel_concurrent != "") )
 
 
@@ -494,7 +497,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
      M=0
     AMN=0
     P=0 
-  const result = amabiliteConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
+  const result = amabiliteConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element );
   console.log(result)
   var yearTime=new Date()
   var year = yearTime.getFullYear()

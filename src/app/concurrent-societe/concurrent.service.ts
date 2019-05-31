@@ -27,4 +27,10 @@ export class ConcurrentService {
         }
       );
   }
+
+  DeleteConcurrentId(id:number,id_societe) {
+    
+      return this.http.delete(`${this.url}/concurrent-societe/${id}/${id_societe}`);
+
+}
 }

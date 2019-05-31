@@ -1,6 +1,7 @@
 export interface ReponsePointeVente{
 
     id : Number;
+    id_questionnaire:Number;
     id_societe : Number ;
     date_reponse_pointevente: Date;
     nom : any;

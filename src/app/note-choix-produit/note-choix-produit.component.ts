@@ -15,6 +15,7 @@ import { NoteChoixProduitReponse } from './note-choix-produit-reponse.interface'
 import { UserService } from '../services/user.service';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { Concurrent } from '../question/concurrent.interface';
 
 @Component({
   selector: 'app-note-choix-produit',
@@ -29,9 +30,9 @@ export class NoteChoixProduitComponent implements OnInit {
   magasins=[]
   nom_concurrent: string;
   concurrents=[]
-  ChoixProduits: NoteChoixProduitReponse[];
+  ChoixProduits: ReponsePointeVente[];
   NoteChoixProduitsEnseigne=[]
-  ChoixProduitsConcurrent: NoteChoixProduitConcurrent[];
+  ChoixProduitsConcurrent: Concurrent[];
   concurrent1: any;
   concurrent2: any;
   concurrent3: any;
@@ -71,8 +72,9 @@ export class NoteChoixProduitComponent implements OnInit {
         this.nom_Societe=element.nom
              /***************** Pointe vente  from dataBase ******************/
 
-             this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
-              var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Choix_produits_satisfaction!= "");
+
+             this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+                var datapointevenete=data.filter(word =>  word. Choix_produits_satisfaction!= "");
                 
              datapointevenete.forEach(element=>{
               var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -83,8 +85,9 @@ export class NoteChoixProduitComponent implements OnInit {
         })
         })
     /***************** Concurrent   from dataBase ******************/
-this.concurrentService.getConcurrent().subscribe((data:NoteChoixProduitConcurrent[])=>{
-  var res=data.filter((word =>word.Choix_produits_concurrent != ""  && word.id_societe==this.id_societe ) )
+
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
+  var res=data.filter((word =>word.Choix_produits_concurrent != ""   ) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -98,7 +101,9 @@ else console.log("object already exists")
 })
 
  /******************************************************* Choix produits Satisfaction enseigne et Calcul **************************************************/
- this.choixProduitsService.getChoixProduits(this.id_societe).subscribe((data:NoteChoixProduitReponse[])=>{
+
+
+ this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
          console.log(data)
   this.ChoixProduits=data
    var TS
@@ -117,24 +122,24 @@ else console.log("object already exists")
     AS=0
     PTS=0
     PDTS=0
-const result = this.ChoixProduits.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+const result = this.ChoixProduits.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
  result.forEach(el=>{  
-   var d = new Date(el.date_reponse)
+   var d = new Date(el.date_reponse_pointevente)
     dateTime=monthNames[d.getMonth()]
     if(dateTime==element){
-      if(el.reponse=="Très satisfait"){
+      if(el.Choix_produits_satisfaction=="Très satisfait"){
         TS=TS+1
        }
-      if(el.reponse=="Assez satisfait"){
+      if(el.Choix_produits_satisfaction=="Assez satisfait"){
        AS=AS+1
        }
-     if(el.reponse=="Pas très satisfait"){
+     if(el.Choix_produits_satisfaction=="Pas très satisfait"){
        PTS=PTS+1
        }
-      if(el.reponse=="Pas du tout satisfait"){
+      if(el.Choix_produits_satisfaction=="Pas du tout satisfait"){
        PDTS=PDTS+1
        }
     }
@@ -154,7 +159,7 @@ TotalReponse=result.length
 
 /****************************************** Choix Produits Enseigne concurrent et calcul ***************************************************/
 
-this.choixProduitsService.getChoixProduitsConcurrentSociete(this.id_societe).subscribe((data:NoteChoixProduitConcurrent[])=>{
+this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
   this.ChoixProduitsConcurrent= data.filter((word =>word.Choix_produits_concurrent != "") )
 
    var tab_concurrent=[]
@@ -420,7 +425,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
     this.selectedpointvenete=pointevente
   
   
-    this.choixProduitsService.getChoixProduitsMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+    this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+
   
    
         var TS
@@ -482,8 +488,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
   
     /********** Data concurrent magasin ********/
-  this.choixProduitsService.getChoixProduitsConcurrentMagasin(this.selectedpointvenete,concuurent).subscribe((datac:NoteChoixProduitConcurrent[])=>{
-    var ChoixProduitsConcurrentMagasin= datac.filter((word =>word.Choix_produits_concurrent != "") )
+    this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((data:Concurrent[])=>{
+          var ChoixProduitsConcurrentMagasin= data.filter((word =>word.Choix_produits_concurrent != "") )
 
     var M;
     var AMN;

@@ -16,6 +16,7 @@ import { FaciliterTrouverProduitService } from './faciliter-trouver-produit.serv
 import { UserService } from '../services/user.service';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { Concurrent } from '../question/concurrent.interface';
 
 @Component({
   selector: 'app-note-faciliter-trouver-produit',
@@ -30,9 +31,9 @@ export class NoteFaciliterTrouverProduitComponent implements OnInit {
   nom_concurrent: string;
   magasins=[]
   concurrents=[]
-  FaciliteTrouverProduit: FaciliterTrouverProduitReponse[];
+  FaciliteTrouverProduit: ReponsePointeVente[];
   NoteFaciliteTrouverProduitEnseigne=[]
-  FaciliteTrouverProduitConcurrent: FaciliterTrouverProduitConcurrent[];
+  FaciliteTrouverProduitConcurrent: Concurrent[];
   concurrent1: any;
   concurrent2: any;
   concurrent3: any;
@@ -73,8 +74,9 @@ export class NoteFaciliterTrouverProduitComponent implements OnInit {
         this.nom_Societe=element.nom
              /***************** Pointe vente  from dataBase ******************/
 
-             this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
-              var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word.Facilite_trouver_produits_satisfaction!= "");
+             this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+
+              var datapointevenete=data.filter(word =>  word.Facilite_trouver_produits_satisfaction!= "");
                 
              datapointevenete.forEach(element=>{
               var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -85,9 +87,8 @@ export class NoteFaciliterTrouverProduitComponent implements OnInit {
         })
         })
     /***************** Concurrent   from dataBase ******************/
-this.concurrentService.getConcurrent().subscribe((data:FaciliterTrouverProduitConcurrent[])=>{
-  var res=data.filter((word =>word.Facilite_trouver_produits_concurrent != ""   && word.id_societe==this.id_societe
-  ) )
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
+  var res=data.filter((word =>word.Facilite_trouver_produits_concurrent != ""   ) )
 
   res.forEach(concurrent => {
 this.nom_concurrent=concurrent.concurrent
@@ -101,7 +102,8 @@ else console.log("object already exists")
 })
 
  /******************************************************* Faciliter  trouver Satisfaction enseigne et Calcul **************************************************/
- this.faciliteTrouverProduitService.getFaciliteTrouverProduit(this.id_societe).subscribe((data:FaciliterTrouverProduitReponse[])=>{
+ this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+
         console.log(data)
   this.FaciliteTrouverProduit=data
    var TS
@@ -120,24 +122,24 @@ else console.log("object already exists")
     AS=0
     PTS=0
     PDTS=0
-const result = this.FaciliteTrouverProduit.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+const result = this.FaciliteTrouverProduit.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
  result.forEach(el=>{  
-   var d = new Date(el.date_reponse)
+   var d = new Date(el.date_reponse_pointevente)
     dateTime=monthNames[d.getMonth()]
     if(dateTime==element){
-      if(el.reponse=="Très satisfait"){
+      if(el.Facilite_trouver_produits_satisfaction=="Très satisfait"){
         TS=TS+1
        }
-      if(el.reponse=="Assez satisfait"){
+      if(el.Facilite_trouver_produits_satisfaction=="Assez satisfait"){
        AS=AS+1
        }
-     if(el.reponse=="Pas très satisfait"){
+     if(el.Facilite_trouver_produits_satisfaction=="Pas très satisfait"){
        PTS=PTS+1
        }
-      if(el.reponse=="Pas du tout satisfait"){
+      if(el.Facilite_trouver_produits_satisfaction=="Pas du tout satisfait"){
        PDTS=PDTS+1
        }
     }
@@ -157,7 +159,7 @@ TotalReponse=result.length
 
 /****************************************** Faciliter trouver produit Enseigne concurrent et calcul ***************************************************/
 
-this.faciliteTrouverProduitService.getFaciliteTrouverProduitConcurrentSociete(this.id_societe).subscribe((data:FaciliterTrouverProduitConcurrent[])=>{
+this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
   this.FaciliteTrouverProduitConcurrent= data.filter((word =>word.Facilite_trouver_produits_concurrent != "") )
 
    var tab_concurrent=[]
@@ -422,7 +424,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
 
     this.selectedpointvenete=pointevente
   
-    this.faciliteTrouverProduitService.getFaciliteTrouverProduitMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+
+    this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
   
         var TS
         var AS
@@ -482,8 +485,8 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
    
   
     /********** Data concurrent magasin ********/
-  this.faciliteTrouverProduitService.getFaciliteTrouverProduitConcurrentMagasin(this.selectedpointvenete,concuurent).subscribe((datac:FaciliterTrouverProduitConcurrent[])=>{
-    var FaciliterTrouverConcurrentMagasin= datac.filter((word =>word.Facilite_trouver_produits_concurrent != "") )
+    this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((data:Concurrent[])=>{
+          var FaciliterTrouverConcurrentMagasin= data.filter((word =>word.Facilite_trouver_produits_concurrent != "") )
 
     var M;
     var AMN;
@@ -498,8 +501,7 @@ this.lineChart1("En relatif vs la concurrence","",this.Month1,"chartbottomright"
      M=0
     AMN=0
     P=0 
-  const result = FaciliterTrouverConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element   && word.id_societe==this.id_societe
-  );
+  const result = FaciliterTrouverConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element );
   console.log(result)
   var yearTime=new Date()
   var year = yearTime.getFullYear()

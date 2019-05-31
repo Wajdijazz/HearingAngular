@@ -23,6 +23,7 @@ import { UserService } from '../services/user.service';
 import { UserSociete } from '../services-speciales/UserSociete';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { Concurrent } from '../question/concurrent.interface';
 
 
 @Component({
@@ -42,8 +43,8 @@ export class NoteImagePrixComponent implements OnInit {
   expandedtile=-1;
   pointventes : PointVente [];
   id_societe : any=null;
-  NoteImagePrix : NoteImagePrix[]
-  NoteImagePrixConcurrent: ImagePrixConcurrent[]
+  NoteImagePrix : ReponsePointeVente[]
+  NoteImagePrixConcurrent: Concurrent[]
  
 
 
@@ -115,7 +116,7 @@ export class NoteImagePrixComponent implements OnInit {
       
 
    /***************** Pointe vente  from dataBase ******************/
-    this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
+    this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
       var datapointevenete=data.filter(word => word.id_societe==this.id_societe);
         
      datapointevenete.forEach(element=>{
@@ -128,8 +129,8 @@ export class NoteImagePrixComponent implements OnInit {
 })
 
    /***************** Concurrent   from dataBase ******************/
-   this.concurrentService.getConcurrent().subscribe((datacon:ImagePrixConcurrent[])=>{
-var dataconcurrent=datacon.filter(word => word.id_societe==this.id_societe);
+   this.concurrentService.getAlConcurrent(this.id_societe).subscribe((datacon:ImagePrixConcurrent[])=>{
+var dataconcurrent=datacon
 console.log(dataconcurrent)
 
 dataconcurrent.forEach(concurrent => {
@@ -144,7 +145,7 @@ dataconcurrent.forEach(concurrent => {
 })
 
    /******************************************************* Image prix Satisfaction enseigne et Calcul **************************************************/
-      this.noteimageprixService.getImageprixsociete(this.id_societe).subscribe((data:NoteImagePrix[])=>{
+   this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
         
      this.NoteImagePrix=data
       var TS
@@ -163,24 +164,24 @@ dataconcurrent.forEach(concurrent => {
        AS=0
        PTS=0
        PDTS=0
-  const result = this.NoteImagePrix.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = this.NoteImagePrix.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.prix_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.prix_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.prix_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.prix_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -204,7 +205,7 @@ dataconcurrent.forEach(concurrent => {
    */
   
    /****************************************** Image Prix  Enseigne concurrent et calcul ***************************************************/
-   this.noteimageprixService.getImageprixConcurrent(this.id_societe).subscribe((dataConcurrent:ImagePrixConcurrent[])=>{
+   this.concurrentService.getAlConcurrent(this.id_societe).subscribe((dataConcurrent:Concurrent[])=>{
     console.log(dataConcurrent)
 
 
@@ -500,7 +501,7 @@ this.lineChart1("",this.Month1,"chartbottomright");
 onSelected(pointevente): void{
 
   this.selectedpointvenete=pointevente
-  this.noteimageprixService.getImageprixMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+  this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
 
 
 
@@ -565,7 +566,7 @@ onSelected(pointevente): void{
 onSelectedConcurrent(concuurent){
 
   /********** Data concurrent magasin ********/
-this.noteimageprixService.getImageprixMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((data:ImagePrixConcurrent[])=>{
+this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((data:Concurrent[])=>{
   var M;
   var AMN;
   var P;
@@ -579,7 +580,7 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element && word.id_societe==this.id_societe);
+const result = data.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element);
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length

@@ -58,9 +58,7 @@ export class QuestionnaireComponent implements OnInit {
 
   }
 
-  goToAddQuestionnaire(){
-  	this.router.navigateByUrl('/ajout-questionnaire');
-  }
+
 
   getQuestionnaire(Idquestionnaire){
     

@@ -15,10 +15,15 @@ export class ConcurrentService {
   url = 'http://localhost:3000';
 
 
-  getConcurrent() {
-    console.log("get Concurrent");
-       
-    return this.http.get(`${this.url}/concurrent`);
+ 
+getAlConcurrent(id) {
+  console.log("get Concurrent");
+     
+  return this.http.get('http://localhost:3000/concurrent/'+id);
 
+
+}
+getMagasinConcurrent(id,selectedpointvenete,concurrent) {
+    return this.http.get('http://localhost:3000/themeconcurrent/'+id+'/'+selectedpointvenete+'/'+concurrent+'/');
 }
 }

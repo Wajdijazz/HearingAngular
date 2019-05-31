@@ -9,6 +9,9 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { AmchartsService } from '../am-charts/amcharts.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
 import { UserService } from '../services/user.service';
+import { Concurrent } from '../question/concurrent.interface';
+import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
+import { ConcurrentService } from '../services-speciales/concurrent.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,9 +23,10 @@ export class DashboardComponent implements OnInit {
   userInfo: { id: any; id_societe: any; name: any; email: any; };
   id_societe: any;
 
-  constructor(private userService:UserService ,private dashboardService: DashboardService) { }
+  constructor(private concurrentService:ConcurrentService,private userService:UserService ,private dashboardService: DashboardService,private pointeventereponseService:PointeventereponseService) { }
  
   ngOnInit() {
+    var Radr=[]
 
     
     this.userService.getUserBoard().subscribe(
@@ -37,7 +41,7 @@ export class DashboardComponent implements OnInit {
       
 			this.id_societe=this.userInfo.id_societe
 
-this.dashboardService.getReponses().subscribe((data1:ReponsePointeVente[])=>{
+this.pointeventereponseService.getReponseEnseigne(this.id_societe).subscribe((data1:ReponsePointeVente[])=>{
 console.log(data1.length)
 var Bar=[]
 
@@ -112,7 +116,7 @@ var PDTS10
 var ScoreTheme10
 
 
-      /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+      /* ----------==========     Moyenne total des thémes    ==========---------- */
 
        
                 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -182,7 +186,7 @@ var ScoreTheme10
              
 
                  
-             const result=data1.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.id_societe==this.id_societe);
+             const result=data1.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element );
                 var yearTime=new Date()
                       var year = yearTime.getFullYear()
                     TotalReponse=result.length
@@ -404,54 +408,341 @@ var ScoreTheme10
             series.push({ label: element+"-"+year, y:TotalReponse}) 
 
   })
-        
+       
+  
 
-    //  this.startAnimationForLineChart(dailySalesChart);
    this.lineChart("",series,"dailySalesChart")
    this.Histogramme("",Bar,"websiteViewsChart")
-   this.Radarcgart("radarchart")
+  
  
 
 
 
    
-      /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-      const dataCompletedTasksChart: any = {
-          labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-          series: [
-              [230, 750, 450, 300, 280, 240, 200, 190]
-          ]
-      };
-
-     const optionsCompletedTasksChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-      }
-
-  //  var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-      // start animation for the Completed Tasks Chart - Line Chart
-     //this.startAnimationForLineChart(completedTasksChart);
-
-
-
-
-
-      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
- 
-   //   var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-      //start animation for the Emails Subscription Chart
-     // this.startAnimationForBarChart(websiteViewsChart);
+      
     })
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data2:Concurrent[])=>{
+      var M;
+      var AMN;
+      var P;
+      var dateTime;
+      var TotalReponse;
+      var ScoreRelatif1
+      var ScoreRelatif2
+      var ScoreRelatif3
+      var ScoreRelatif4
+      var ScoreRelatif5
+     var  ScoreRelatifTotal
+  
+      var yearTime=new Date()
+  var year = yearTime.getFullYear()
+  var tab_concurrent=[]
+  var i=0
+  data2.forEach(concurrent=>{
+   
+
+    var index1 = tab_concurrent.findIndex(x => x.concurrent==concurrent.concurrent)
+    if (index1=== -1){
+   
+      tab_concurrent.push({index :++i,concurrent :concurrent.concurrent})
+    }
+
+})
+
+var P;
+
+
+var P1;
+var P2;
+var P3;
+var P4;
+var P5;
+var P6;
+var P7;
+var P8;
+
+var P9;
+var P10;
+
+var TotalReponse;
+var ScoreRelatif
+
+var ScoreRelatif1
+var ScoreRelatif2
+var ScoreRelatif3
+var ScoreRelatif4
+var ScoreRelatif5
+var ScoreRelatif6
+var ScoreRelatif7
+var ScoreRelatif8
+var ScoreRelatif9
+var ScoreRelatif10
+var  ScoreRelatifTotal
+
+tab_concurrent.forEach(element1=>{
+ var nom_concurrent=element1.concurrent
+ console.log(element1.concurrent)
  
+   P=0
+   P1=0
+   P2=0
+   P3=0
+   P4=0
+   P5=0
+   P6=0
+   P7=0
+   P8=0
+   P9=0
+   P10=0
+
+
+
+   TotalReponse=0
+   ScoreRelatifTotal=0
+        var res=data2.filter((word=> word.concurrent==element1.concurrent  ))
+        TotalReponse=res.length
+        if (element1.index==1)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }   
+        if (element1.index==2)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+        if (element1.index==3)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+        if (element1.index==4)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+
+
+      
+
+        ScoreRelatif=0
+ 
+        ScoreRelatif1=0
+        ScoreRelatif2=0
+
+        
+        ScoreRelatif=(P/TotalReponse)*100
+        ScoreRelatif1=(P1/TotalReponse)*100
+        ScoreRelatif2=(P2/TotalReponse)*100
+        ScoreRelatif3=(P3/TotalReponse)*100
+        ScoreRelatif4=(P4/TotalReponse)*100
+        ScoreRelatif5=(P5/TotalReponse)*100
+        ScoreRelatif6=(P6/TotalReponse)*100
+        ScoreRelatif7=(P7/TotalReponse)*100
+        ScoreRelatif8=(P8/TotalReponse)*100
+        ScoreRelatif9=(P9/TotalReponse)*100
+        ScoreRelatif10=(P10/TotalReponse)*100
+        ScoreRelatifTotal=(ScoreRelatif+ScoreRelatif1+ScoreRelatif2+ScoreRelatif3+ScoreRelatif4+ScoreRelatif5+ScoreRelatif6+ScoreRelatif7+ScoreRelatif8+ScoreRelatif9+ScoreRelatif10)/11
+
+        var index1 =  Radr.findIndex(x => x.nom_concurrent,y=> y.ScoreRelatifTotal)
+        if (index1=== -1){
+          Radr.push({label:nom_concurrent, y:ScoreRelatifTotal}) 
+        }
+
+
+    })
+    this.Radarcgart("radarchart",Radr)
+    })
   })
+
   }
 
 
@@ -569,7 +860,7 @@ valueAxis.min = 0;
 
   }
 
-  Radarcgart(baliseid){
+  Radarcgart(baliseid,dataset){
     am4core.useTheme(am4themes_animated);
 
   let chart = am4core.create(baliseid, am4charts.RadarChart);
@@ -579,40 +870,13 @@ valueAxis.min = 0;
 
  
 /* Add data */
-chart.data = [{
-  "country": "Lithuania",
-  "litres": 501
-}, {
-  "country": "Czech Republic",
-  "litres": 301
-}, {
-  "country": "Ireland",
-  "litres": 266
-}, {
-  "country": "Germany",
-  "litres": 165
-}, {
-  "country": "Australia",
-  "litres": 139
-}, {
-  "country": "Austria",
-  "litres": 336
-}, {
-  "country": "UK",
-  "litres": 290
-}, {
-  "country": "Belgium",
-  "litres": 325
-}, {
-  "country": "The Netherlands",
-  "litres": 40
-}];
+chart.data = dataset
 
  
   
  
 let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis<am4charts.AxisRendererCircular>());
-categoryAxis.dataFields.category = "country";
+categoryAxis.dataFields.category = "label";
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererRadial>());
 valueAxis.renderer.axisFills.template.fill = chart.colors.getIndex(2);
@@ -620,13 +884,12 @@ valueAxis.renderer.axisFills.template.fillOpacity = 30;
 
 /* Create and configure series */
 let series = chart.series.push(new am4charts.RadarSeries());
-series.dataFields.valueY = "litres";
-series.dataFields.categoryX = "country";
+series.dataFields.valueY = "y";
+series.dataFields.categoryX = "label";
 series.name = "Sales";
 series.strokeWidth = 5;
 series.fill=am4core.color("#fff")
 series.stroke=am4core.color("#fff")
-
 
 
 

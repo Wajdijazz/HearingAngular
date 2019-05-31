@@ -15,6 +15,7 @@ import { NoteQualiteProduitsBioReponse } from './note-qualite-produits-bio-repon
 import { UserService } from '../services/user.service';
 import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
+import { Concurrent } from '../question/concurrent.interface';
 
 @Component({
   selector: 'app-note-qualite-produits-bio',
@@ -29,9 +30,9 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
   nom_concurrent: string;
   magasins=[]
   concurrents=[]
-  QualiteProduitBio: NoteQualiteProduitsBioReponse[];
+  QualiteProduitBio: ReponsePointeVente[];
   NoteQualiteProduitEnseigne=[]
-  NoteQualiteProduitBioConcurrent: NoteQualiteProduitsBioConcurrent[];
+  NoteQualiteProduitBioConcurrent: Concurrent[];
   concurrent1: any;
   concurrent2: any;
   concurrent3: any;
@@ -71,8 +72,8 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
       
 
    /***************** Pointe vente  from dataBase ******************/
-   this.pointeventereponseService .getPointeventeName().subscribe((data:ReponsePointeVente[])=>{
-    var datapointevenete=data.filter(word => word.id_societe==this.id_societe && word. Qualite_produits_bio_satisfaction!= "");
+   this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
+    var datapointevenete=data.filter(word => word. Qualite_produits_bio_satisfaction!= "");
       
    datapointevenete.forEach(element=>{
     var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -84,8 +85,8 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
 })
 
    /***************** Concurrent   from dataBase ******************/
-   this.concurrentService.getConcurrent().subscribe((data:NoteQualiteProduitsBioConcurrent[])=>{
-    var res=data.filter((word =>word.Qualite_produits_bio_concurrent != "" && word.id_societe==this.id_societe) )
+   this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
+    var res=data.filter((word =>word.Qualite_produits_bio_concurrent != "" ) )
 
     res.forEach(concurrent => {
     this.nom_concurrent=concurrent.concurrent
@@ -99,7 +100,7 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
 })
 
    /******************************************************* Qualite produit bio Satisfaction enseigne et Calcul **************************************************/
-      this.qualiteProduitBioService.getQualiteProduitBiosociete(this.id_societe).subscribe((data:NoteQualiteProduitsBioReponse[])=>{
+   this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
         
      this.QualiteProduitBio=data
       var TS
@@ -118,24 +119,24 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
        AS=0
        PTS=0
        PDTS=0
-  const result = this.QualiteProduitBio.filter(word => monthNames[new Date(word.date_reponse).getMonth()]==element);
+  const result = this.QualiteProduitBio.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
     result.forEach(el=>{  
-      var d = new Date(el.date_reponse)
+      var d = new Date(el.date_reponse_pointevente)
        dateTime=monthNames[d.getMonth()]
        if(dateTime==element){
-         if(el.reponse=="Très satisfait"){
+         if(el.Qualite_produits_bio_satisfaction=="Très satisfait"){
            TS=TS+1
           }
-         if(el.reponse=="Assez satisfait"){
+         if(el.Qualite_produits_bio_satisfaction=="Assez satisfait"){
           AS=AS+1
           }
-        if(el.reponse=="Pas très satisfait"){
+        if(el.Qualite_produits_bio_satisfaction=="Pas très satisfait"){
           PTS=PTS+1
           }
-         if(el.reponse=="Pas du tout satisfait"){
+         if(el.Qualite_produits_bio_satisfaction=="Pas du tout satisfait"){
           PDTS=PDTS+1
           }
        }
@@ -157,10 +158,10 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
   
    /****************************************** Qualité Produit Bio Enseigne concurrent et calcul ***************************************************/
 
-   this.qualiteProduitBioService.getQualiteProduitBioEnseigneConcurrent(this.id_societe).subscribe((datac:NoteQualiteProduitsBioConcurrent[])=>{
+   this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data:Concurrent[])=>{
 
 
-   this.NoteQualiteProduitBioConcurrent=datac.filter((word =>word.Qualite_produits_bio_concurrent != "") )
+   this.NoteQualiteProduitBioConcurrent=data.filter((word =>word.Qualite_produits_bio_concurrent != "") )
     var tab_concurrent=[]
     var i=0
     this.NoteQualiteProduitBioConcurrent.forEach(concurrent=>{
@@ -425,7 +426,7 @@ onSelected(pointevente): void{
   this.selectedpointvenete=pointevente
 
 
-  this.qualiteProduitBioService.getQualiteProduitBioMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
+  this.pointeventereponseService.getReponseMagasin(this.id_societe,pointevente).subscribe((data:ReponsePointeVente[])=>{
 
       var TS
       var AS
@@ -485,8 +486,8 @@ onSelectedConcurrent(concuurent){
   
   
   /********** Data concurrent magasin ********/
-this.qualiteProduitBioService.getQualiteProduitBioMagasinConcurrent(this.selectedpointvenete,concuurent).subscribe((datac:NoteQualiteProduitsBioConcurrent[])=>{
-  var QualiteProduitBioConcurrentMagasin= datac.filter((word =>word.Qualite_produits_bio_concurrent != "") )
+  this.concurrentService.getMagasinConcurrent(this.id_societe,this.selectedpointvenete,concuurent).subscribe((data:Concurrent[])=>{
+      var QualiteProduitBioConcurrentMagasin= data.filter((word =>word.Qualite_produits_bio_concurrent != "") )
 
   var M;
   var AMN;
@@ -501,8 +502,7 @@ monthNames.forEach(element=>{
    M=0
   AMN=0
   P=0 
-const result = QualiteProduitBioConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element  && word.id_societe==this.id_societe
-);
+const result = QualiteProduitBioConcurrentMagasin.filter(word => monthNames[new Date(word.date_reponse_concurrent).getMonth()]==element  )
 console.log(result)
 var yearTime=new Date()
 var year = yearTime.getFullYear()

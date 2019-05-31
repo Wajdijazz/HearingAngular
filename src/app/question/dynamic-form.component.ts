@@ -45,7 +45,7 @@ export class DynamicFormComponent implements OnInit {
   concurrent : Concurrent={
    id : null,
   
-   id_societe : null, 
+   id_questionnaire : null, 
    pointevente:'',
    date_reponse_concurrent : null,
    concurrent : "",
@@ -65,7 +65,7 @@ export class DynamicFormComponent implements OnInit {
 
   pointVenteReponse : ReponsePointeVente={
     id : null,
-  
+    id_questionnaire:null,
     id_societe : null, 
     date_reponse_pointevente: null,
     nom : "",
@@ -146,6 +146,7 @@ this.questionsService.getQuestions(this.sondageId).subscribe((data1:Questions[])
 
 // Save responses PointeVente
 var date_confirmation = new Date();
+this.pointVenteReponse.id_questionnaire=this.sondageId
 this.pointVenteReponse.id_societe=this.id_societe
 this.pointVenteReponse.date_reponse_pointevente=date_confirmation;
 
@@ -267,7 +268,7 @@ console.log(this.pointVenteReponse)
 
   // Save responses concurrent
        var date_confirmation = new Date();
-       this.concurrent.id_societe=this.id_societe
+       this.concurrent.id_questionnaire=this.sondageId
        this.concurrent.pointevente=this.form.value.frequentationPointeVente
       this.concurrent.date_reponse_concurrent=date_confirmation;
 
