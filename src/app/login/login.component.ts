@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           this.roles = this.tokenStorage.getAuthorities();
           this.roles.every(role => {
             if (role === 'ROLE_ADMIN') {
-              this.authority = 'admin';
+              this.authority = 'admin/dashboard';
 
               this.router.navigateByUrl('/admin/home');
               return true

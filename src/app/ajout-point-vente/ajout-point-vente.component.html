@@ -39,7 +39,8 @@
                 [popoverTitle]="'Confirmation'"
                 [popoverMessage]="'êtes-vous sûr?'"
                 placement="top"
-                (confirm)="creerPointVente(pointvente)"
+                (confirm)="getPointeVente(pointvente)"
+                (click)="creerPointVente(pointvente)"
                   [disabled]="!ajoutPointVenteForm.valid">
           Sauvegarder
         </button>
@@ -56,7 +57,7 @@
     <div class="card">
         <div class="card-header card-header-danger">
             <h4 class="card-title ">Pointes Des Ventes de {{societe}}</h4>
-            <p class="card-category">Liste des  pointes Des Ventes de la societé </p>
+            <p class="card-category">Liste des  pointes Des Ventes de la societé {{societe}} </p>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -69,7 +70,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let pointvente of pointsvente">
+                      <tr *ngFor="let pointvente of pointsventes">
                       
                         <td>{{ pointvente.nom }}</td>
                         <td>{{ pointvente.adresse }}</td>

@@ -24,9 +24,6 @@ export class AjoutConcurrentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.concurrentService
-  	.getConcurrent()
-  	.subscribe((data1:Concurrent[])=>{
     this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
@@ -37,49 +34,40 @@ export class AjoutConcurrentComponent implements OnInit {
 			  };
       this.societe=this.userInfo.name
       this.id_societe=this.userInfo.id_societe
-        this.concurrents=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-     
-			
-		   this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-		  );
-  
+      this.concurrentService
+      .getConcurrent()
+      .subscribe((data1:Concurrent[])=>{
+        this.concurrents=data1.filter((word =>word.id_societe==this.id_societe) );
+      })
 
     })
   
   }
+  ngAfterViewInit(){
+    this.concurrentService
+    .getConcurrent()
+    .subscribe((data1:Concurrent[])=>{
+      this.concurrents=data1.filter((word =>word.id_societe==this.id_societe) );
+    })
 
+  
+  }
+  getconcurrent(){
+    this.concurrentService
+    .getConcurrent()
+    .subscribe((data1:Concurrent[])=>{
+    
+       this.concurrents=data1.filter((word =>word.id_societe==this.id_societe) );
+     
+    })
+
+  }
   creerConcurrent(data:Concurrent){
+    
 		data.id_societe=this.userInfo.id_societe
   this.concurrentService.createConcurrent(data)
 
-  this.concurrentService
-  .getConcurrent()
-  .subscribe((data1:Concurrent[])=>{
-  this.userService.getUserBoard().subscribe(
-    data => {
-      this.userInfo = {
-      id: data.user.id,
-      id_societe:data.user.id_societe,
-      name: data.user.name,
-      email: data.user.email
-      };
-    this.societe=this.userInfo.name
-      this.concurrents=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-   
-    
-     this.board = data.description;
-    },
-    error => {
-      this.errorMessage = `${error.status}: ${error.error}`;
-    }
-    );
-
-
-  })
+  
 }
 
 DeletConcurrent(idConcurrent){

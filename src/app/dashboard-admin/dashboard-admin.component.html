@@ -1,0 +1,54 @@
+
+
+    <div class="main-content">
+      <div class="container-fluid">
+  <div style="background: E1E0E0">
+  <div style="margin-bottom:1%;margin-left:30%">
+  <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
+    <mat-grid-tile  style="margin-top:2px" > 
+        <div style="border-radius:10px; border-style:outset; " class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+    <mat-form-field  style="color:black">
+      <mat-placeholder   style="color: black;">Enseignes Clients</mat-placeholder>
+    <mat-select style="color: black"  [(ngModel)]="societeselected"  (ngModelChange)= 'onSelected($event)'>
+      <mat-option style="color: black" *ngFor="let societe of societes" [value]="societe.id">
+      {{societe.nom}}
+      </mat-option>
+    </mat-select>
+    </mat-form-field>
+    </div>
+    </div>
+
+    </mat-grid-tile>
+    
+    
+  </mat-grid-list>
+  
+  </div>
+  </div>
+  <!-- graphiques -->
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card card-chart">
+            <div class="card-header card-header-success">
+                <div class="ct-chart" id="dailySalesChart"></div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Nombres réponses totaux par mois de l'enseigne {{enseigne}}</h4>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+   
+</div>
+
+ 
+</div>
+</div>
+
+  
+  

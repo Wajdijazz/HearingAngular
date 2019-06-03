@@ -18,6 +18,8 @@ import { QuestionnaireComponent } from './questionnaire/questionnaire.component'
 import { AjoutSocieteComponent } from './ajout-societe/ajout-societe.component';
 import { TypographyComponent } from './typography/typography.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { FacturationComponent } from './facturation/facturation.component';
   
 
 const routes: Routes = [
@@ -48,6 +50,18 @@ const routes: Routes = [
       { path: 'admin', component: AdminComponent, children: [
         { path: 'ajout-societe', component: AjoutSocieteComponent},
         { path: 'home', component:  HomeComponent},
+        { 
+          path: 'dashboard',
+          component: DashboardAdminComponent
+        },
+        { 
+          path: 'facturation',
+          component: FacturationComponent
+        },
+        
+
+        
+       
         
 
 

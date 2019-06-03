@@ -3,6 +3,12 @@ import {SocieteService} from '../societe/societe.service';
 import {Societe} from "../societe/societe.interface";
 import { SharedServiceService } from '../services-speciales/shared-service.service';
 import { Router } from '@angular/router';
+import { PointVenteService } from '../point-vente/point-vente.service';
+import { PointVente } from '../point-vente/point-vente.interface';
+import { QuestionnaireService } from '../questionnaire/questionnaire.service';
+import { Questionnaire } from '../questionnaire/questionnaire.interface';
+import { ConcurrentService } from '../concurrent-societe/concurrent.service';
+import { Concurrent } from '../concurrent-societe/concurrent.interface';
 
 @Component({
   selector: 'app-ajout-societe',
@@ -19,7 +25,7 @@ export class AjoutSocieteComponent implements OnInit {
   };
   societes: Societe[];
 
-  constructor(private sharedservice:SharedServiceService,private societeService : SocieteService, private router: Router) { }
+  constructor( private  concurrentService :ConcurrentService,private questionnaireService : QuestionnaireService,private pointventeService:PointVenteService,private sharedservice:SharedServiceService,private societeService : SocieteService, private router: Router) { }
 
   ngOnInit() {
     this.societeService
@@ -32,23 +38,24 @@ export class AjoutSocieteComponent implements OnInit {
 
   creerSociete(data:Societe){
     this.societeService.createSociete(data);
-    this.societeService
-  	.getSociete()
-  	.subscribe((data1:Societe[])=>{
-
-  		this.societes=data1;
-  	})
+   
   }
+	getSocieteView(){
 
+		this.societeService
+  	.getSociete()
+  	.subscribe((data:Societe[])=>{
+			this.societes=data;
+		
+		})
+
+	}
   getSociete(id_Societe){
 		this.societeService
   	.getSociete()
   	.subscribe((data:Societe[])=>{
 			this.societes=data;
 		
-
-	
-
 		})
 
 		var nomById= this.societes.filter((word =>word.id==id_Societe) )
@@ -66,5 +73,30 @@ export class AjoutSocieteComponent implements OnInit {
 
 
 	}
+
+	DeleteSociete(idsociete){
+  
+  this.societeService.DeleteSocieteById(idsociete).subscribe((data:Societe[])=> {
+		console.log(idsociete)
+		this.societeService
+  	.getSociete()
+  	.subscribe((data:Societe[])=>{
+			this.societes=data;
+		
+		})
+
+	})
+
+	this.societeService.DeleteUserById(idsociete).subscribe((data:Societe[])=> {
+
+	})
+     this.pointventeService.DeletePointeVenteByIdSociete(idsociete).subscribe((data:PointVente[])=> {
+		 })
+		 this.questionnaireService.DeleteQuestionnaireEByIdSociete(idsociete).subscribe((data:Questionnaire[])=> {
+		 })
+		 this.concurrentService.DeleteConcurrentIdSociete(idsociete).subscribe((data:Concurrent[])=> {
+		 })
+
+}
 
 }

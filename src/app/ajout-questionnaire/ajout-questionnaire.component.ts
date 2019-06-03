@@ -55,46 +55,36 @@ export class AjoutQuestionnaireComponent implements OnInit {
 	userInfo: { id: any; id_societe: any; name: any; email: any; };
 	board: any;
 	errorMessage: string;
+	id_societe: any;
+	societe: any;
 	
 
   constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService,private router: Router) { }
 
   ngOnInit() {
 	  //On récupère les points de vente du client pour le sélecteur dans le formulaire
-	  this.questionnaireService
-  	.getQuestionnaire()
-  	.subscribe((data1:Questionnaire[])=>{
+	
     
 
-    this.userService.getUserBoard().subscribe(
+		this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
 				id: data.user.id,
 				id_societe:data.user.id_societe,
 				name: data.user.name,
 				email: data.user.email
-        };
-    this.id_societe=this.userInfo.id_societe
-
-	
-  
-        this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-			
-		   this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-		  );
+				};
+				this.societe=this.userInfo.name
+				this.id_societe=this.userInfo.id_societe			
+			})
 
 
-  
+			this.questionnaireService
+			.getQuestionnaire()
+			.subscribe((data1:Questionnaire[])=>{
+				this.questionnaires=data1.filter((word =>word.id_societe==this.id_societe) );	  
 
-    
-  	})
-
-
-		
+			})
 		this.themeService
   	.geThemes()
   	.subscribe((data2:Theme[])=>{
@@ -106,8 +96,17 @@ export class AjoutQuestionnaireComponent implements OnInit {
 
 			
   }
+	ngAfterViewInit(){
+		this.questionnaireService
+			.getQuestionnaire()
+			.subscribe((data1:Questionnaire[])=>{
+				this.questionnaires=data1.filter((word =>word.id_societe==this.id_societe) );	  
 
+			})
+
+	}
   createSelectedTheme(data:DetailQuestionnaire){
+
 
 var i=0;
 
@@ -142,31 +141,7 @@ var i=0;
 		.getQuestionnaire()
 		.subscribe((data1:Questionnaire[])=>{
 	  
-  
-	  this.userService.getUserBoard().subscribe(
-			  data => {
-				this.userInfo = {
-				  id: data.user.id,
-				  id_societe:data.user.id_societe,
-				  name: data.user.name,
-				  email: data.user.email
-		  };
-	  
-  
-	  
-	
-		  this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-			  
-			 this.board = data.description;
-			  },
-			  error => {
-				this.errorMessage = `${error.status}: ${error.error}`;
-			  }
-			);
-  
-  
-	
-  
+		  this.questionnaires=data1.filter((word =>word.id_societe==this.id_societe) );	  
 	  
 		})
 	
@@ -186,9 +161,7 @@ var i=0;
  
 
   creerQuestionnaire(data:Questionnaire){
-	console.log(  this.userInfo.id_societe)
 
-    
 	  console.log("data avant envoi serveur",data);
 	  data.id_societe=Number(this.userInfo.id_societe)
 	
@@ -243,9 +216,7 @@ var i=0;
 	   })
 	 
 	}
-	id_societe(id_questionnaire: any, id_societe: any) {
-		throw new Error("Method not implemented.");
-	}
+
 
 	  
 

@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     var Radr=[]
 
-    
+
     this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
@@ -745,7 +745,330 @@ tab_concurrent.forEach(element1=>{
 
   }
 
+  ngAfterViewInit(){
+    var Radr=[]
 
+    this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data2:Concurrent[])=>{
+      var M;
+      var AMN;
+      var P;
+      var dateTime;
+      var TotalReponse;
+      var ScoreRelatif1
+      var ScoreRelatif2
+      var ScoreRelatif3
+      var ScoreRelatif4
+      var ScoreRelatif5
+     var  ScoreRelatifTotal
+  
+      var yearTime=new Date()
+  var year = yearTime.getFullYear()
+  var tab_concurrent=[]
+  var i=0
+  data2.forEach(concurrent=>{
+   
+
+    var index1 = tab_concurrent.findIndex(x => x.concurrent==concurrent.concurrent)
+    if (index1=== -1){
+   
+      tab_concurrent.push({index :++i,concurrent :concurrent.concurrent})
+    }
+
+})
+
+var P;
+
+
+var P1;
+var P2;
+var P3;
+var P4;
+var P5;
+var P6;
+var P7;
+var P8;
+
+var P9;
+var P10;
+
+var TotalReponse;
+var ScoreRelatif
+
+var ScoreRelatif1
+var ScoreRelatif2
+var ScoreRelatif3
+var ScoreRelatif4
+var ScoreRelatif5
+var ScoreRelatif6
+var ScoreRelatif7
+var ScoreRelatif8
+var ScoreRelatif9
+var ScoreRelatif10
+var  ScoreRelatifTotal
+
+tab_concurrent.forEach(element1=>{
+ var nom_concurrent=element1.concurrent
+ console.log(element1.concurrent)
+ 
+   P=0
+   P1=0
+   P2=0
+   P3=0
+   P4=0
+   P5=0
+   P6=0
+   P7=0
+   P8=0
+   P9=0
+   P10=0
+
+
+
+   TotalReponse=0
+   ScoreRelatifTotal=0
+        var res=data2.filter((word=> word.concurrent==element1.concurrent  ))
+        TotalReponse=res.length
+        if (element1.index==1)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }   
+        if (element1.index==2)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+        if (element1.index==3)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+        if (element1.index==4)
+        {
+      
+          res.forEach(el=>{  
+               if(el.concurrent==element1.concurrent){
+           
+               if(el.prix_concurrent=="Plus cher"){
+                  P=P+1
+                }
+                if(el.promotions_concurrent=="moins attractives"){
+                  P1=P1+1
+                }
+                if(el.Qualite_Produit_concurrent=="moins bonne"){
+                  P2=P2+1
+                }
+                if(el.Amabilite_personnel_concurrent=="moins bonne"){
+                  P3=P3+1
+                }
+                if(el.Rapport_qualite_prix_concurrent=="moins bonne"){
+                  P4=P4+1
+                }
+                if(el.Rapidite_facilite_payer_concurrent=="moins bonne"){
+                  P5=P5+1
+                }
+                if(el.Qualite_materiel_concurrent=="moins bonne"){
+                  P6=P6+1
+                }
+                if(el.Choix_produits_concurrent=="il y a plus de choix"){
+                  P7=P7+1
+                }
+                if(el.Facilite_trouver_produits_concurrent=="moins facile"){
+                  P8=P8+1
+                }
+                if(el.Prix_produits_bio_concurrent=="plus chers"){
+                  P9=P9+1
+                }
+                if(el.Qualite_produits_bio_concurrent=="moins bonne"){
+                  P10=P10+1
+                }
+
+
+
+             }
+          
+            
+            
+          })
+          
+       
+
+        
+        }  
+
+
+      
+
+        ScoreRelatif=0
+ 
+        ScoreRelatif1=0
+        ScoreRelatif2=0
+
+        
+        ScoreRelatif=(P/TotalReponse)*100
+        ScoreRelatif1=(P1/TotalReponse)*100
+        ScoreRelatif2=(P2/TotalReponse)*100
+        ScoreRelatif3=(P3/TotalReponse)*100
+        ScoreRelatif4=(P4/TotalReponse)*100
+        ScoreRelatif5=(P5/TotalReponse)*100
+        ScoreRelatif6=(P6/TotalReponse)*100
+        ScoreRelatif7=(P7/TotalReponse)*100
+        ScoreRelatif8=(P8/TotalReponse)*100
+        ScoreRelatif9=(P9/TotalReponse)*100
+        ScoreRelatif10=(P10/TotalReponse)*100
+        ScoreRelatifTotal=(ScoreRelatif+ScoreRelatif1+ScoreRelatif2+ScoreRelatif3+ScoreRelatif4+ScoreRelatif5+ScoreRelatif6+ScoreRelatif7+ScoreRelatif8+ScoreRelatif9+ScoreRelatif10)/11
+
+        var index1 =  Radr.findIndex(x => x.nom_concurrent,y=> y.ScoreRelatifTotal)
+        if (index1=== -1){
+          Radr.push({label:nom_concurrent, y:null}) 
+        }
+
+
+    })
+    this.Radarcgart("radarchart",Radr)
+    })
+  }
   lineChart(name1,dataPoints,baliseid){
     am4core.useTheme(am4themes_animated);
   // Themes end
@@ -793,7 +1116,7 @@ tab_concurrent.forEach(element1=>{
   series1.name = name1;
   series1.strokeWidth = 2;
   series1.bullets.push(new am4charts.CircleBullet());
-  series1.tooltipText = " {name} : {valueY}";
+  series1.tooltipText = " {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.fill=am4core.color("#fff")
 series1.stroke=am4core.color("#fff")
@@ -849,7 +1172,7 @@ valueAxis.min = 0;
   series.dataFields.valueY = "y";
   series.dataFields.categoryX = "label";
 
-  series.columns.template.tooltipText = "{name} : [bold]{valueY}[/] %";
+  series.columns.template.tooltipText = " {valueY}";
   series.columns.template.fill = am4core.color("#fff"); 
   series.columns.template.stroke = am4core.color("#fff"); 
 

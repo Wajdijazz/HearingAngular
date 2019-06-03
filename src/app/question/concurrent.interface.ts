@@ -1,6 +1,6 @@
 export interface Concurrent {
     id : Number;
-    id_societe : Number ;
+    id_questionnaire : Number ;
     pointevente:any,
     date_reponse_concurrent : Date;
     concurrent : any;

@@ -30,7 +30,8 @@
                                 [popoverTitle]="'Confirmation'"
                                 [popoverMessage]="'êtes-vous sûr?'"
                                 placement="top"
-                                (confirm)="creerConcurrent(concurrent)"
+                                (click)="creerConcurrent(concurrent)"
+                                (confirm)="getconcurrent()"
                                   [disabled]="!ajoutConcurrentForm.valid">
                           Sauvegarder
                         </button>

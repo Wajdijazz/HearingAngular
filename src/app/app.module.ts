@@ -66,6 +66,8 @@ import { SidebarAdminComponent } from './components-admin/sidebar-admin/sidebar-
 import { ComponentsAdminModule } from './components-admin/components-admin.module';
 import { TypographyComponent } from './typography/typography.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { FacturationComponent } from './facturation/facturation.component';
 
 
 const routes: Routes = [
@@ -84,6 +86,19 @@ const routes: Routes = [
       { 
         path: 'admin/societe',
         component: SocieteComponent,
+        canActivate: [AuthGuard] 
+
+      },
+
+      { 
+        path: 'admin/dashboard',
+        component: DashboardAdminComponent,
+        canActivate: [AuthGuard] 
+
+      },
+      { 
+        path: 'admin/facturation',
+        component: FacturationComponent,
         canActivate: [AuthGuard] 
 
       },
@@ -132,6 +147,8 @@ const routes: Routes = [
 
     AdminComponent,
     HomeComponent,
+    DashboardAdminComponent,
+    FacturationComponent,
 
   
 

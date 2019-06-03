@@ -25,7 +25,7 @@ export class AjoutPointVenteComponent implements OnInit {
 	board: any;
   errorMessage: string;
   societe:any
-  pointsvente: PointVente[];
+  pointsventes: PointVente[];
   id_societe: any;
 
 	
@@ -35,96 +35,59 @@ export class AjoutPointVenteComponent implements OnInit {
   ngOnInit() {
 	
 
-    this.pointventeService
-  	.getPointVente()
-  	.subscribe((data1:PointVente[])=>{
-    this.userService.getUserBoard().subscribe(
+		this.userService.getUserBoard().subscribe(
 			data => {
 			  this.userInfo = {
 				id: data.user.id,
 				id_societe:data.user.id_societe,
 				name: data.user.name,
 				email: data.user.email
-			  };
-		
-        this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-        console.log(this.pointsvente)
-			  this.id_societe=this.userInfo.id_societe
-		   this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-		  );
-  
-
-    })
-
+				};
+				this.societe=this.userInfo.name
+				this.id_societe=this.userInfo.id_societe			
+			})
+			this.pointventeService
+			.getPointVente()
+			.subscribe((data1:PointVente[])=>{
+					this.pointsventes=data1.filter((word =>word.id_societe==this.id_societe) );
+     
+				
+	
+			})
 
 
 	  
   }
 
 
+	ngAfterViewInit(){
 	
 	
+			this.pointventeService
+			.getPointVente()
+			.subscribe((data1:PointVente[])=>{
+					this.pointsventes=data1.filter((word =>word.id_societe==this.id_societe) );
+     
+				
+	
+			})
+	}
+	
+	getPointeVente(data:PointVente){
+		this.pointventeService
+		.getPointVente()
+		.subscribe((data1:PointVente[])=>{
+				this.pointsventes=data1.filter((word =>word.id_societe==this.id_societe) );
 
+		})
+
+	}
   creerPointVente(data:PointVente){
    
-    this.pointventeService
-  	.getPointVente()
-  	.subscribe((data1:PointVente[])=>{
-    this.userService.getUserBoard().subscribe(
-			data => {
-			  this.userInfo = {
-				id: data.user.id,
-				id_societe:data.user.id_societe,
-				name: data.user.name,
-				email: data.user.email
-			  };
 		
-        this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-			
-		   this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-		  );
-  
 
-    })
-
-
-		data.id_societe=this.userInfo.id_societe;
-    this.pointventeService.createPointVente(data);
-
-    this.pointventeService
-  	.getPointVente()
-  	.subscribe((data1:PointVente[])=>{
-    this.userService.getUserBoard().subscribe(
-			data => {
-			  this.userInfo = {
-				id: data.user.id,
-				id_societe:data.user.id_societe,
-				name: data.user.name,
-				email: data.user.email
-			  };
-		
-        this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
-			
-		   this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-		  );
-  
-
-    })
-
-
-
+		data.id_societe=this.id_societe;
+		this.pointventeService.createPointVente(data);
 	  
   }
 
@@ -147,7 +110,7 @@ export class AjoutPointVenteComponent implements OnInit {
           email: data.user.email
           };
       
-          this.pointsvente=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+          this.pointsventes=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
         
          this.board = data.description;
         },

@@ -33,4 +33,9 @@ export class ConcurrentService {
       return this.http.delete(`${this.url}/concurrent-societe/${id}/${id_societe}`);
 
 }
+DeleteConcurrentIdSociete(id_societe) {
+    
+  return this.http.delete(`${this.url}/concurrent-societe/${id_societe}`);
+
+}
 }

@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
       data => {
         console.log(data);
         this.isSignedUp = true;
-        this.router.navigateByUrl(`/admin/societe`);
+        this.router.navigateByUrl(`/admin/ajout-societe`);
 
         this.isSignUpFailed = false;
       },

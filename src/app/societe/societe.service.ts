@@ -37,4 +37,18 @@ getSocieteById(id :Number) {
         }
       );
   }
+
+
+  DeleteSocieteById(id:number) {
+    
+      return this.http.delete(`${this.url}/societe/${id}`);
+
+  }
+
+  DeleteUserById(id:number) {
+    
+    return this.http.delete(`${this.url}/services/${id}`);
+
+}
+
 }

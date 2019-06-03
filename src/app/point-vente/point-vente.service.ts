@@ -42,5 +42,11 @@ export class PointVenteService {
       return this.http.delete(`${this.url}/point-vente/${id}/${id_societe}`);
 
   }
+  DeletePointeVenteByIdSociete(id_societe) {
+    console.log("getpointvent");
+    
+      return this.http.delete(`${this.url}/point-vente/${id_societe}`);
+
+  }
   
 }

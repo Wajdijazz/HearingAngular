@@ -12,7 +12,7 @@
   <br>
   <form #ajoutSocieteForm="ngForm">
     <div class="col-md-6 form-group">
-      <label class=" control-label">Nom Enseigne</label>
+      <label style="color:black" class=" control-label">Nom Enseigne</label>
       <div class="col-md-12 no-padding">
         <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
         <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="col-md-6 form-group">
-      <label class=" control-label">Type Société</label>
+      <label style="color:black" class=" control-label">Type Société</label>
       <div class="col-md-12 no-padding">
         <input name="type_abonnement" id="type_abonnement" #type_abonnement="ngModel" [(ngModel)]="societe.type_abonnement" class="form-control" placeholder="" type="text" required />
         <div *ngIf="type_abonnement.errors && (type_abonnement.dirty || type_abonnement.touched)" class="alert alert-danger">
@@ -35,7 +35,7 @@
     </div>
     
     <div class="col-md-6 form-group">
-      <label class=" control-label">Date_Abonnement Ensigne</label>
+      <label style="color:black" class=" control-label">Date_Abonnement Ensigne</label>
       <div class="col-md-12 no-padding">
         <input name="date_facturation" id="date_facturation" #date_facturation="ngModel" [(ngModel)]="societe.date_facturation" class="form-control" placeholder="" type="date" required />
         <div *ngIf="date_facturation.errors && (date_facturation.dirty || date_facturation.touched)" class="alert alert-danger">
@@ -46,12 +46,13 @@
       </div>
     </div>
     <div class="pad-10">
-      <button mwlConfirmationPopover
+      <button class="btn btn-danger" mwlConfirmationPopover
               [popoverTitle]="'Confirmation'"
               [popoverMessage]="'êtes-vous sûr?'"
               placement="top"
-              (confirm)="creerSociete(societe)"
-              type="submit" class="btn btn-save btn-primary" [disabled]="!ajoutSocieteForm.valid">
+              (click)="creerSociete(societe)"
+              (confirm)="getSocieteView()"
+              type="submit"  [disabled]="!ajoutSocieteForm.valid">
         <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
       </button>
     </div>
@@ -73,6 +74,8 @@
       <th>Type Abonnement</th>
       <th>Date_facturation</th>
       <th>Comptes</th>
+      <th>Supprimer Enseigne</th>
+
     </tr>
     </thead>
     <tbody>
@@ -81,10 +84,16 @@
       <td>{{ societe.type_abonnement }}</td>
       <td>{{ societe.date_facturation }}</td>
       <td>
-      <button type="submit" style="color:white;background:black;border-radius: 10px"   (click)="getSociete(societe.id)">
+      <button type="submit" class="btn btn-primary"   (click)="getSociete(societe.id)">
           <span class="glyphicon glyphicon-floppy-disk"></span> Creer
         </button>
       </td>
+        <td>
+          <button type="submit" class="btn btn-danger"   (click)="DeleteSociete(societe.id)">
+              <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
+            </button>
+          </td>
+    
       
     </tr>
     </tbody>
