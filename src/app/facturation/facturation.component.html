@@ -4,7 +4,7 @@
           
           <div class=" col-md-6">
               <div class="card">
-                  <div class="card-header-tabs card-header-primary">
+                  <div class="card-header-tabs card-header-info">
                       <h4 class="card-title">Forfait mensuel Hearing {{year}}</h4>
                       <p class="card-category"></p>
                   </div>
@@ -55,7 +55,7 @@
 
                                 <td>P.M.E</td>
 
-                                <td>1</td>
+                                <td>2</td>
 
                                 <td>360.00 €</td>
                                 <td>0.180 €</td>
@@ -74,7 +74,7 @@
 
                                 <td>Petite Enseigne nationale</td>
 
-                                <td>1</td>
+                                <td>3</td>
 
                                 <td>800.00 €</td>
                                 <td>0.160 €</td>
@@ -91,7 +91,7 @@
 
                                 <td>Moyenne Enseigne nationale</td>
 
-                                <td>1</td>
+                                <td>4</td>
 
                                 <td>1 400.00 €</td>
                                 <td>0.140 €</td>
@@ -110,7 +110,7 @@
 
                                 <td>Moyenne Enseigne nationale</td>
 
-                                <td>1</td>
+                                <td>5</td>
 
                                 <td>2 400.00 €</td>
                                 <td>0.120 €</td>
@@ -127,7 +127,7 @@
 
                                 <td>Grande Enseigne nationale</td>
 
-                                <td>1</td>
+                                <td>6</td>
 
                                 <td>5 000.00 €</td>
                                 <td>0.100 €</td>
@@ -146,7 +146,7 @@
 
                                 <td>Grande Enseigne nationale</td>
 
-                                <td>1</td>
+                                <td>7</td>
 
                                 <td>8 000.00 €</td>
                                 <td>0.080 €</td>
@@ -168,7 +168,7 @@
 
           <div class=" col-md-6">
             <div class="card">
-                <div class="card-header-tabs card-header-primary">
+                <div class="card-header-tabs card-header-info">
                     <h4 class="card-title">Factures enseignes {{year}}</h4>
                     <p class="card-category"></p>
                 </div>
@@ -186,12 +186,13 @@
 
                         </thead>
                         <tbody style="text-align: center">
-                          <tr *ngFor="let societe of societes">
-                            <td>{{ societe.nom }}</td>
-                            <td>{{ equivalent_annuel}} €</td>
+                          <tr *ngFor="let facture of facture">
+                            <td>{{ facture.nom }}</td>
+                            <td>{{ facture.facturation}} €</td>
 
-                    
-                            
+                        
+
+                        </tr>
                             
                         </tbody>
                     </table>

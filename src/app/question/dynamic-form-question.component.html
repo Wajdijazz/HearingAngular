@@ -12,7 +12,7 @@
     question.dependance.key===''||
     (form.value[question.dependance.key]!=question.dependance.value && form.value[question.dependance.key]!='')">
 <div>
-    <label id="ref"  [attr.id]="question.order"   [attr.for]="question.key"><h5>{{question.label}}</h5></label>
+    <label id="ref" style="color: black" [attr.id]="question.order"   [attr.for]="question.key"><h5>{{question.label}}</h5></label>
     <br/>
   </div>
    
@@ -25,11 +25,11 @@
 
    
        <select *ngSwitchCase="'dropdown'" [id]="question.key" (ngModelChange)= 'onPointventeselected($event)'[formControlName]="question.key">
-          <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+          <option  style="color: black" *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
         </select>
-      <mat-radio-group  color="primary" *ngSwitchCase="'radio'"  (change)="click($event)" class="example-radio-group" [id]="question.key" [formControlName]="question.key">
+      <mat-radio-group style="color: black"  color="primary" *ngSwitchCase="'radio'"  (change)="click($event)" class="example-radio-group" [id]="question.key" [formControlName]="question.key">
         <div  *ngFor="let opt of question.options" >
-      	  <mat-radio-button  color="primary" [checked]="false"    [value]="opt.key" style="padding: 10px;" checked>
+      	  <mat-radio-button  color="primary" [checked]="false"  style="color: black"   [value]="opt.key" style="padding: 10px;" checked>
       	    {{opt.value}}
       	  </mat-radio-button>
           <br/>

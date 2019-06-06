@@ -4,11 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TypographyComponent } from '../../typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
-import { MapsComponent } from '../../maps/maps.component';
-import { UpgradeComponent } from '../../upgrade/upgrade.component';
+
 import { PointVenteComponent } from '../../point-vente/point-vente.component';
 
 
@@ -26,12 +23,10 @@ import { QuestionnaireComponent } from 'src/app/questionnaire/questionnaire.comp
 import { AjoutPointVenteComponent } from 'src/app/ajout-point-vente/ajout-point-vente.component';
 import {ConfirmationPopoverModule} from "angular-confirmation-popover";
 import { AjoutQuestionnaireComponent } from 'src/app/ajout-questionnaire/ajout-questionnaire.component';
-import { ReportingComponent } from 'src/app/reporting/reporting.component';
 import { NpsComponent } from 'src/app/nps/nps.component';
 import { NoteImagePrixComponent } from 'src/app/note-image-prix/note-image-prix.component';
 import { PromotionsComponent } from 'src/app/promotions/promotions.component';
 import { NoteQualiteProduitsComponent } from 'src/app/note-qualite-produits/note-qualite-produits.component';
-import { AmChartsComponent } from 'src/app/am-charts/am-charts.component';
 import { NoteAmabilitePersonnelComponent } from 'src/app/note-amabilite-personnel/note-amabilite-personnel.component';
 import { NoteRapportQualitePrixComponent } from 'src/app/note-rapport-qualite-prix/note-rapport-qualite-prix.component';
 import { NoteRapiditePayerComponent } from 'src/app/note-rapidite-payer/note-rapidite-payer.component';
@@ -68,20 +63,17 @@ import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurr
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
     PointVenteComponent,
     TypographyComponent,
-    IconsComponent,
+    
     AjoutPointVenteComponent,
     QuestionnaireComponent,
-    UpgradeComponent,
     AjoutQuestionnaireComponent,
-    ReportingComponent,
     NpsComponent,
     NoteImagePrixComponent,
     PromotionsComponent,
     NoteQualiteProduitsComponent,
-    AmChartsComponent,
+    
     NoteAmabilitePersonnelComponent,
     NoteRapportQualitePrixComponent,
     NoteRapiditePayerComponent,

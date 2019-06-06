@@ -1,130 +1,130 @@
 
     <div class="main-content">
-      <div class="container-fluid">
-          <div >
-              <div style="margin-bottom:2%;margin-right: 30px;margin-left: 30px">
-              <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
+        <div class="container-fluid">
+            <div >
+                <div style="margin-bottom:2%;margin-right: 30px;margin-left: 30px">
+                <mat-grid-list  gutterSize="20px" cols="2" rowHeight="100px">
+                      <mat-grid-tile  style="margin-top:15px" > 
+                        <div style="border-radius:10px;border-style:outset;  " class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                      <mat-form-field  style="color:black">
+                          <mat-placeholder style="color: black"  >Magasin de l'enseigne</mat-placeholder>
+                      <mat-select style="color: black"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
+                        <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.viewValue">
+                          {{magasin.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                </div>
+                
+                    </mat-grid-tile>
+                 
+                
+                
+                
+                    
                     <mat-grid-tile  style="margin-top:15px" > 
-                      <div style="border-radius:10px;border-style:outset;  " class="card-header card-header-warning card-header-icon">
+                      <div style="border-radius:10px;border-style:outset; " class="card-header card-header-warning card-header-icon">
                           <div class="card-icon">
                     <mat-form-field  style="color:black">
-                        <mat-placeholder style="color: black"  >Magasin de l'enseigne</mat-placeholder>
-                    <mat-select style="color: black"  [(ngModel)]="magasinselected"  (ngModelChange)= 'onSelected($event)'>
-                      <mat-option style="color: black" *ngFor="let magasin of magasins" [value]="magasin.viewValue">
-                        {{magasin.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              </div>
-              </div>
-              
-                  </mat-grid-tile>
-               
-              
-              
-              
-                  
-                  <mat-grid-tile  style="margin-top:15px" > 
-                    <div style="border-radius:10px;border-style:outset; " class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
-                  <mat-form-field  style="color:black">
-                        <mat-placeholder style="color:black" >Magasin concurrent</mat-placeholder>
-              
-                    <mat-select [(ngModel)]="concurrentselected"  (ngModelChange)= 'onSelectedConcurrent($event)'>
-                      <mat-option style="color: black" *ngFor="let concurrent of concurrents" [value]="concurrent.viewValue">
-                        {{concurrent.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-                  </mat-grid-tile>
-                  
-                </mat-grid-list>
-              
-              </div>
-              </div>
- 
-    <!-- graphiques -->
-    <div class="row">
+                          <mat-placeholder style="color:black" >Magasin concurrent</mat-placeholder>
                 
-        <div class="col-md-6">
-                <div class="card card-chart">
-                        <div class="card-header  card-header-success ">
-                                <div  id="chartupperleft"></div>
-                            </div>
-                        <div class="card-body">
-
-                                <h4 class="card-title">Evolution de l'image prix de  {{nom_Societe}}</h4>
-
-
-           
+                      <mat-select [(ngModel)]="concurrentselected"  (ngModelChange)= 'onSelectedConcurrent($event)'>
+                        <mat-option style="color: black" *ngFor="let concurrent of concurrents" [value]="concurrent.viewValue">
+                          {{concurrent.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                    </mat-grid-tile>
+                    
+                  </mat-grid-list>
+                
+                </div>
+                </div>
+   
+      <!-- graphiques -->
+      <div class="row">
+                  
+          <div class="col-md-6">
+                  <div class="card card-chart">
+                          <div class="card-header  card-header-info ">
+                                  <div  id="chartupperleft"></div>
+                              </div>
+                          <div class="card-body">
+  
+                                  <h4 style="text-align: center"card-title>Evolution de les promotions de  {{nom_Societe}}</h4>
+  
+  
+             
+                                </div>
+                                <div class="card-footer">
+                                      <div class="stats">
+                                       
+                                      </div>
+                                  </div>
+     </div>
+                   </div>
+                   <div class="col-md-6">
+                          <div class="card card-chart">
+                              <div class="card-header card-header-warning">
+                                  <div class="ct-chart" id="chartupperright"></div>
+                              </div>
+                              <div class="card-body">
+                                  <h4 style="text-align: center" class="card-title">En relatif vs la concurrence</h4>
+      
+                             
                               </div>
                               <div class="card-footer">
-                                    <div class="stats">
-                                     
-                                    </div>
-                                </div>
-   </div>
+                                  <div class="stats">
+                                   
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                   </div>
+  
+  
+                   <div class="row">
+                  
+                      <div class="col-md-6">
+                              <div class="card card-chart">
+                                      <div class="card-header  card-header-info ">
+                                              <div  id="chartbottomleft"></div>
+                                          </div>
+                                      <div class="card-body">
+              
+                                              <h4  style="text-align: center" class="card-title">Evolution de les promotions de magasins de {{nom_Societe}}</h4>
+              
+              
+                         
+                                            </div>
+                                            <div class="card-footer">
+                                                  <div class="stats">
+                                                   
+                                                  </div>
+                                              </div>
                  </div>
-                 <div class="col-md-6">
-                        <div class="card card-chart">
-                            <div class="card-header card-header-warning">
-                                <div class="ct-chart" id="chartupperright"></div>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">En relatif vs la concurrence</h4>
-    
-                           
-                            </div>
-                            <div class="card-footer">
-                                <div class="stats">
-                                 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
-
-
-                 <div class="row">
-                
-                    <div class="col-md-6">
-                            <div class="card card-chart">
-                                    <div class="card-header  card-header-success ">
-                                            <div  id="chartbottomleft"></div>
-                                        </div>
-                                    <div class="card-body">
-            
-                                            <h4 class="card-title">Evolution de l'image prix de  Magasin</h4>
-            
-            
-                       
+                               </div>
+                               <div class="col-md-6">
+                                      <div class="card card-chart">
+                                          <div class="card-header card-header-warning">
+                                              <div class="ct-chart" id="chartbottomright"></div>
+                                          </div>
+                                          <div class="card-body">
+                                              <h4 style="text-align: center" class="card-title">En relatif vs la concurrence</h4>
+                  
+                                         
                                           </div>
                                           <div class="card-footer">
-                                                <div class="stats">
-                                                 
-                                                </div>
-                                            </div>
-               </div>
-                             </div>
-                             <div class="col-md-6">
-                                    <div class="card card-chart">
-                                        <div class="card-header card-header-warning">
-                                            <div class="ct-chart" id="chartbottomright"></div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">En relatif vs la concurrence</h4>
-                
-                                       
-                                        </div>
-                                        <div class="card-footer">
-                                            <div class="stats">
-                                             
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
-  
-  
+                                              <div class="stats">
+                                               
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                               </div>
+    
+    

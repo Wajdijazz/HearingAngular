@@ -1,8 +1,7 @@
 import { Component, OnInit, NgZone} from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatSelectModule} from '@angular/material/select';
-import { ChartService } from '../chart/chart.service';
-import {MatDialog,MatDialogRef, MAT_DIALOG_DATA,MatDialogModule} from '@angular/material/dialog';
+
+
+import {MatDialog} from '@angular/material/dialog';
 import { PointVente } from '../point-vente/point-vente.interface';
 import { PointventeBySocieteService }  from '../services-speciales/pointvente-by-societe.service';
 
@@ -18,10 +17,8 @@ import { Societe } from '../societe/societe.interface';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { AmchartsService } from '../am-charts/amcharts.service';
 import { UserService } from '../services/user.service';
 import { ReponsePointeVente } from '../question/reponse-pointe-vente.interface';
-import { PointeventereponseService } from '../services-speciales/pointeventereponse.service';
 
 
 
@@ -76,7 +73,7 @@ export class NpsComponent implements OnInit {
   Nps_Val:any
   userInfo: { id: any; id_societe: any; name: any; email: any; };
 
-  constructor( private pointeventereponseService:PointeventereponseService,   private userService:UserService,private zone: NgZone, amChartService: AmchartsService,private societeService :SocieteService,private pointeventeService: PointVenteService,private npsService : NpsService,   private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor(   private userService:UserService,private npsService : NpsService) { }
 
   
 

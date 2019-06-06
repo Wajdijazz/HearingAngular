@@ -6,6 +6,7 @@ import { AuthLoginInfo } from '../auth/login-info';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import decode from 'jwt-decode';
+import { SignUpInfo } from '../auth/signup-info';
 
 
 
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   private loginInfo: AuthLoginInfo;
   private authority: string;
-
+  signupInfo:SignUpInfo[]
+  
 
   constructor(private authser :AuthGuardService,private authService: AuthService, private tokenStorage: TokenStorageService, private router:Router) { }
 
@@ -60,7 +62,7 @@ export class LoginComponent implements OnInit {
             if (role === 'ROLE_ADMIN') {
               this.authority = 'admin/dashboard';
 
-              this.router.navigateByUrl('/admin/home');
+              this.router.navigateByUrl('/admin/dashboard');
               return true
             } else if (role === 'ROLE_PM') {
               this.authority = 'pm';
@@ -77,7 +79,7 @@ export class LoginComponent implements OnInit {
    
       },
       error => {
-        console.log(error);
+      
         this.errorMessage = error.error.reason;
         this.isLoginFailed = true;
       }

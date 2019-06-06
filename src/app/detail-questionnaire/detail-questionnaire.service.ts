@@ -23,7 +23,6 @@ export class DetailQuestionnaireService {
             res => {
               console.log(res);
               this.toastr.success('Votre societe a été créer avec succès.', 'Success');
-              this.router.navigateByUrl('/questionnaire');
             },
             err => {
               console.log('Error occured:' , err);

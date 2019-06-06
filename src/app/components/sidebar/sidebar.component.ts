@@ -1,19 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { NuageMotsComponent } from 'src/app/nuage-mots/nuage-mots.component';
-import { NpsComponent } from 'src/app/nps/nps.component';
-import { NoteImagePrixComponent } from 'src/app/note-image-prix/note-image-prix.component';
-import { PromotionsComponent } from 'src/app/promotions/promotions.component';
-import { NoteQualiteProduitsComponent } from 'src/app/note-qualite-produits/note-qualite-produits.component';
-import { NoteAmabilitePersonnelComponent } from 'src/app/note-amabilite-personnel/note-amabilite-personnel.component';
-import { NoteRapportQualitePrixComponent } from 'src/app/note-rapport-qualite-prix/note-rapport-qualite-prix.component';
-import { NoteRapiditePayerComponent } from 'src/app/note-rapidite-payer/note-rapidite-payer.component';
-import { NoteQualiteMaterielComponent } from 'src/app/note-qualite-materiel/note-qualite-materiel.component';
-import { NoteChoixProduitComponent } from 'src/app/note-choix-produit/note-choix-produit.component';
-import { NoteFaciliterTrouverProduitComponent } from 'src/app/note-faciliter-trouver-produit/note-faciliter-trouver-produit.component';
-import { NotePrixProduitsBioComponent } from 'src/app/note-prix-produits-bio/note-prix-produits-bio.component';
-import { NoteQualiteProduitsBioComponent } from 'src/app/note-qualite-produits-bio/note-qualite-produits-bio.component';
-import { PX } from '@amcharts/amcharts4/core';
 import { Router } from '@angular/router';
 
 declare const $: any;
@@ -65,7 +51,7 @@ export class SidebarComponent implements OnInit {
   config = {
     interfaceWithRoute: true,
 
-    selectedListFontColor: `red`,
+    selectedListFontColor: `#17a2b8`,
 
 };
 

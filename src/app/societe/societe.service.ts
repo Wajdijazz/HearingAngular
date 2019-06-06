@@ -29,7 +29,6 @@ getSocieteById(id :Number) {
         res => {
           console.log(res);
           this.toastr.success('Votre societe a été créer avec succès.', 'Success');
-          this.router.navigateByUrl('/societe');
         },
         err => {
           console.log('Error occured:' , err);

@@ -3,9 +3,9 @@
       <div class="row">
           <div class="col-md-4">
               <div class="card">
-                  <div class="card-header card-header-danger">
+                  <div class="ccard-header-tabs  card-header-info">
                       <h4 class="card-title">Ajout Questionnaire</h4>
-                      <p class="card-category">Ajouter un questionnaire </p>
+                      <p class="card-category"></p>
                   </div>
 <div class="form-horizontal pad-10">
 	<form #ajoutQuestionnaireForm="ngForm">
@@ -15,9 +15,9 @@
 		
 		<div class="">
 			<input name="sujet" id="sujet" #sujet="ngModel" [(ngModel)]="questionnaire.sujet" class="form-control" placeholder="" type="text" required />
-			<div *ngIf="sujet.errors && (sujet.dirty || sujet.touched)" class="alert alert-danger">
+			<div *ngIf="sujet.errors && (sujet.dirty || sujet.touched)" class="alert alert-info">
 			  <div [hidden]="!sujet.errors.required">
-				Nom est requis!
+				Objectif est requis!
 			  </div>
 			</div>
 	    </div>
@@ -36,7 +36,7 @@
 			  placement="top"
 			  (confirm)="createSelectedTheme(detailquestionnaire)"
               (click)="creerQuestionnaire(questionnaire)"
-              type="submit" class="btn btn-danger" [disabled]="!ajoutQuestionnaireForm.valid">
+              type="submit" class="btn btn-info" [disabled]="!ajoutQuestionnaireForm.valid">
         <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder
       </button>
 	</form>
@@ -44,39 +44,37 @@
 </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-8">
 	<div class="card">
-			<div class="card-header card-header-danger">
+			<div class="card-header-tabs card-header-info">
 					<h4 class="card-title ">Questionnaires</h4>
-					<p class="card-category"> Liste des questionnaires  de la societé {{societe}}</p>
+					<p class="card-category"> </p>
 			</div>
 			<div class="card-body">
 					<div class="table-responsive">
 							<table class="table">
-								<thead class=" text-primary">
-									<tr>
-										<th>ID</th>
+								<thead style="text-align: center" class=" text-primary">
+						
 			 
 										<th>Objectif</th>
 										<th>Supprimer Questionnaire</th>
 										<th>Questions</th>
 								
 								
-									</tr>
+						
 									</thead>
-									<tbody>
+									<tbody style="text-align: center">
 										<tr *ngFor="let questionnaire of questionnaires">
-											<td>{{ questionnaire.id }}</td>
 										
 						
 											<td>{{ questionnaire.sujet }}</td>
 											<td>
-													<button type="submit" class="btn btn-danger"   (click)="DeletQuestionnaire(questionnaire.id)">
+													<button type="submit" class="btn btn-info"   (click)="DeletQuestionnaire(questionnaire.id)">
 															<span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
 														</button>
 													</td>
 													<td>
-											<button type="submit" class="btn btn-danger" (click)="getQuestionnaire(questionnaire.id)" >
+											<button type="submit" class="btn btn-info" (click)="getQuestionnaire(questionnaire.id)" >
 												<span class="glyphicon glyphicon-floppy-disk"></span> Question
 											</button>
 										</td>

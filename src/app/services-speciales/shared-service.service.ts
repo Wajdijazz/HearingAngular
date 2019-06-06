@@ -71,20 +71,7 @@ public getIdSociete():any{
 
 
 }
-  saverponses(data) {
-    this.http.post(`${this.url}/reponses`, data)
-      .subscribe(
-        res => {
-        //  console.log(res);
-          this.toastr.success('Votre societe a été créer avec succès.', 'Success');
-        //  this.router.navigateByUrl('/reponses');
-        },
-        err => {
-          console.log('Error occured:' , err);
-          this.toastr.error(err.message, 'Error occured');
-        }
-      );
-  }
+ 
 
   
 }

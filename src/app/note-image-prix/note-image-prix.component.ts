@@ -1,17 +1,14 @@
 import { Component, OnInit,NgZone } from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatSelectModule} from '@angular/material/select';
-import { ChartService } from '../chart/chart.service';
-import {MatDialog,MatDialogRef, MAT_DIALOG_DATA,MatDialogModule} from '@angular/material/dialog';
+
+
+import {MatDialog} from '@angular/material/dialog';
 import { PointventeBySocieteService } from '../services-speciales/pointvente-by-societe.service';
 import { PointVente } from '../point-vente/point-vente.interface';
 import { NoteImagePrixService } from './note-image-prix.service';
-import { NoteImagePrix } from './note-image-prix.infterface';
-import * as CanvasJS from '../../assets/canvasjs';
+
 import { Societe } from '../societe/societe.interface';
 import { SocieteService } from '../societe/societe.service';
-import { element } from '@angular/core/src/render3';
-import { IfStmt, WrappedNodeExpr } from '@angular/compiler';
+
 import { PointVenteService } from '../point-vente/point-vente.service';
 import { ConcurrentService } from '../services-speciales/concurrent.service';
 import { ImagePrixConcurrent } from './image-prix-concurrent.interface';
@@ -84,7 +81,7 @@ export class NoteImagePrixComponent implements OnInit {
    aux:any=null
   userInfo: { id: any; 
     id_societe: any; name: any; email: any; };
-  constructor(private pointeventereponseService:PointeventereponseService   , private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private noteimageprixService:NoteImagePrixService, private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor(private pointeventereponseService:PointeventereponseService   , private userService:UserService,private zone: NgZone,private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService, private noteimageprixService:NoteImagePrixService, private pointventeBySocieteService : PointventeBySocieteService, private dialog:MatDialog) { }
 
   ngOnInit() {
   
@@ -459,10 +456,7 @@ this.lineChart(this.concurrent1,this.concurrent2,this.concurrent3,this.concurren
   
 
   ///***********************************************Chart Image Ensigne Concurrent *********************************************************$*/
- /* let chartImagePrixConcurrent=this.chartService.lineChart("Evolution de l'image prix Concurrents","Concurrents",this.NoteImagePrixEnseigneconcurrent,"chartupperright");  
-  let chartImagePrixConcurrent1=this.chartService.lineChart1("Evolution de l'image prix Concurrents","Concurrents",this.NoteImagePrixEnseigne,"chartupperright");  
-  setTimeout(function(){ chartImagePrixConcurrent1.render();chartImagePrixConcurrent.render();
-                               }, 100);
+
 
 
 
@@ -636,7 +630,8 @@ this.lineChart1(concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright
     categoryAxis.renderer.inside = false;
     categoryAxis.renderer.line.strokeOpacity = 1;
     categoryAxis.renderer.line.strokeWidth = 2;
-    categoryAxis.renderer.line.stroke = am4core.color("#111");
+    categoryAxis.renderer.line.stroke = am4core.color("#fff");
+    categoryAxis.renderer.line.fill = am4core.color("#fff")
   
   
   
@@ -654,8 +649,8 @@ this.lineChart1(concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright
     valueAxis.renderer.maxLabelPosition =0.9;
     valueAxis.renderer.line.strokeOpacity = 1;
     valueAxis.renderer.line.strokeWidth = 2;
-    valueAxis.renderer.line.stroke = am4core.color("#111");
-  
+    valueAxis.renderer.line.stroke = am4core.color("#fff");
+    valueAxis.renderer.line.fill = am4core.color("#fff");  
   
     
   // Create series
@@ -668,8 +663,8 @@ this.lineChart1(concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright
   series1.tooltipText = " {name} : {valueY}";
   series1.legendSettings.valueText = "{valueY}";
   series1.visible  = false;
-  series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
+  series1.fill=am4core.color("white")
+series1.stroke=am4core.color("white")
 
 
 
@@ -682,8 +677,8 @@ series1.stroke=am4core.color("green")
   series2.tooltipText = " {name} : {valueY}";
   series2.legendSettings.valueText = "{valueY}";
   series2.visible  = true;
-series2.fill=am4core.color("red")
-series2.stroke=am4core.color("red")
+series2.fill=am4core.color("#29299E")
+series2.stroke=am4core.color("#29299E")
 
 
   
@@ -697,8 +692,8 @@ series2.stroke=am4core.color("red")
   series3.tooltipText = " {name} : {valueY}";
   series3.legendSettings.valueText = "{valueY}";
   series3.visible  = true;
-  series3.fill=am4core.color("blue")
-series3.stroke=am4core.color("blue")
+  series3.fill=am4core.color("green")
+series3.stroke=am4core.color("green")
   
 
 let series4= chart.series.push(new am4charts.LineSeries());
@@ -710,8 +705,8 @@ let series4= chart.series.push(new am4charts.LineSeries());
   series4.tooltipText = " {name} : {valueY}";
   series4.legendSettings.valueText = "{valueY}";
   series4.visible  = true;
-  series4.fill=am4core.color("#6D6D6D")
- series4.stroke=am4core.color("#6D6D6D")
+  series4.fill=am4core.color("gray")
+ series4.stroke=am4core.color("gray")
 
   
  chart.cursor = new am4charts.XYCursor();
@@ -752,7 +747,11 @@ chart.data = dataPoints
   categoryAxis.renderer.inside = false;
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.strokeWidth = 2;
-  categoryAxis.renderer.line.stroke = am4core.color("#111");
+
+  categoryAxis.renderer.line.stroke = am4core.color("#fff");
+  categoryAxis.renderer.line.fill = am4core.color("#fff")
+
+
 
 
 
@@ -770,7 +769,10 @@ chart.data = dataPoints
   valueAxis.renderer.maxLabelPosition =0.9;
   valueAxis.renderer.line.strokeOpacity = 1;
   valueAxis.renderer.line.strokeWidth = 2;
-  valueAxis.renderer.line.stroke = am4core.color("#111");
+  valueAxis.renderer.line.stroke = am4core.color("#fff");
+  valueAxis.renderer.line.fill = am4core.color("#fff")
+
+
 
 
   

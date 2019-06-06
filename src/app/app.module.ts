@@ -28,17 +28,13 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
-import { ChartService } from './chart/chart.service';
+
 import {MatDialogModule} from '@angular/material/dialog';
 
 import { ThemeComponent } from './theme/theme.component';
-import { QuestionsComponent } from './questions/questions.component';
 import { DetailQuestionnaireComponent } from './detail-questionnaire/detail-questionnaire.component';
 import { ServicesSpecialesComponent } from './services-speciales/services-speciales.component';
-import { ChoixQuestionnaireComponent } from './choix-questionnaire/choix-questionnaire.component';
-import { AjoutQuestionsComponent } from './ajout-questions/ajout-questions.component';
 import { SondageComponent } from './sondage/sondage.component';
-import { ReponsesComponent } from './reponses/reponses.component';
 
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { MatCheckboxModule,MatInputModule,} from '@angular/material';
@@ -60,11 +56,8 @@ import {  JWT_OPTIONS  } from '@auth0/angular-jwt';
 import { 
   AuthGuardService as AuthGuard 
 } from './auth/auth-guard.service';
-import { FooterAdminComponent } from './components-admin/footer-admin/footer-admin.component';
-import { NavbarAdminComponent } from './components-admin/navbar-admin/navbar-admin.component';
-import { SidebarAdminComponent } from './components-admin/sidebar-admin/sidebar-admin.component';
+
 import { ComponentsAdminModule } from './components-admin/components-admin.module';
-import { TypographyComponent } from './typography/typography.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { FacturationComponent } from './facturation/facturation.component';
@@ -75,13 +68,11 @@ const routes: Routes = [
 },
   { path: 'ajout-societe', component: AjoutSocieteComponent ,        canActivate: [AuthGuard] 
 },
-   { path: 'choix-questionnaire', component: ChoixQuestionnaireComponent ,        canActivate: [AuthGuard] 
-  },
+   
    { path: 'sondage/:sondageid', component: SondageComponent ,      
   },
 
-      { path: 'questions/:sondageid', component: QuestionsComponent ,  
-    },
+   
      
       { 
         path: 'admin/societe',
@@ -130,13 +121,12 @@ const routes: Routes = [
     
     
     ThemeComponent,
-    QuestionsComponent,
     DetailQuestionnaireComponent,
     ServicesSpecialesComponent,
-    ChoixQuestionnaireComponent,
-    AjoutQuestionsComponent,
+    
+    
     SondageComponent,
-    ReponsesComponent,
+    
     
     LoginComponent,
     UserComponent,
@@ -204,7 +194,6 @@ const routes: Routes = [
   PointVenteService,
   QuestionnaireService,
   QuestionService,
-  ChartService,
   { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
 
   JwtHelperService,

@@ -1,18 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatSelectModule} from '@angular/material/select';
-import { ChartService } from '../chart/chart.service';
-import {MatDialog,MatDialogRef, MAT_DIALOG_DATA,MatDialogModule} from '@angular/material/dialog';
+
+
+import {MatDialog} from '@angular/material/dialog';
 import { ConcurrentService } from '../services-speciales/concurrent.service';
 import { PointVenteService } from '../point-vente/point-vente.service';
 import { SocieteService } from '../societe/societe.service';
 import { PointventeBySocieteService } from '../services-speciales/pointvente-by-societe.service';
 import { Societe } from '../societe/societe.interface';
 import { PointVente } from '../point-vente/point-vente.interface';
-import { Promotions } from './promotions.interface';
 import { PromotionsService } from './promotions.service';
-import { PromotionsConcurrent } from './promotions-concurrent.interface';
-import { AmChartsComponent } from '../am-charts/am-charts.component'
+
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -59,7 +56,7 @@ export class PromotionsComponent implements OnInit {
   userInfo: { id: any; id_societe: any; name: any; email: any; };
   selectedpointvenete: any;
 
-  constructor( private pointeventereponseService:PointeventereponseService , private userService:UserService,private promotionsService :PromotionsService, private concurrentService: ConcurrentService ,  private pointeventeService: PointVenteService, private societeService :SocieteService,  private pointventeBySocieteService : PointventeBySocieteService,public chartService : ChartService, private dialog:MatDialog) { }
+  constructor( private pointeventereponseService:PointeventereponseService , private userService:UserService, private concurrentService: ConcurrentService , private societeService :SocieteService,   private dialog:MatDialog) { }
 
   ngOnInit() {
 
@@ -616,7 +613,8 @@ chart.responsive.enabled=true
   categoryAxis.renderer.inside = false;
   categoryAxis.renderer.line.strokeOpacity = 1;
   categoryAxis.renderer.line.strokeWidth = 2;
-  categoryAxis.renderer.line.stroke = am4core.color("#111");
+  categoryAxis.renderer.line.stroke = am4core.color("#fff");
+  categoryAxis.renderer.line.fill = am4core.color("#fff")
 
 
 
@@ -634,8 +632,8 @@ chart.responsive.enabled=true
   valueAxis.renderer.maxLabelPosition =0.9;
   valueAxis.renderer.line.strokeOpacity = 1;
   valueAxis.renderer.line.strokeWidth = 2;
-  valueAxis.renderer.line.stroke = am4core.color("#111");
-
+  valueAxis.renderer.line.stroke = am4core.color("#fff");
+  valueAxis.renderer.line.fill = am4core.color("#fff");  
 
   
 // Create series
@@ -648,8 +646,8 @@ series1.bullets.push(new am4charts.CircleBullet());
 series1.tooltipText = " {name} : {valueY}";
 series1.legendSettings.valueText = "{valueY}";
 series1.visible  = false;
-series1.fill=am4core.color("green")
-series1.stroke=am4core.color("green")
+series1.fill=am4core.color("white")
+series1.stroke=am4core.color("white")
 
 
 
@@ -662,8 +660,8 @@ series2.bullets.push(new am4charts.CircleBullet());
 series2.tooltipText = " {name} : {valueY}";
 series2.legendSettings.valueText = "{valueY}";
 series2.visible  = true;
-series2.fill=am4core.color("red")
-series2.stroke=am4core.color("red")
+series2.fill=am4core.color("#29299E")
+series2.stroke=am4core.color("#29299E")
 
 
 
@@ -677,8 +675,8 @@ series3.bullets.push(new am4charts.CircleBullet());
 series3.tooltipText = " {name} : {valueY}";
 series3.legendSettings.valueText = "{valueY}";
 series3.visible  = true;
-series3.fill=am4core.color("blue")
-series3.stroke=am4core.color("blue")
+series3.fill=am4core.color("green")
+series3.stroke=am4core.color("green")
 
 
 let series4= chart.series.push(new am4charts.LineSeries());
@@ -690,8 +688,8 @@ series4.bullets.push(new am4charts.CircleBullet());
 series4.tooltipText = " {name} : {valueY}";
 series4.legendSettings.valueText = "{valueY}";
 series4.visible  = true;
-series4.fill=am4core.color("#6D6D6D")
-series4.stroke=am4core.color("#6D6D6D")
+series4.fill=am4core.color("gray")
+series4.stroke=am4core.color("gray")
 
 
 chart.cursor = new am4charts.XYCursor();
@@ -732,7 +730,11 @@ categoryAxis.dataFields.category = "label";
 categoryAxis.renderer.inside = false;
 categoryAxis.renderer.line.strokeOpacity = 1;
 categoryAxis.renderer.line.strokeWidth = 2;
-categoryAxis.renderer.line.stroke = am4core.color("#111");
+
+categoryAxis.renderer.line.stroke = am4core.color("#fff");
+categoryAxis.renderer.line.fill = am4core.color("#fff")
+
+
 
 
 
@@ -750,7 +752,10 @@ valueAxis.renderer.minLabelPosition = 0.1;
 valueAxis.renderer.maxLabelPosition =0.9;
 valueAxis.renderer.line.strokeOpacity = 1;
 valueAxis.renderer.line.strokeWidth = 2;
-valueAxis.renderer.line.stroke = am4core.color("#111");
+valueAxis.renderer.line.stroke = am4core.color("#fff");
+valueAxis.renderer.line.fill = am4core.color("#fff")
+
+
 
 
 

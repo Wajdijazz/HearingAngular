@@ -15,11 +15,13 @@ export class FacturationComponent implements OnInit {
   month: string;
   abonnement_mensuel1: number;
   abonnement_mensuel2: number;
+  idsociete: number;
   constructor(private pointeventereponseService:PointeventereponseService,private societeService:SocieteService) { }
   forfait:any
   abonnement_mensuel:any
   prix_reponse_traite:any
   equivalent_annuel:any
+  facture=[]
   
   ngOnInit() {
     var c=0
@@ -28,14 +30,17 @@ export class FacturationComponent implements OnInit {
   this.societeService
   .getSociete()
   .subscribe((data:Societe[])=>{
-    console.log(data);
+    
     this.societes=data;
     this.societes.forEach(societe=>{
-      var idsociete=societe.id
-      this.pointeventereponseService.getReponseEnseigne(idsociete).subscribe((data1:ReponsePointeVente[])=>{
+      this.idsociete=societe.id
+      console.log(this.idsociete)
+      this.pointeventereponseService.getReponseEnseigne(this.idsociete).subscribe((data1:ReponsePointeVente[])=>{
+        console.log(data1)
+        this.equivalent_annuel=0
 
         var  TotalReponse
-        this.equivalent_annuel=0
+      
 
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -47,14 +52,14 @@ export class FacturationComponent implements OnInit {
 
     const result=data1.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element );
     TotalReponse=result.length
+    console.log("Total reponse est "+TotalReponse)
+
  
     if(TotalReponse<=1){
       this.forfait=1
 
       this.prix_reponse_traite=0.2 
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
-
 
     }
    else if(TotalReponse>1 && TotalReponse <= 2){
@@ -62,7 +67,6 @@ export class FacturationComponent implements OnInit {
 
       this.prix_reponse_traite=0.18
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
     else if(TotalReponse>2 && TotalReponse <= 5){
@@ -70,7 +74,6 @@ export class FacturationComponent implements OnInit {
     
       this.prix_reponse_traite=0.160
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
     else if(TotalReponse>5 && TotalReponse <= 10){
@@ -78,7 +81,6 @@ export class FacturationComponent implements OnInit {
     
       this.prix_reponse_traite=0.140
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
     else if(TotalReponse>10 && TotalReponse <= 20){
@@ -86,7 +88,6 @@ export class FacturationComponent implements OnInit {
     
       this.prix_reponse_traite=0.120
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
     else if(TotalReponse>20 && TotalReponse <= 50){
@@ -94,7 +95,6 @@ export class FacturationComponent implements OnInit {
     
       this.prix_reponse_traite=0.100
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
     else if(TotalReponse>50 && TotalReponse <= 100){
@@ -102,17 +102,15 @@ export class FacturationComponent implements OnInit {
     
       this.prix_reponse_traite=0.100
       this.equivalent_annuel=this.equivalent_annuel+(TotalReponse*this.prix_reponse_traite)
-      console.log(this.equivalent_annuel)
 
     }
 
-  
-  
 
+  
 
 
    })
-   console.log(this.equivalent_annuel)
+   this.facture.push({nom :societe.nom, facturation : this.equivalent_annuel})
 
 
 

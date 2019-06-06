@@ -9,8 +9,7 @@ import { DetailQuestionnaire } from '../detail-questionnaire/detail-questionnair
 import { DetailQuestionnaireService} from '../detail-questionnaire/detail-questionnaire.service';
 import { ServicequestionnairesService } from '../services-speciales/servicequestionnaires.service';
 
- import {Questions} from '../questions/questions.interface';
-import{QuestionsService} from '../questions/questions.service';
+ 
 	import { from } from 'rxjs';
 import { last } from 'rxjs/operators';
 import { findLast } from '@angular/compiler/src/directive_resolver';
@@ -40,7 +39,7 @@ export class AjoutQuestionnaireComponent implements OnInit {
 		id_questionnaire : null
 	 }
 	 
-	questions : Questions[];
+
 
    
 
@@ -59,10 +58,9 @@ export class AjoutQuestionnaireComponent implements OnInit {
 	societe: any;
 	
 
-  constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,private questionsService :  QuestionsService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService,private router: Router) { }
+  constructor(private userService: UserService,private servicesquestionnaires : ServicequestionnairesService,   private detailqestionnaireService : DetailQuestionnaireService,  private themeService : ThemeService, private questionnaireService : QuestionnaireService, private pointVenteService: PointVenteService,private router: Router) { }
 
   ngOnInit() {
-	  //On récupère les points de vente du client pour le sélecteur dans le formulaire
 	
     
 
@@ -116,10 +114,10 @@ var i=0;
 		this.servicesquestionnaires
 		.getIdQuestionnaire()
 		.subscribe((data1:Questionnaire[])=>{
-
 			this.selection.forEach((selected)=>{
 				if(selected){
 					console.log(this.theme[i].id)
+
 					this.id_th=this.theme[i].id; 
 			this.questionnaires=data1;
 						
@@ -213,7 +211,37 @@ var i=0;
 	  
 		  })
 	  
-	   })
+		 })
+		 
+		 this.questionnaireService.DeleteQuestionnaireReponseEById(id_questionnaire,this.id_societe).subscribe((data:Questionnaire[])=> {
+	 
+		  // show an alert to tell the user if product was created or not
+		  console.log(data);
+		  this.questionnaireService
+		  .getQuestionnaire()
+		  .subscribe((data1:Questionnaire[])=>{
+		  this.userService.getUserBoard().subscribe(
+			data => {
+			  this.userInfo = {
+			  id: data.user.id,
+			  id_societe:data.user.id_societe,
+			  name: data.user.name,
+			  email: data.user.email
+			  };
+		  
+			  this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			
+			 this.board = data.description;
+			},
+			error => {
+			  this.errorMessage = `${error.status}: ${error.error}`;
+			}
+			);
+		
+	  
+		  })
+	  
+		 })
 	 
 	}
 

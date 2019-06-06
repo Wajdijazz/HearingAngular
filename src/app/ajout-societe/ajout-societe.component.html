@@ -1,12 +1,12 @@
 <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 <div class="main-content">
-  <div class="container-fluid">
+  <div class="container-fluid" >
       <div class="row">
           <div class="col-md-4">
               <div class="card">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title">Ajout Enseigne</h4>
-                      <p class="card-category">Ajouter une Enseigne</p>
+                  <div class="card-header-tabs card-header-info">
+                      <h4 class="card-title">Ajouter une Enseigne</h4>
+                      <p class="card-category"></p>
                   </div>
 <div class="form-horizontal pad-10">
   <br>
@@ -14,8 +14,8 @@
     <div class="col-md-6 form-group">
       <label style="color:black" class=" control-label">Nom Enseigne</label>
       <div class="col-md-12 no-padding">
-        <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
-        <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-danger">
+        <input  name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
+        <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-info">
           <div [hidden]="!nom.errors.required">
             Nom est requis!
           </div>
@@ -26,7 +26,7 @@
       <label style="color:black" class=" control-label">Type Société</label>
       <div class="col-md-12 no-padding">
         <input name="type_abonnement" id="type_abonnement" #type_abonnement="ngModel" [(ngModel)]="societe.type_abonnement" class="form-control" placeholder="" type="text" required />
-        <div *ngIf="type_abonnement.errors && (type_abonnement.dirty || type_abonnement.touched)" class="alert alert-danger">
+        <div *ngIf="type_abonnement.errors && (type_abonnement.dirty || type_abonnement.touched)" class="alert alert-info">
           <div [hidden]="!type_abonnement.errors.required">
             type_abonnement est requis!
           </div>
@@ -38,7 +38,7 @@
       <label style="color:black" class=" control-label">Date_Abonnement Ensigne</label>
       <div class="col-md-12 no-padding">
         <input name="date_facturation" id="date_facturation" #date_facturation="ngModel" [(ngModel)]="societe.date_facturation" class="form-control" placeholder="" type="date" required />
-        <div *ngIf="date_facturation.errors && (date_facturation.dirty || date_facturation.touched)" class="alert alert-danger">
+        <div *ngIf="date_facturation.errors && (date_facturation.dirty || date_facturation.touched)" class="alert alert-info">
           <div [hidden]="!date_facturation.errors.required">
             Date_Abonnement est requis!
           </div>
@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="pad-10">
-      <button class="btn btn-danger" mwlConfirmationPopover
+      <button class="btn btn-info" mwlConfirmationPopover
               [popoverTitle]="'Confirmation'"
               [popoverMessage]="'êtes-vous sûr?'"
               placement="top"
@@ -62,34 +62,35 @@
 </div>
 <div class="col-md-8">
   <div class="card">
-      <div class="card-header card-header-danger">
+      <div class="card-header-tabs card-header-info">
           <h4 class="card-title ">Liste des  enseignes Clients</h4>
+          <p class="card-category"></p>
+
       </div>
       <div class="card-body">
-          <div class="table-responsive">
-              <table class="table">
-                <thead class=" text-primary">
-    <tr>
+        <div class="card-body table-responsive">
+          <table class="table ">
+              <thead style="text-align: center"class="text-primary">
+    
       <th>Nom</th>
       <th>Type Abonnement</th>
       <th>Date_facturation</th>
       <th>Comptes</th>
       <th>Supprimer Enseigne</th>
 
-    </tr>
     </thead>
-    <tbody>
+    <tbody  style="text-align: center">
     <tr *ngFor="let societe of societes">
       <td>{{ societe.nom }}</td>
       <td>{{ societe.type_abonnement }}</td>
       <td>{{ societe.date_facturation }}</td>
       <td>
-      <button type="submit" class="btn btn-primary"   (click)="getSociete(societe.id)">
+      <button type="submit" class="btn btn-info"   (click)="getSociete(societe.id)">
           <span class="glyphicon glyphicon-floppy-disk"></span> Creer
         </button>
       </td>
         <td>
-          <button type="submit" class="btn btn-danger"   (click)="DeleteSociete(societe.id)">
+          <button type="submit" class="btn btn-info"   (click)="DeleteSociete(societe.id)">
               <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
             </button>
           </td>

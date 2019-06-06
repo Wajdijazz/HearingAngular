@@ -1,82 +1,63 @@
-<!-- 
-    Login template using Angular Material
-    @author Shashank Tiwari 
--->
 
-<!-- Application header starts -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+<!--===============================================================================================-->
 
 <body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('assets/images/back.png');">
+			<div class="wrap-login100 p-t-30 p-b-50">
+				<span  class="login100-form-title p-b-41">
+					Bienvenue chez Hearing
+				</span>
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate class="login100-form validate-form p-b-33 p-t-5">
 
-<div  style="background:#001642," class="app-header">
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text"  name="username" [(ngModel)]="form.username" #username="ngModel"
+                        required placeholder="User name">
+						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
+					</div>
 
-  <h1 id="text"  class="app-heading">Bienvenue chez Hearing</h1>
-</div>
-<!-- Application header ends -->
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password"  name="password" [(ngModel)]="form.password" #password="ngModel"
+                        required minlength="6" placeholder="Password">
+						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
+					</div>
 
+					<div class="container-login100-form-btn m-t-32">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
 
-<mat-grid-list cols="3">
-  <mat-grid-tile></mat-grid-tile>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 
-  <!-- Writing markup for login starts -->
-  <mat-grid-tile class='login-element'>
-      <div class="login-container">
+	<div id="dropDownSelect1"></div>
+	
 
-          <!-- Template Header starts -->
-          <div class="login-box-header">
-              <h2>Signin</h2>
-          </div>
-          <!-- Template Header ends -->
-
-
-          <!-- Template Body starts -->
-          
-          <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-
-          <div class="login-box-body">
-
-              <!-- Markup for getting Username starts -->
-              <mat-grid-list cols="9" rowHeight="75px">
-                  <mat-grid-tile [rowspan]="1" class="login-icon">
-                      <mat-icon>lock</mat-icon>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="7">
-                      <mat-form-field class="justifier">
-                          <input  matInput type="text" name="username" [(ngModel)]="form.username" #username="ngModel"
-                          required />
-                      </mat-form-field>
-                  </mat-grid-tile>
-              </mat-grid-list>
-              <!-- Markup for getting Username ends -->
-
-              <!-- Markup for getting Password starts -->
-              <mat-grid-list cols="9" rowHeight="100px">
-                  <mat-grid-tile [rowspan]="1"  class="login-icon">
-                      <mat-icon>remove_red_eye</mat-icon>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="7">
-                      <mat-form-field class="justifier">
-                          <input  matInput type="password"  name="password" [(ngModel)]="form.password" #password="ngModel"
-                          required minlength="6" />
-                      </mat-form-field>
-                  </mat-grid-tile>
-              </mat-grid-list>
-              <!-- Markup for getting Password ends -->
-
-              <button mat-raised-button class="login-button"> 
-                  <mat-icon>input</mat-icon> Login
-              </button>
-
-          </div>
-          </form>
-          <!-- Template Body ends -->
-          
-      </div>
-  </mat-grid-tile>
-  <!-- Writing markup for login ends -->
- 
-  <mat-grid-tile></mat-grid-tile>
-
-</mat-grid-list>
 </body>

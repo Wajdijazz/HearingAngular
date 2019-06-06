@@ -11,8 +11,7 @@ import { NEXT } from '@angular/core/src/render3/interfaces/view';
 import { ComponentFactoryResolver, element } from '@angular/core/src/render3';
 import { QuestionService } from '../question/question.service'
 import { ActivatedRoute } from '@angular/router';
-import { QuestionsService } from '../questions/questions.service';
-import { Questions } from '../questions/questions.interface';
+
 import { UserService } from '../services/user.service';
 
 
@@ -34,10 +33,10 @@ societe:any=""
   a:any=null;
   numbers: number[] = [];
   sondageId=null;
- questions : Questions [];
 
 
-  constructor( private userService:UserService,private route: ActivatedRoute,private questionService : QuestionsService , private sharedService : SharedServiceService){
+
+  constructor( private userService:UserService,private route: ActivatedRoute, private sharedService : SharedServiceService){
   }
 
   ngOnInit(){
