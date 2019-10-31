@@ -6,6 +6,7 @@ import { SocieteService } from '../societe/societe.service';
 import { Societe } from '../societe/societe.interface';
 import { SharedServiceService } from '../services-speciales/shared-service.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-register',
@@ -53,14 +54,18 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         this.isSignedUp = true;
         this.router.navigateByUrl(`/admin/ajout-societe`);
-
+        Swal.fire("Félicitations", "Compte "+this.societe+" crée avec succés", "success");
         this.isSignUpFailed = false;
       },
       error => {
         console.log(error);
         this.errorMessage = error.error;
         this.isSignUpFailed = true;
+        Swal.fire("Erreur", "Compte "+this.societe+" n'est pas crée", "error");
       }
     );
+ 
+
   }
+  
 }

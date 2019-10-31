@@ -4,14 +4,14 @@
           <div class="col-md-4">
               <div class="card">
                   <div class="card-header-tabs card-header-info">
-                      <h4 class="card-title">Ajout concurrent de societé {{societe}}</h4>
+                      <h4 class="card-title">Ajouter un concurrent</h4>
                       <p class="card-category"> </p>
                   </div>
 
                   <div  class="form-horizontal pad-10">
                     <br>
                     <form  #ajoutConcurrentForm="ngForm">
-                      <div class="col-md-6 form-group">
+                      <div class="col-md-12 form-group">
                         <label  style="color: black"class=" control-label">Nom Concurrent</label>
                         <div class="col-md-12 no-padding">
                           <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="concurrent.nom" class="form-control" placeholder="" type="text" required />
@@ -66,7 +66,7 @@
                     
                       <td>{{concurrent.nom}}</td>
                       <td>
-                          <button type="submit" class="btn btn-info"   (click)="DeletConcurrent(concurrent.id)">
+                          <button type="submit" class="btn btn-info"   (click)="DeletConcurrent(concurrent.id,concurrent.nom)">
                               <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
                             </button>
                           </td>

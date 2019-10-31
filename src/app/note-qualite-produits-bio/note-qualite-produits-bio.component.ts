@@ -73,7 +73,7 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
 
    /***************** Pointe vente  from dataBase ******************/
    this.pointeventereponseService .getReponseEnseigne(this.id_societe).subscribe((data:ReponsePointeVente[])=>{
-    var datapointevenete=data.filter(word => word. Qualite_produits_bio_satisfaction!= "");
+    var datapointevenete=data.filter(word => word.Qualite_produits_bio_satisfaction!= "");
       
    datapointevenete.forEach(element=>{
     var index1 = this.magasins.findIndex(x => x.viewValue==element.nom)
@@ -119,7 +119,7 @@ export class NoteQualiteProduitsBioComponent implements OnInit {
        AS=0
        PTS=0
        PDTS=0
-  const result = this.QualiteProduitBio.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
+  const result = this.QualiteProduitBio.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Qualite_produits_bio_satisfaction!= "");
   var yearTime=new Date()
   var year = yearTime.getFullYear()
   TotalReponse=result.length
@@ -550,6 +550,8 @@ lineChart(name1,name2,name3,name4,dataPoints,baliseid){
   // Themes end
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
 
 chart.responsive.enabled=true
 
@@ -667,7 +669,9 @@ lineChart1(name1,dataPoints,baliseid){
 // Themes end
 // Create chart instance
 let chart = am4core.create(baliseid, am4charts.XYChart);
+chart.exporting.backgroundColor=am4core.color("#6af6d7");
 
+chart.exporting.menu = new am4core.ExportMenu();
 
 
 // Add data

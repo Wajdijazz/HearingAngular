@@ -1,17 +1,17 @@
-<div class="main-content">
+<div class="main-content" > 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <div class="card">
+                <div class="card" >
                     <div class="card-header-tabs card-header-info">
-                        <h4 class="card-title">Ajout une pointe de vente</h4>
+                        <h4 class="card-title">Ajouter un point de vente</h4>
                         <p class="card-category"> </p>
                       </div>
   <div class="form-horizontal pad-10">
     <br>
     <form #ajoutPointVenteForm="ngForm">
-      <div class="col-md-6 form-group">
-        <label style="color:black" class=" control-label">Nom Point Vente</label>
+      <div class="col-md-12 form-group">
+        <label style="color:black" class=" control-label">Nom Point de Vente</label>
         <div class="col-md-12 no-padding">
           <input name="nom" id="nom" #nom="ngModel" [(ngModel)]="pointvente.nom" class="form-control" placeholder="" type="text" required />
           <div *ngIf="nom.errors && (nom.dirty || nom.touched)" class="alert alert-info">
@@ -22,8 +22,8 @@
         </div>
       </div>
   
-      <div class="col-md-6 form-group">
-        <label style="color:black" class=" control-label">Adresse Pointe de vente</label>
+      <div class="col-md-12 form-group">
+        <label style="color:black" class=" control-label">Adresse Point de vente</label>
         <div class="col-md-12 no-padding">
           <input name="adresse" id="adresse" #adresse="ngModel" [(ngModel)]="pointvente.adresse" class="form-control" placeholder="" type="text" required />
           <div *ngIf="adresse.errors && (adresse.dirty || adresse.touched)" class="alert alert-info">
@@ -38,7 +38,7 @@
         <button type="submit" class="btn btn-info" mwlConfirmationPopover
                 [popoverTitle]="'Confirmation'"
                 [popoverMessage]="'êtes-vous sûr?'"
-                placement="top"
+                placement="bottom"
                 (confirm)="getPointeVente(pointvente)"
                 (click)="creerPointVente(pointvente)"
                   [disabled]="!ajoutPointVenteForm.valid">
@@ -54,19 +54,20 @@
   </div>
 
   <div class="col-md-8">
-    <div class="card">
+                <div class="card" >
+                
       <div class="card-header-tabs card-header-info">
-            <h4 class="card-title ">Pointes des ventes de {{societe}}</h4>
+            <h4 class="card-title ">Points de vente de {{societe}}</h4>
             <p class="card-category"> </p>
         </div>
-        <div class="card-body">
+        <div class="card-body" >
           <div class="table-responsive">
               <table style="text-align: center" class="table">
                 <thead class="text-primary">
                    
                       <th>Nom</th>
                       <th>Adresse</th>
-                      <th>Supprimer une pointe de vente</th>
+                      <th>Supprimer un point de vente</th>
                
                     </thead>
                     <tbody>
@@ -74,8 +75,9 @@
                       
                         <td>{{ pointvente.nom }}</td>
                         <td>{{ pointvente.adresse }}</td>
-                        <td>
-                                <button type="submit" class="btn btn-info"   (click)="DeletPointeVente(pointvente.id)">
+                  
+                               <td>
+                                <button type="submit" class="btn btn-info"   (click)="DeletPointeVente(pointvente.id,pointvente.nom)">
                                     <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
                                   </button>
                                 </td>

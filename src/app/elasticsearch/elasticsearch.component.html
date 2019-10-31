@@ -1,0 +1,206 @@
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+           
+    </div>
+
+            <div class="row">
+                    <div class="col-lg-3">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                    <div class="card-icon">
+                                        <i class="fa fa-twitter"></i>
+                                    </div>
+                                    <p class="card-category">Nombre  des tweets</p>
+                                    <h3 class="card-title">
+                                            {{totalTweet}}
+    
+                                    </h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    
+                    <div class="col-lg-3">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="fa fa-twitter"></i>
+                                </div>
+                                <p class="card-category">Score   positif</p>
+                                <h3 class="card-title">
+
+
+                                        {{totalPositve}}
+                                    </h3>
+                                    </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                    <div class="card-icon">
+                                        <i class="fa fa-twitter"></i>
+                                    </div>
+                                    <p class="card-category">Score Negative</p>
+                                    <h3 class="card-title">
+    
+                                            {{totalnegatif}}
+                                            </h3>  
+                                                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+ 
+                   
+                        <div class="col-lg-3">
+                                <div class="card card-stats">
+                                    <div class="card-header card-header card-header-icon">
+                                        <div class="card-icon">
+                                            <i class="fa fa-twitter"></i>
+                                        </div>
+                                        <p class="card-category">Score neutre</p>
+                                        <h3 class="card-title">
+        
+                                                {{totalNeutre}}
+                                                </h3>  
+                                                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+     
+
+
+            </div> 
+            <div class="row">
+
+
+                    <div class="col-md-6">
+                            <div  style=" height:100%"class="card card-chart">
+                                  
+                                <div class="card-body">
+
+
+                                    <div> <img src="{{profile_image_url_https}}"></div>  <br>
+                        <div> <b>Utilisateur : </b>    {{user}}</div><br>
+
+                       <div> <b>Position : </b>  {{location}}   </div> <br>
+                      
+                       <div><b> Description  : </b>   {{description}}   </div> <br>
+
+                       <div><b>  Texte  : </b>   {{text_tweet}}   </div> <br>
+
+
+                                </div>
+                                <div class="card-footer">
+                                        <div class="stats">
+                                                <h4 style="text-align: right"  class="card-title">Tweet mot clé : <b style="color:gray">{{index}}</b> </h4>
+    
+                                        </div>
+                                    </div>
+                            
+                            </div>
+                        </div>
+                
+                    <div class="col-md-6">
+                        <div style=" height:100%" class="card card-chart">
+                          
+                            <div class="card-body">
+                                    <div class="ct-chart" id="chartdiv4"></div>
+
+    
+                           
+                            </div>
+                            <div class="card-footer">
+                                    <div class="stats">
+                                            <h4 style="text-align: right"  class="card-title">Langues</h4>
+
+                                    </div>
+                                </div>
+                          
+                        </div>
+                    </div>
+ 
+                
+                 
+                       
+
+
+                     
+
+                        </div><br> <br>
+  
+            <div class="row">
+                  
+                    
+             
+                             <div  class="col-md-4">
+                                    <div style=" height:100%" class="card card-chart">
+                                      
+                                        <div class="card-body">
+                                                <div class="ct-chart" id="chartdiv1"></div>
+
+                
+                                       
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <h4 style="text-align: right"  class="card-title">Sentiments</h4>
+            
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            
+
+
+
+                         
+                                <div class="col-md-8">
+                                        <div style=" height:100%" class="card card-chart">
+                                          
+                                            <div class="card-body">
+                                                    <div class="ct-chart" id="chartdiv2"></div>
+    
+                    
+                                           
+                                            </div>
+                                            <div class="card-footer">
+                                                    <div class="stats">
+                                                            <h4 style="text-align: right"  class="card-title">Scores</h4>
+                
+                                                    </div>
+                                                </div>
+                                       
+                                        </div>
+                                    </div>
+
+                             </div>
+
+                             
+                          
+       
+ 
+  
+    </div>
+            </div>

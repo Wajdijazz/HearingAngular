@@ -1,0 +1,62 @@
+
+
+<div class="main-content">
+  <div class="container-fluid" >
+      <br><br>
+
+      <div class="app-header">
+  
+          <h1 id="text" style="text-align:center" class="app-heading">Modifier Enseigne Cliente : {{societeName}}</h1>
+        </div><br><br>
+      <div class="row">
+
+          <div class="col-md-4">
+          </div>
+
+          <div class="col-md-4">
+           
+              <div class="card">
+                  <div class="card-header-tabs card-header-info">
+                      <h4 class="card-title">Modifier une Enseigne</h4>
+                      <p class="card-category"></p>
+                  </div>
+<div class="form-horizontal pad-10">
+  <br>
+  <form #ajoutSocieteForm="ngForm">
+    <div class="col-md-12 form-group">
+      <label style="color:black" class=" control-label">Nom Enseigne</label>
+      <div class="col-md-12 no-padding">
+        <input  name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder={{societeName}} type="text" required />
+        
+      </div>
+    </div>
+    <div class="col-md-12 form-group">
+      <label style="color:black" class=" control-label">Type Société</label>
+      <div class="col-md-12 no-padding">
+        <input name="type_abonnement" id="type_abonnement" #type_abonnement="ngModel" [(ngModel)]="societe.type_abonnement" class="form-control" placeholder={{abonnement}} type="text" required />
+    
+      </div>
+    </div>
+    
+
+    <div class="pad-10">
+      <button class="btn btn-info" mwlConfirmationPopover
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes-vous sûr?'"
+              placement="bottom"
+            
+              (confirm)="updatetSocieteView(societe)"
+              type="submit" >
+        <span class="glyphicon glyphicon-floppy-disk"></span> Modifier
+      </button>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+
+
+
+        </div>
+  </div>
+  </div>

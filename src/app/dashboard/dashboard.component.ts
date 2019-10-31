@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
 		  
       
 			this.id_societe=this.userInfo.id_societe
-
+      
 this.pointeventereponseService.getReponseEnseigne(this.id_societe).subscribe((data1:ReponsePointeVente[])=>{
 console.log(data1.length)
 var Bar=[]
@@ -419,6 +419,9 @@ var ScoreTheme10
    
       
     })
+ 
+
+
     this.concurrentService.getAlConcurrent(this.id_societe).subscribe((data2:Concurrent[])=>{
       var M;
       var AMN;
@@ -749,7 +752,9 @@ tab_concurrent.forEach(element1=>{
     am4core.useTheme(am4themes_animated);
 
   let chart = am4core.create(baliseid, am4charts.XYChart);
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
+
   
 
   chart.data = dataPoints
@@ -820,6 +825,9 @@ series1.stroke=am4core.color("#fff")
 // Create chart instance
 
 let chart = am4core.create(baliseid, am4charts.XYChart);
+chart.exporting.menu = new am4core.ExportMenu();
+chart.exporting.backgroundColor=am4core.color("#6af6d7");
+
 let titre = chart.titles.create();
 titre.text = title
 titre.fontSize = 20;
@@ -865,7 +873,9 @@ valueAxis.min = 0;
 
   let chart = am4core.create(baliseid, am4charts.RadarChart);
 
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
+
 
 
  

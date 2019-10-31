@@ -158,6 +158,7 @@ var  TotalReponse
   let chart = am4core.create(baliseid, am4charts.XYChart);
   
   // Add data
+  chart.exporting.menu = new am4core.ExportMenu();
 
   chart.data = dataPoints
   let titre = chart.titles.create();
@@ -224,7 +225,8 @@ series1.stroke=am4core.color("#fff")
 
   let chart = am4core.create(baliseid, am4charts.RadarChart);
 
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+
 
 
  

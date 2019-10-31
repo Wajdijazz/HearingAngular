@@ -9,7 +9,9 @@ import { QuestionnaireService } from '../questionnaire/questionnaire.service';
 import { Questionnaire } from '../questionnaire/questionnaire.interface';
 import { ConcurrentService } from '../concurrent-societe/concurrent.service';
 import { Concurrent } from '../concurrent-societe/concurrent.interface';
-
+import { VerbatimeService } from '../nuage-mots/verbatime.service';
+import { Verbatime } from '../nuage-mots/verbatime.interface';
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-ajout-societe',
   templateUrl: './ajout-societe.component.html',
@@ -25,7 +27,7 @@ export class AjoutSocieteComponent implements OnInit {
   };
   societes: Societe[];
 
-  constructor( private  concurrentService :ConcurrentService,private questionnaireService : QuestionnaireService,private pointventeService:PointVenteService,private sharedservice:SharedServiceService,private societeService : SocieteService, private router: Router) { }
+  constructor( private verbatimeService:VerbatimeService,private  concurrentService :ConcurrentService,private questionnaireService : QuestionnaireService,private pointventeService:PointVenteService,private sharedservice:SharedServiceService,private societeService : SocieteService, private router: Router) { }
 
   ngOnInit() {
     this.societeService
@@ -37,8 +39,10 @@ export class AjoutSocieteComponent implements OnInit {
   }
 
   creerSociete(data:Societe){
-    this.societeService.createSociete(data);
-   
+		this.societeService.createSociete(data);
+//		this.societeService.postsearch(data)
+
+
   }
 	getSocieteView(){
 
@@ -48,9 +52,9 @@ export class AjoutSocieteComponent implements OnInit {
 			this.societes=data;
 		
 		})
-
+		Swal.fire("Félicitations", "Enseigne ajoutée avec succés", "success");
 	}
-  getSociete(id_Societe){
+  modifierSociete(id_Societe){
 		this.societeService
   	.getSociete()
   	.subscribe((data:Societe[])=>{
@@ -63,7 +67,9 @@ export class AjoutSocieteComponent implements OnInit {
 			console.log(nom.nom)
 			this.sharedservice.setSociete(nom.nom)
 			this.sharedservice.setIdSociete(nom.id)
-			this.router.navigateByUrl(`signup`);
+			this.sharedservice.setTypeSociete(nom.type_abonnement)
+			this.sharedservice.setdateSociete(nom.date_facturation)
+			this.router.navigateByUrl('/admin/update');
 
 
 		})
@@ -74,6 +80,31 @@ export class AjoutSocieteComponent implements OnInit {
 
 	}
 
+
+	getSociete(id_Societe){
+		this.societeService
+  	.getSociete()
+  	.subscribe((data:Societe[])=>{
+			this.societes=data;
+		
+		})
+
+		var nomById= this.societes.filter((word =>word.id==id_Societe) )
+		nomById.forEach(nom=>{
+			console.log(nom.nom)
+			this.sharedservice.setSociete(nom.nom)
+			this.sharedservice.setIdSociete(nom.id)
+			this.router.navigateByUrl('/admin/signup');
+
+		
+
+		})
+	
+
+
+
+
+	}
 	DeleteSociete(idsociete){
   
   this.societeService.DeleteSocieteById(idsociete).subscribe((data:Societe[])=> {
@@ -96,6 +127,8 @@ export class AjoutSocieteComponent implements OnInit {
 		 })
 		 this.concurrentService.DeleteConcurrentIdSociete(idsociete).subscribe((data:Concurrent[])=> {
 		 })
+
+		 Swal.fire("Félicitations", "Enseigne supprimée avec succés", "success");
 
 }
 

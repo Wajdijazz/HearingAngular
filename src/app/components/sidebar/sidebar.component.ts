@@ -12,13 +12,19 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
     { path: '/admin-layout/about-hearing', title: 'Hearing',  icon:'home', class: ''},
     { path: '/admin-layout/dashboard', title: 'Dashboard',  icon:'dashboard', class: ''},
-    { path: '/admin-layout/ajout-point-vente', title: 'Pointes de Ventes',  icon:'table_chart', class: '' },
+    { path: '/admin-layout/twitter-settings', title: 'Paramètres Twitter',  icon:'settings', class: ''},
+
+    { path: '/admin-layout/data-visualization', title: 'Visualisation Twitter',  icon:'pie_chart', class: ''},
+    { path: '/admin-layout/ajout-point-vente', title: 'Points de Vente',  icon:'table_chart', class: '' },
     { path: '/admin-layout/ajout-concurrent', title: 'Concurrents',  icon:'table_chart', class: '' },
 
 
     { path: '/admin-layout/ajout-questionnaire', title: 'Questionnaires',  icon:'table_chart', class: ''}
+   
 
     
+
+   
   
 
 
@@ -59,18 +65,23 @@ export class SidebarComponent implements OnInit {
   
   appitems = [
     {
-      label: 'Charts Themes ',
+      label: 'Thèmes',
       icon: 'insert_chart',
       items: [
+       
         {
           label: 'Nuage de mots',
-          link: '/admin-layout/Nuage-Mots',
-          
+           link:'/admin-layout/Nuage-Mots'
         },
+     
         {
           label: 'Net Promoter Score',
            link:'/admin-layout/nps'
         },
+
+     
+
+
         {
           label: 'Image Prix',
           link: '/admin-layout/Note-Image-Prix',
@@ -139,6 +150,8 @@ export class SidebarComponent implements OnInit {
    
 
   }
+
+ 
   isMobileMenu() {
       if ($(window).width() > 991) {
           return false;

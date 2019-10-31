@@ -42,11 +42,9 @@ aux:any
       .subscribe(
         res => {
           console.log(res);
-          this.toastr.success('Votre concurrent a été créer avec succès.', 'Success');
         },
         err => {
           console.log('Error occured:' , err);
-          this.toastr.error(err.message, 'Error occured');
         }
       );
   }
@@ -56,15 +54,24 @@ aux:any
       .subscribe(
         res => {
           console.log(res);
-          this.toastr.success('Votre pointeVente a été créer avec succès.', 'Success');
         },
         err => {
           console.log('Error occured:' , err);
-          this.toastr.error(err.message, 'Error occured');
         }
       );
   }
-
+ 
+  createreponseverbatime(data2) {
+    this.http.post(`${this.url}/verbatime`, data2)
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log('Error occured:' , err);
+        }
+      );
+  }
 
 
   //Fonction qui récupère les questions du questionnaire passé en paramètre

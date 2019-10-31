@@ -19,17 +19,14 @@ export class PointVenteService {
       .subscribe(
         res => {
           console.log(res);
-          this.toastr.success('Votre point de vente a été créer avec succès.', 'Success');
         },
         err => {
           console.log('Error occured:' , err);
-          this.toastr.error(err.message, 'Error occured');
         }
       );
   }
 
-
-
+  
   getpointventbyid(id:number) {
     console.log("getpointvent");
     
@@ -46,6 +43,18 @@ export class PointVenteService {
     console.log("getpointvent");
     
       return this.http.delete(`${this.url}/point-vente/${id_societe}`);
+
+  }
+  DeletePointeVenteByNom(pointvente) {
+    console.log("getpointvent");
+    
+      return this.http.delete(`${this.url}/themes/${pointvente}`);
+
+  }
+  DeletePointeVenteConcurrentByNom(pointvente) {
+    console.log("getpointvent");
+    
+      return this.http.delete(`${this.url}/concurrent/${pointvente}`);
 
   }
   

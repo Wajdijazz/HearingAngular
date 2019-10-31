@@ -20,10 +20,9 @@ export class ConcurrentService {
     this.http.post(`${this.url}/concurrent-societe`, data)
       .subscribe(
         res => {
-          this.toastr.success('.', 'Success');
+        
         },
         err => {
-          this.toastr.error(err.message, 'Error occured');
         }
       );
   }
@@ -36,6 +35,11 @@ export class ConcurrentService {
 DeleteConcurrentIdSociete(id_societe) {
     
   return this.http.delete(`${this.url}/concurrent-societe/${id_societe}`);
+
+}
+DeleteConcurrentreponse(concurrent) {
+    
+  return this.http.delete(`${this.url}/reponses/${concurrent}`);
 
 }
 }

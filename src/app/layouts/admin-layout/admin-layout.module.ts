@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,6 +39,11 @@ import { NuageMotsComponent } from 'src/app/nuage-mots/nuage-mots.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ConcurrentSocieteComponent } from 'src/app//concurrent-societe/concurrent-societe.component';
 import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurrent.component';
+import { ElasticsearchComponent } from 'src/app/elasticsearch/elasticsearch.component';
+import { SettingsComponent } from 'src/app/settings/settings.component';
+import { AgmCoreModule } from '@agm/core';
+import { SliderModule } from 'angular-image-slider';
+import {SlideshowModule} from 'ng-simple-slideshow';
 
 
 @NgModule({
@@ -55,11 +60,16 @@ import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurr
     MatGridListModule,
     TagCloudModule,
     MatSidenavModule,
-
+    SliderModule,
+    SlideshowModule,
 
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here
-    })
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB-B4w0zkbgaVpEFq_Z_FzCtdN_aePNK90'
+    }),
+
   ],
   declarations: [
     DashboardComponent,
@@ -84,8 +94,12 @@ import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurr
     NoteQualiteProduitsBioComponent,
     NuageMotsComponent,
     ConcurrentSocieteComponent,
-    AjoutConcurrentComponent
-  ]
+    AjoutConcurrentComponent,
+    ElasticsearchComponent,
+    SettingsComponent
+  ],
+  schemas: [ NO_ERRORS_SCHEMA ]
+
 })
 
 export class AdminLayoutModule {}

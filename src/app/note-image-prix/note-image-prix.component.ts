@@ -613,7 +613,8 @@ this.lineChart1(concuurent,this.NoteImagePrixMagasinConcurrent,"chartbottomright
     // Themes end
     // Create chart instance
     let chart = am4core.create(baliseid, am4charts.XYChart);
-  
+    chart.exporting.menu = new am4core.ExportMenu();
+    chart.exporting.backgroundColor=am4core.color("#6af6d7");
   chart.responsive.enabled=true
   
     // Add data
@@ -730,8 +731,9 @@ chart.data = dataPoints
   // Themes end
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
+  chart.exporting.menu = new am4core.ExportMenu();
 
-
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
 
   // Add data
 

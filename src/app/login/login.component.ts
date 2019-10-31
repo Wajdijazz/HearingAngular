@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import decode from 'jwt-decode';
 import { SignUpInfo } from '../auth/signup-info';
+import { UserService } from '../services/user.service';
+import { LoginService } from './login.service';
+import Swal from 'sweetalert2'
 
 
 
@@ -24,9 +27,10 @@ export class LoginComponent implements OnInit {
   private loginInfo: AuthLoginInfo;
   private authority: string;
   signupInfo:SignUpInfo[]
+  userInfo: { id: any; id_societe: any; name: any; email: any; };
   
 
-  constructor(private authser :AuthGuardService,private authService: AuthService, private tokenStorage: TokenStorageService, private router:Router) { }
+  constructor(private loginService : LoginService,private userService:UserService,private authser :AuthGuardService,private authService: AuthService, private tokenStorage: TokenStorageService, private router:Router) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -64,16 +68,13 @@ export class LoginComponent implements OnInit {
 
               this.router.navigateByUrl('/admin/dashboard');
               return true
-            } else if (role === 'ROLE_PM') {
-              this.authority = 'pm';
-              this.router.navigateByUrl('/pm');
-              return true
-
-            }
+            } else{
             this.authority = 'user';
-            this.router.navigateByUrl('/admin-layout/dashboard');
+            this.router.navigateByUrl('/admin-layout/about-hearing');
+          
 
             return true;
+            }
           });
         }
    
@@ -82,8 +83,13 @@ export class LoginComponent implements OnInit {
       
         this.errorMessage = error.error.reason;
         this.isLoginFailed = true;
+        Swal.fire("Erreur", "Utilisateur ou mot de passe incorrect", "error");
+
       }
     );
+
+
+		  
   }
 
   reloadPage() {

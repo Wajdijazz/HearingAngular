@@ -1,0 +1,118 @@
+
+<div class="main-content"  >
+    <div class="container-fluid">
+        <div class="row">
+        
+            <div class="col-md-12">
+   
+      </div>
+     
+</div><br>
+
+
+
+<div class="card card-chart">
+    <div class="card-header  ">
+
+  <form  #ajoutParametreForm="ngForm">
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+        
+    <div class="col-md-2">
+<h1 >
+
+    Mot clé
+  
+  </h1>
+</div>
+<div class="col-md-6">
+
+<input name="mots" id="nom" #mots="ngModel" [(ngModel)]="parametre.mots" class="form-control" placeholder="Mot clé..." type="text" required />
+
+
+</div>
+
+
+</div><br><br>
+
+
+<div class="row">
+
+    <div class="col-md-6">
+      </div>
+     
+   <div class="col-md-6">
+
+    <button type="submit"               (click)="creerparametre(parametre)"   class="btn btn-success" >Start Stream Twitter</button>    
+    
+    </div>
+
+        
+  </div>
+  <div class="col-md-2">
+  </div>
+
+</form>
+
+
+</div>
+</div>
+<div class="row">
+        
+    <div class="col-md-12">
+        <div class="card">
+          <div class="card-header-tabs card-header-info">
+                <h4 class="card-title ">Vos Stream Twitter</h4>
+                <p class="card-category"> </p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                  <table style="text-align: center" class="table">
+                    <thead class="text-primary">
+                       
+                          <th>Mots clé</th>
+                          <th>Date de stream</th>
+                          <th>Stop stream</th>
+
+
+                          <th>Supprimer stream</th>
+                       
+                   
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let parametre of parametres">
+                          
+                            <td>{{ parametre.mots }}</td>
+                            <td>{{ parametre.date_stream | date:"dd/MM/yyyy" }}</td>
+
+
+                            <td>
+
+        <button type="submit"     (click)="onstop()"   class="btn btn-danger" >Stop Stream Twitter</button>    
+      </td>
+                            <td>
+
+
+
+
+
+                                <button type="submit" class="btn btn-info"   (click)="Deletstream(parametre.id,parametre.mots)">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer
+                                  </button>
+                                </td>
+
+                              
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+          </div>
+          </div>

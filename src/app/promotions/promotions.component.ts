@@ -597,6 +597,9 @@ lineChart(name1,name2,name3,name4,dataPoints,baliseid){
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
 
+  chart.exporting.menu = new am4core.ExportMenu();
+
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
 chart.responsive.enabled=true
 
   // Add data
@@ -714,7 +717,9 @@ lineChart1(name1,dataPoints,baliseid){
 // Create chart instance
 let chart = am4core.create(baliseid, am4charts.XYChart);
 
+chart.exporting.menu = new am4core.ExportMenu();
 
+chart.exporting.backgroundColor=am4core.color("#6af6d7");
 
 // Add data
 

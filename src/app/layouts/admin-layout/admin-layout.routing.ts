@@ -23,7 +23,8 @@ import { NotePrixProduitsBioComponent } from 'src/app/note-prix-produits-bio/not
 import { NoteQualiteProduitsBioComponent } from 'src/app/note-qualite-produits-bio/note-qualite-produits-bio.component';
 import { ConcurrentSocieteComponent } from 'src/app//concurrent-societe/concurrent-societe.component';
 import { AjoutConcurrentComponent } from 'src/app/ajout-concurrent/ajout-concurrent.component';
-
+import { ElasticsearchComponent } from 'src/app/elasticsearch/elasticsearch.component';
+import { SettingsComponent } from 'src/app/settings/settings.component';
 
 
 
@@ -37,6 +38,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'questionnaire',  component: QuestionnaireComponent },
     { path: 'concurrent',  component: ConcurrentSocieteComponent },
     { path: 'ajout-concurrent',  component: AjoutConcurrentComponent },
+    { path: 'data-visualization',  component: ElasticsearchComponent },
+    { path: 'twitter-settings',  component: SettingsComponent },
+
+
 
         { path : 'Nuage-Mots', component : NuageMotsComponent},
           { path: 'nps', component: NpsComponent},

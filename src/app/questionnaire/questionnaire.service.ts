@@ -24,12 +24,10 @@ export class QuestionnaireService {
       .subscribe(
         res => {
           console.log(res);
-          this.toastr.success('Votre questionnaire a été créer avec succès.', 'Success');
         //  this.router.navigateByUrl('/questionnaire');
         },
         err => {
           console.log('Error occured:' , err);
-          this.toastr.error(err.message, 'Error occured');
         }
       );
   }
@@ -42,15 +40,31 @@ export class QuestionnaireService {
       return this.http.delete(`${this.url}/questionnaire/${id}/${id_societe}`);
 
   }
-  DeleteQuestionnaireReponseEById(id:number,id_societe) {
-    
-    return this.http.delete(`${this.url}/themepointevente/${id}/${id_societe}`);
 
-}
 
   DeleteQuestionnaireEByIdSociete(id_societe) {
     
     return this.http.delete(`${this.url}/questionnaire/${id_societe}`);
+
+}
+DeletereponseByIdQuestionnaire(id) {
+    
+  return this.http.delete(`${this.url}/themepointevente/${id}`);
+
+}
+DeletereponseConcurrentByIdQuestionnaire(id) {
+    
+  return this.http.delete(`${this.url}/themeconcurrent/${id}`);
+
+}
+DeleteVerbatimeByIdQuestionnaire(id) {
+    
+  return this.http.delete(`${this.url}/verbatime/${id}`);
+
+}
+DeletethemequestionnaireByIdQuestionnaire(id:number) {
+    
+  return this.http.delete(`${this.url}/details/${id}`);
 
 }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit }  from '@angular/core';
+import { Component, Input, OnInit, ViewChild }  from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
 
 import { QuestionBase }              from './question-base';
@@ -12,6 +12,11 @@ import { SharedServiceService } from '../services-speciales/shared-service.servi
 import { Concurrent } from './concurrent.interface';
 import { UserService } from '../services/user.service';
 import { ReponsePointeVente } from './reponse-pointe-vente.interface';
+import { AlertComponent } from '../alert/alert.component';
+import { Message } from '../alert/message';
+import { Verbatime } from './verbatime';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-dynamic-form',
@@ -19,6 +24,7 @@ import { ReponsePointeVente } from './reponse-pointe-vente.interface';
   providers: [ QuestionControlService ]
 })
 export class DynamicFormComponent implements OnInit {
+  @ViewChild(AlertComponent) alert: AlertComponent;
 
   @Input() questions: QuestionBase<any>[] = [];
   //@Input() form: FormGroup;
@@ -72,6 +78,22 @@ export class DynamicFormComponent implements OnInit {
 
     
   }
+
+verbatime : Verbatime={
+  id :null,
+  id_questionnaire: null,
+  prix_motivation: "",
+  promotions_motivation: "",
+  Qualite_Produit_motivation:"",
+  Amabilite_personnel_motivation:"",
+  Rapport_qualite_prix_motivation : "",
+  Rapidite_facilite_payer_motivation:"",
+  Qualite_materiel_motivation: "",
+  Choix_produits_motivation: "",
+  Facilite_trouver_produits_motivation:"",
+  Prix_produits_bio_motivation:"",
+  Qualite_produits_bio_motivation:""
+}
   iden :any 
 
 ids : any=null;
@@ -226,7 +248,7 @@ else{
 
 
 this.questionService.createreponsepointevenete(this.pointVenteReponse)  
-console.log(this.pointVenteReponse)
+
 
 
   // Save responses concurrent
@@ -345,13 +367,116 @@ console.log(this.pointVenteReponse)
 
 
        this.questionService.createreponseconcurrent(this.concurrent)  
-       console.log(this.concurrent)
+ 
+
+    
+
+       //saved verbatime
+       this.verbatime.id_questionnaire=this.sondageId
+
+    
+
+      if(this.form.value.prix_motivation==null)
+      {
+        this.form.value.prix_motivation=""
+      }
+      else{
+        this.verbatime.prix_motivation=this.form.value.prix_motivation
+      }
+
+
+      if(this.form.value.promotions_motivation==null)
+      {
+        this.form.value.promotions_motivation=""
+      }
+      else{
+        this.verbatime.promotions_motivation=this.form.value.promotions_motivation
+      }
 
 
 
-},
+      if(this.form.value.Qualite_Produit_motivation==null)
+      {
+        this.form.value.Qualite_Produit_motivation=""
+      }
+      else{
+        this.verbatime.Qualite_Produit_motivation=this.form.value.Qualite_Produit_motivation
+      }
+
+
+      if(this.form.value.Amabilite_personnel_motivation==null)
+      {
+        this.form.value.Amabilite_personnel_motivation=""
+      }
+      else{
+        this.verbatime.Amabilite_personnel_motivation=this.form.value.Amabilite_personnel_motivation
+      }
+
+
+      if(this.form.value.Rapport_qualite_prix_motivation==null)
+      {
+        this.form.value.Rapport_qualite_prix_motivation=""
+      }
+      else{
+        this.verbatime.Rapport_qualite_prix_motivation=this.form.value.Rapport_qualite_prix_motivation
+      }
+
+
+      if(this.form.value.Rapidite_facilite_payer_motivation==null)
+      {
+        this.form.value.Rapidite_facilite_payer_motivation=""
+      }
+      else{
+        this.verbatime.Rapidite_facilite_payer_motivation=this.form.value.Rapidite_facilite_payer_motivation
+      }
+
+      if(this.form.value.Qualite_materiel_motivation==null)
+      {
+        this.form.value.Qualite_materiel_motivation=""
+      }
+      else{
+        this.verbatime.Qualite_materiel_motivation=this.form.value.Qualite_materiel_motivation
+      }
+
+      if(this.form.value.Choix_produits_motivation==null)
+      {
+        this.form.value.Choix_produits_motivation=""
+      }
+      else{
+        this.verbatime.Choix_produits_motivation=this.form.value.Choix_produits_motivation
+      }
+
+      if(this.form.value.Facilite_trouver_produits_motivation==null)
+      {
+        this.form.value.Facilite_trouver_produits_motivation=""
+      }
+      else{
+        this.verbatime.Facilite_trouver_produits_motivation=this.form.value.Facilite_trouver_produits_motivation
+      }
+
+      if(this.form.value.Prix_produits_bio_motivation==null)
+      {
+        this.form.value.Prix_produits_bio_motivation=""
+      }
+      else{
+        this.verbatime.Prix_produits_bio_motivation=this.form.value.Prix_produits_bio_motivation
+      }
+
+      if(this.form.value.Qualite_produits_bio_motivation==null)
+      {
+        this.form.value.Qualite_produits_bio_motivation=""
+      }
+      else{
+        this.verbatime.Qualite_produits_bio_motivation=this.form.value.Qualite_produits_bio_motivation
+      }
+
+this.questionService.createreponseverbatime(this.verbatime)
+console.log(this.verbatime)
+
+    },
 		
-);
-  }
-  
+    );
+    Swal.fire("", "Merci pour vos réponses", "success");
+
+      }
 }

@@ -1,7 +1,8 @@
 <!-- Vue qui affiche la question***** -->
 <!-- Si l'utilisateur ne fréquente pas l'enseigne on affiche uniquement la question de non participation-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<div *ngIf="(form.value.frequentation1 !='non' || question.key === 'frequentation1') && question.key !='nonfrequentation'" [formGroup]="form">
+<div style="background: white">
+<div  style="background: white"*ngIf="(form.value.frequentation1 !='non' || question.key === 'frequentation1') && question.key !='nonfrequentation'" [formGroup]="form">
   <!-- Condition d'affichage des questions -->
   <!-- Affiche la question si :
     - La question n'a aucune dépendance.
@@ -42,3 +43,4 @@
 </div>
 <!-- Si le client ne fréquente pas le magasin on affiche la question de non participation -->
 
+</div>

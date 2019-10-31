@@ -310,7 +310,8 @@ this.Histogramme(this.Month,"chartbottomright");
   // Themes end
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+
   // Add data
 
   chart.data = dataPoints
@@ -329,8 +330,7 @@ label.y = -20
   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   categoryAxis.dataFields.category = "label";
   categoryAxis.renderer.inside = false;
-  categoryAxis.renderer.line.strokeOpacity = 1;
-  categoryAxis.renderer.line.strokeWidth = 2;
+  
   categoryAxis.renderer.line.stroke = am4core.color("#111");
 
 
@@ -339,15 +339,14 @@ label.y = -20
   // Create value axis
   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-  valueAxis.renderer.inside = true;
+  valueAxis.renderer.inside = false;
 
 
 
   valueAxis.renderer.minLabelPosition = 0.1;
   valueAxis.renderer.maxLabelPosition =0.9;
 
-  valueAxis.renderer.line.strokeOpacity = 1;
-  valueAxis.renderer.line.strokeWidth = 2;
+
   valueAxis.renderer.line.stroke = am4core.color("#111");
   
   // Create series
@@ -399,6 +398,7 @@ let chart = am4core.create(baliseid, am4charts.XYChart);
 let titre = chart.titles.create();
 titre.fontSize = 20;
 
+chart.exporting.menu = new am4core.ExportMenu();
 
 
 
@@ -410,14 +410,12 @@ categoryAxis.dataFields.category = "label";
 
 categoryAxis.renderer.cellStartLocation = 0.1;
 categoryAxis.renderer.cellEndLocation = 0.9;
-categoryAxis.renderer.line.strokeOpacity = 1;
-categoryAxis.renderer.line.strokeWidth = 2;
+
 categoryAxis.renderer.line.stroke = am4core.color("#111");
 
 let  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.min = 0;
-valueAxis.renderer.line.strokeOpacity = 1;
-valueAxis.renderer.line.strokeWidth = 2;
+
 valueAxis.renderer.line.stroke = am4core.color("#111");
 
 valueAxis.renderer.labels.template.adapter.add("text", function(text) {
@@ -431,7 +429,7 @@ valueAxis.renderer.labels.template.adapter.add("text", function(text) {
   series.dataFields.valueY = "inf6";
   series.dataFields.categoryX = "label";
   series.name = "Note de 0 à 6";
-  series.columns.template.tooltipText = "{name} : [bold]{valueY}[/] %";
+  series.columns.template.tooltipText = "{categoryX}; {name}: [bold]{valueY}[/] %";
   series.columns.template.fill = am4core.color("#ff0000"); 
 
 
@@ -439,7 +437,7 @@ valueAxis.renderer.labels.template.adapter.add("text", function(text) {
   series2.dataFields.valueY = "inf8";
   series2.dataFields.categoryX = "label";
   series2.name = "Note de 7 à 8";
-  series2.columns.template.tooltipText = "{name} : [bold]{valueY}[/] % ";
+  series2.columns.template.tooltipText = "{categoryX}; {name}: [bold]{valueY}[/] %";
   series2.columns.template.fill = am4core.color("#C0C0C0"); 
 
 
@@ -448,7 +446,7 @@ valueAxis.renderer.labels.template.adapter.add("text", function(text) {
   series3.dataFields.valueY = "inf10";
   series3.dataFields.categoryX = "label";
   series3.name = "Note de 9 à 10";
-  series3.columns.template.tooltipText = "{name} : [bold]{valueY}[/] %";
+  series3.columns.template.tooltipText = "{categoryX}; {name}: [bold]{valueY}[/] %";
   series3.columns.template.fill = am4core.color("#008000"); 
 
 

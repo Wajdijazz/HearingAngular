@@ -12,6 +12,9 @@ export class SharedServiceService {
   private idp : any
   private societe  :any
   private ids  :any
+  private search: any;
+  abonnement: any;
+  date: any;
 
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { 
@@ -65,13 +68,52 @@ public setIdSociete(val:any):void{
 
 }
 
+
 public getIdSociete():any{
 
  return this.ids;
 
 
 }
- 
+
+
+
+public setTypeSociete(val:any):void{
+  this.abonnement=val;
+
+}
+
+
+public getTypeSociete():any{
+
+ return this.abonnement;
+
+
+}
+
+public setdateSociete(val:any):void{
+  this.date=val;
+
+}
+
+
+public getdateSociete():any{
+
+ return this.date;
+
+
+}
+public setSearchVal(val:any):void{
+  this.search=val;
+
+}
+
+public getSearchVal():any{
+
+ return this.search;
+
+
+}
 
   
 }

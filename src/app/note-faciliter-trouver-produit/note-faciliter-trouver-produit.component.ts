@@ -122,7 +122,7 @@ else console.log("object already exists")
     AS=0
     PTS=0
     PDTS=0
-const result = this.FaciliteTrouverProduit.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element);
+const result = this.FaciliteTrouverProduit.filter(word => monthNames[new Date(word.date_reponse_pointevente).getMonth()]==element && word.Facilite_trouver_produits_satisfaction!= "");
 var yearTime=new Date()
 var year = yearTime.getFullYear()
 TotalReponse=result.length
@@ -545,7 +545,9 @@ this.lineChart1("",this.Month1,"chartbottomright");
     let chart = am4core.create(baliseid, am4charts.XYChart);
   
   chart.responsive.enabled=true
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
+
     // Add data
   
     chart.data = dataPoints
@@ -661,7 +663,9 @@ this.lineChart1("",this.Month1,"chartbottomright");
   // Create chart instance
   let chart = am4core.create(baliseid, am4charts.XYChart);
   
-  
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.backgroundColor=am4core.color("#6af6d7");
+
   
   // Add data
   

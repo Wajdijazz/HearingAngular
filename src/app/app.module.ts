@@ -12,7 +12,6 @@ import { SocieteComponent } from './societe/societe.component';
 import {SocieteService} from "./societe/societe.service";
 import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
-import {ToastrModule} from "ngx-toastr";
 import {FormsModule} from "@angular/forms";
 import { AjoutSocieteComponent } from './ajout-societe/ajout-societe.component';
 import {ConfirmationPopoverModule} from "angular-confirmation-popover";
@@ -61,6 +60,13 @@ import { ComponentsAdminModule } from './components-admin/components-admin.modul
 import { HomeComponent } from './home/home.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { FacturationComponent } from './facturation/facturation.component';
+import { AlertComponent } from './alert/alert.component';
+import { SettingsComponent } from './settings/settings.component';
+import { UpdatesocieteComponent } from './updatesociete/updatesociete.component';
+import { UpdatePointeventeComponent } from './update-pointevente/update-pointevente.component';
+import { ToastrModule } from 'ngx-toastr';
+
+
 
 
 const routes: Routes = [
@@ -93,6 +99,19 @@ const routes: Routes = [
         canActivate: [AuthGuard] 
 
       },
+      {
+        path: 'admin/signup',
+        component: RegisterComponent,
+        canActivate: [AuthGuard] 
+
+    },
+
+    {
+      path: 'admin/update',
+      component: UpdatesocieteComponent,
+      canActivate: [AuthGuard] 
+
+  },
      
 
 
@@ -139,6 +158,11 @@ const routes: Routes = [
     HomeComponent,
     DashboardAdminComponent,
     FacturationComponent,
+    AlertComponent,
+    UpdatesocieteComponent,
+    UpdatePointeventeComponent,
+  
+    
 
   
 
@@ -165,6 +189,8 @@ const routes: Routes = [
     MatSelectModule,
     RouterModule.forRoot(routes),
     ToastrModule.forRoot(),
+   
+
     FormsModule,
     TagCloudModule,
     MatButtonModule, 
@@ -201,5 +227,6 @@ const routes: Routes = [
   httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule { }

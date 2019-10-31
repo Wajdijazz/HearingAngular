@@ -1,4 +1,4 @@
-<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
 <div class="main-content">
   <div class="container-fluid" >
       <div class="row">
@@ -11,7 +11,7 @@
 <div class="form-horizontal pad-10">
   <br>
   <form #ajoutSocieteForm="ngForm">
-    <div class="col-md-6 form-group">
+    <div class="col-md-12 form-group">
       <label style="color:black" class=" control-label">Nom Enseigne</label>
       <div class="col-md-12 no-padding">
         <input  name="nom" id="nom" #nom="ngModel" [(ngModel)]="societe.nom" class="form-control" placeholder="" type="text" required />
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-12 form-group">
       <label style="color:black" class=" control-label">Type Société</label>
       <div class="col-md-12 no-padding">
         <input name="type_abonnement" id="type_abonnement" #type_abonnement="ngModel" [(ngModel)]="societe.type_abonnement" class="form-control" placeholder="" type="text" required />
@@ -34,7 +34,7 @@
       </div>
     </div>
     
-    <div class="col-md-6 form-group">
+    <div class="col-md-12 form-group">
       <label style="color:black" class=" control-label">Date_Abonnement Ensigne</label>
       <div class="col-md-12 no-padding">
         <input name="date_facturation" id="date_facturation" #date_facturation="ngModel" [(ngModel)]="societe.date_facturation" class="form-control" placeholder="" type="date" required />
@@ -63,7 +63,7 @@
 <div class="col-md-8">
   <div class="card">
       <div class="card-header-tabs card-header-info">
-          <h4 class="card-title ">Liste des  enseignes Clients</h4>
+          <h4 class="card-title ">Liste des  enseignes Clientes</h4>
           <p class="card-category"></p>
 
       </div>
@@ -76,6 +76,7 @@
       <th>Type Abonnement</th>
       <th>Date_facturation</th>
       <th>Comptes</th>
+      <th>Modifier Enseigne</th>
       <th>Supprimer Enseigne</th>
 
     </thead>
@@ -83,12 +84,17 @@
     <tr *ngFor="let societe of societes">
       <td>{{ societe.nom }}</td>
       <td>{{ societe.type_abonnement }}</td>
-      <td>{{ societe.date_facturation }}</td>
+      <td>{{ societe.date_facturation | date:"dd/MM/yyyy"  }}</td>
       <td>
       <button type="submit" class="btn btn-info"   (click)="getSociete(societe.id)">
           <span class="glyphicon glyphicon-floppy-disk"></span> Creer
         </button>
       </td>
+      <td>
+      <button type="submit" class="btn btn-info"   (click)="modifierSociete(societe.id)">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Modifier
+      </button>
+    </td>
         <td>
           <button type="submit" class="btn btn-info"   (click)="DeleteSociete(societe.id)">
               <span class="glyphicon glyphicon-floppy-disk"></span> Supprimer

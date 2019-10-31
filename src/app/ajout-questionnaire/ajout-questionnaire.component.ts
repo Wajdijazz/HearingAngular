@@ -8,6 +8,7 @@ import { Theme } from  '../theme/theme.interface';
 import { DetailQuestionnaire } from '../detail-questionnaire/detail-questionnaire.interface';
 import { DetailQuestionnaireService} from '../detail-questionnaire/detail-questionnaire.service';
 import { ServicequestionnairesService } from '../services-speciales/servicequestionnaires.service';
+import Swal from 'sweetalert2'
 
  
 	import { from } from 'rxjs';
@@ -145,6 +146,8 @@ var i=0;
 	
 	
 });
+Swal.fire("Félicitations", "questionnaire ajouté avec succés", "success");
+
 
 
 			}
@@ -212,36 +215,105 @@ var i=0;
 		  })
 	  
 		 })
-		 
-		 this.questionnaireService.DeleteQuestionnaireReponseEById(id_questionnaire,this.id_societe).subscribe((data:Questionnaire[])=> {
+
+		 this.questionnaireService.DeletereponseByIdQuestionnaire(id_questionnaire).subscribe((data:Questionnaire[])=> {
 	 
-		  // show an alert to tell the user if product was created or not
-		  console.log(data);
-		  this.questionnaireService
-		  .getQuestionnaire()
-		  .subscribe((data1:Questionnaire[])=>{
-		  this.userService.getUserBoard().subscribe(
-			data => {
-			  this.userInfo = {
-			  id: data.user.id,
-			  id_societe:data.user.id_societe,
-			  name: data.user.name,
-			  email: data.user.email
-			  };
-		  
-			  this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			// show an alert to tell the user if product was created or not
+			console.log(data);
+			this.questionnaireService
+			.getQuestionnaire()
+			.subscribe((data1:Questionnaire[])=>{
+			this.userService.getUserBoard().subscribe(
+			  data => {
+				this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+				};
 			
-			 this.board = data.description;
-			},
-			error => {
-			  this.errorMessage = `${error.status}: ${error.error}`;
-			}
-			);
+				this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			  
+			   this.board = data.description;
+			  },
+			  error => {
+				this.errorMessage = `${error.status}: ${error.error}`;
+			  }
+			  );
+		  
 		
-	  
-		  })
-	  
-		 })
+			})
+		
+		   })
+
+		   this.questionnaireService.DeletereponseConcurrentByIdQuestionnaire(id_questionnaire).subscribe((data:Questionnaire[])=> {
+	 
+			// show an alert to tell the user if product was created or not
+			console.log(data);
+			this.questionnaireService
+			.getQuestionnaire()
+			.subscribe((data1:Questionnaire[])=>{
+			this.userService.getUserBoard().subscribe(
+			  data => {
+				this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+				};
+			
+				this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			  
+			   this.board = data.description;
+			  },
+			  error => {
+				this.errorMessage = `${error.status}: ${error.error}`;
+			  }
+			  );
+		  
+		
+			})
+		
+		   })
+
+		   this.questionnaireService.DeleteVerbatimeByIdQuestionnaire(id_questionnaire).subscribe((data:Questionnaire[])=> {
+	 
+			// show an alert to tell the user if product was created or not
+			console.log(data);
+			this.questionnaireService
+			.getQuestionnaire()
+			.subscribe((data1:Questionnaire[])=>{
+			this.userService.getUserBoard().subscribe(
+			  data => {
+				this.userInfo = {
+				id: data.user.id,
+				id_societe:data.user.id_societe,
+				name: data.user.name,
+				email: data.user.email
+				};
+			
+				this.questionnaires=data1.filter((word =>word.id_societe==this.userInfo.id_societe) );
+			  
+			   this.board = data.description;
+			  },
+			  error => {
+				this.errorMessage = `${error.status}: ${error.error}`;
+			  }
+			  );
+		  
+		
+			})
+		
+		   })
+		   this.questionnaireService.DeletethemequestionnaireByIdQuestionnaire(id_questionnaire).subscribe((data:Questionnaire[])=>{
+
+		   })
+		   
+		 
+			 Swal.fire("Félicitations", "Questionnaire supprimé avec succés", "success");
+
+		
+	   
 	 
 	}
 

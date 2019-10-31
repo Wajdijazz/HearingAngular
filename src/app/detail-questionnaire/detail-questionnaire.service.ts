@@ -22,11 +22,11 @@ export class DetailQuestionnaireService {
           .subscribe(
             res => {
               console.log(res);
-              this.toastr.success('Votre societe a été créer avec succès.', 'Success');
+            
             },
             err => {
               console.log('Error occured:' , err);
-              this.toastr.error(err.message, 'Error occured');
+           
             }
           );
       }

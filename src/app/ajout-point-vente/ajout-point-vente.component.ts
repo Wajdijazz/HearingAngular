@@ -4,6 +4,7 @@ import {PointVente} from "../point-vente/point-vente.interface";
 import { Societe } from '../societe/societe.interface';
 import { SocieteService } from '../societe/societe.service'
 import { UserService } from '../services/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-ajout-point-vente',
@@ -80,6 +81,7 @@ export class AjoutPointVenteComponent implements OnInit {
 				this.pointsventes=data1.filter((word =>word.id_societe==this.id_societe) );
 
 		})
+		Swal.fire("Félicitations", "Point de vente ajouté avec succés", "success");
 
 	}
   creerPointVente(data:PointVente){
@@ -87,13 +89,16 @@ export class AjoutPointVenteComponent implements OnInit {
 		
 
 		data.id_societe=this.id_societe;
+
 		this.pointventeService.createPointVente(data);
+
+
 	  
   }
 
 
-  DeletPointeVente(idPointeVente){
-    console.log(idPointeVente)
+  DeletPointeVente(idPointeVente,pointvente){
+    console.log(pointvente)
     this.pointventeService.DeletePointeVenteById(idPointeVente,this.id_societe).subscribe((data:PointVente[])=> {
  
       // show an alert to tell the user if product was created or not
@@ -122,8 +127,13 @@ export class AjoutPointVenteComponent implements OnInit {
   
       })
   
-   })
- 
+	 })
+	 this.pointventeService.DeletePointeVenteByNom(pointvente).subscribe((data:PointVente[])=> {
+	 })
+	 this.pointventeService.DeletePointeVenteConcurrentByNom(pointvente).subscribe((data:PointVente[])=> {
+	})
+   Swal.fire("Félicitations", "Poit de vente supprimé avec succés", "success");
+
 }
 
   

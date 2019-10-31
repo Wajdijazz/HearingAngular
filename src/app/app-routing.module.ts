@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,NO_ERRORS_SCHEMA } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { RegisterComponent } from './register/register.component';
@@ -20,6 +20,8 @@ import { TypographyComponent } from './typography/typography.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { FacturationComponent } from './facturation/facturation.component';
+import { UpdatesocieteComponent } from './updatesociete/updatesociete.component';
+
   
 
 const routes: Routes = [
@@ -41,6 +43,10 @@ const routes: Routes = [
         path: 'signup',
         component: RegisterComponent,
     },
+    {
+      path: 'update',
+      component: UpdatesocieteComponent,
+  },
     {
         path: '',
         redirectTo: 'login',
@@ -113,6 +119,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  schemas: [ NO_ERRORS_SCHEMA ]
+
 })
 export class AppRoutingModule { }

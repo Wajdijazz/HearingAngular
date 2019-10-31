@@ -28,7 +28,7 @@ getSocieteById(id :Number) {
       .subscribe(
         res => {
           console.log(res);
-          this.toastr.success('Votre societe a été créer avec succès.', 'Success');
+         
         },
         err => {
           console.log('Error occured:' , err);
@@ -37,12 +37,36 @@ getSocieteById(id :Number) {
       );
   }
 
+  postsearch(data) {
+    this.http.post(`${this.url}/search`, data)
+      .subscribe(
+        res => {
+          console.log(res);
+        
+        },
+        err => {
+          console.log('Error occured:' , err);
+          this.toastr.error(err.message, 'Error occured');
+        }
+      );
+  }
 
   DeleteSocieteById(id:number) {
     
-      return this.http.delete(`${this.url}/societe/${id}`);
+    return this.http.delete(`${this.url}/societe/${id}`);
+
+}
+  modifierSocieteById(id:number,data) {
+    
+      return this.http.put(`${this.url}/societe/${id}`,data);
 
   }
+
+  UpdateSocieteuserById(id:number,data) {
+    
+    return this.http.put(`${this.url}/services/${id}`,data);
+
+}
 
   DeleteUserById(id:number) {
     

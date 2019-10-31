@@ -1,6 +1,6 @@
 export interface Societe{
 	id: number;
 	nom : String;
-	type_abonnement : Number;
+	type_abonnement : any;
 	date_facturation : Date;
 }
